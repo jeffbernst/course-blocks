@@ -4,7 +4,7 @@ mongoose.Promise = global.Promise;
 
 const app = express();
 
-DATABASE_URL = process.env.DATABASE_URL || 'http://localhost:8080/';
+DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/test';
 PORT = process.env.PORT || 8080;
 
 app.use(express.static('public'));
