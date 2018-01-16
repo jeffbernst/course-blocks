@@ -17,8 +17,10 @@ module.exports = function (wallaby) {
 
 		workers: {
 			initial: 1,
-			regular: 1,
-			restart: true
-		}
+			regular: 1
+			// restart: true
+		},
+
+		debug: true
 	};
 };
