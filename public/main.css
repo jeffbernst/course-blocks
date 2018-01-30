@@ -1,5 +1,11 @@
 html {
   --dark-grey: #4A4A4A;
+  --blue: #33CFCE;
+  --orange: #FFAA33;
+  --pink: #F934AA;
+  --purple: #B666C7;
+  --green: #33DF89;
+  --yellow: #F7D633;
 }
 
 body {
@@ -80,10 +86,12 @@ body {
 }
 
 .course-grid-tile {
-  background-color: #33CFCE;
   border: 3px solid var(--dark-grey);
   border-radius: 8px;
   padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .course-grid-tile-title {
@@ -110,6 +118,10 @@ body {
   font-weight: bold;
 }
 
+.course-grid-info-container {
+  /* might not need this */
+}
+
 .course-grid-enroll-container {
   display: flex;
   align-items: flex-end;
@@ -131,4 +143,30 @@ body {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 15px;
   }
+}
+
+/* ~~~~~ TILE COLORS ~~~~~ */
+
+.blue-tile {
+  background-color: var(--blue);
+}
+
+.orange-tile {
+  background-color: var(--orange);
+}
+
+.pink-tile {
+  background-color: var(--pink);
+}
+
+.purple-tile {
+  background-color: var(--purple);
+}
+
+.green-tile {
+  background-color: var(--green);
+}
+
+.yellow-tile {
+  background-color: var(--yellow);
 }

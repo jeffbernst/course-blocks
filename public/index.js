@@ -34,21 +34,34 @@ function getCourseTiles() {
 	})
 }
 
+function getTileColor(colorCounter) {
+	const colorArray = ['blue', 'orange', 'pink', 'purple', 'green', 'yellow'];
+	return colorArray[colorCounter];
+}
+
 function renderCourseTiles() {
+	let colorCounter = 0;
+
 	getCourseTiles()
 		.then(data => {
 			data.forEach(courseInfo => {
-				console.log('appending');
 				$('.course-grid').append(`
-					<div class="course-grid-tile">
-						<div class="course-grid-tile-title">${courseInfo.courseTitle}</div>
-						<div class="course-grid-tile-author">${courseInfo.author}</div>
+					<div class="course-grid-tile ${getTileColor(colorCounter)}-tile">
+						<div class="course-grid-info-container">
+							<div class="course-grid-tile-title">${courseInfo.courseTitle}</div>
+							<div class="course-grid-tile-author">${courseInfo.author}</div>
+						</div>	
 						<br>
 						<div class="course-grid-enroll-container">
 							<button type="submit" class="course-grid-enroll-button">Enroll &#x1F680;</button>&nbsp;&nbsp;
 							<span class="course-grid-students-count">${courseInfo.studentCount} students</span>
 						</div>
-					</div>`)
+					</div>`);
+				if (colorCounter === 6) {
+					colorCounter = 0;
+				} else {
+					colorCounter++;
+				}
 			});
 		})
 }
