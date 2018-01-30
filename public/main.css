@@ -1,0 +1,134 @@
+html {
+  --dark-grey: #4A4A4A;
+}
+
+body {
+  /*font-family: 'Open Sans', sans-serif;*/
+  font-family: 'Avenir Next', sans-serif;
+  color: var(--dark-grey);
+}
+
+/* ~~~~~ CONTAINERS ~~~~~ */
+
+.main-container, .nav-container {
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  max-width: 940px;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* ~~~~~ NAV ~~~~~ */
+
+.nav-button {
+  border-radius: 10px;
+  border: 3px solid var(--dark-grey);
+  height: 40px;
+  padding: 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--dark-grey);
+}
+
+/* ~~~~~ MAIN ~~~~~ */
+
+.welcome-message {
+  font-size: 24px;
+}
+
+.explore-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.explore-title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.search-button {
+  height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  background: none;
+  border: 2px solid var(--dark-grey);
+  border-radius: 8px;
+}
+
+.search-input {
+  height: 30px;
+  width: 200px;
+  border: 2px solid var(--dark-grey);
+  border-radius: 8px;
+  -webkit-appearance: none;
+  -webkit-border-radius: 5px;
+}
+
+/* ~~~~~ COURSE GRID ~~~~~ */
+
+.course-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 15px;
+}
+
+.course-grid-tile {
+  background-color: #33CFCE;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.course-grid-tile-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.course-grid-tile-author {
+  font-size: 18px;
+}
+
+.course-grid-enroll-button {
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--dark-grey);
+  background: white;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+}
+
+.course-grid-students-count {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.course-grid-enroll-container {
+  display: flex;
+  align-items: flex-end;
+}
+
+@media only screen and (min-width: 20px) {
+  .course-grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 15px;
+  }
+}
+
+@media only screen and (min-width: 815px) {
+  .course-grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 15px;
+  }
+}

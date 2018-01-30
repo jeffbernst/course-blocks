@@ -10,21 +10,35 @@ chai.should();
 
 chai.use(chaiHttp);
 
-describe('index page', function () {
+describe('initial build', function () {
 
 	before(function () {
-		return runServer(TEST_DATABASE_URL);
+		return runServer(TEST_DATABASE_URL, 63000);
 	});
 
 	after(function () {
 		return closeServer();
 	});
 
-	it('should exist', function () {
-		return chai.request(app)
-			.get('/')
-			.then(function (res) {
-				res.should.have.status(200);
-			});
+	describe('index page', function () {
+		it('should exist', function () {
+			return chai.request(app)
+				.get('/')
+				.then(function (res) {
+					res.should.have.status(200);
+				});
+		});
 	});
+
+	describe('create page', function () {
+		it('should exist', function () {
+			return chai.request(app)
+				.get('/create')
+				.then(function (res) {
+					res.should.have.status(200);
+				});
+		});
+	});
+
+	// how do i implement pages that will be filled from data in the database? like profile pages
 });

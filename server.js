@@ -7,7 +7,9 @@ const app = express();
 DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/test';
 PORT = process.env.PORT || 8080;
 
-app.use(express.static('public'));
+app.use(express.static('public', {extensions: ['html', 'htm']}));
+
+app.use('/node_modules', express.static('node_modules'));
 
 let server;
 
@@ -50,5 +52,3 @@ if (require.main === module) {
 }
 
 module.exports = {runServer, app, closeServer};
-
-var teststuff = ""

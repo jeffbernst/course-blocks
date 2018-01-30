@@ -1,1 +1,46 @@
-<p>Hello World</p>
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Course Builder</title>
+	<link rel="stylesheet" href="main.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+
+<body>
+	<nav class="nav-container">
+		<button class="nav-button">Home</button>
+		<button class="nav-button">Sign Up</button>
+	</nav>
+
+	<main class="main-container">
+		<h1>Welcome! &#x1F44B;</h1>
+		<div class="welcome-message">This site lets you build and enroll in courses for free. To get started just pick a class below and enroll.</div>
+		<br>
+
+		<div class="explore-menu">
+			<div class="explore-title-and-tags">
+				<span class="explore-title">Explore</span>&nbsp;&nbsp;
+				<span class="explore-filter-active">Top</span> Language Programming Economics
+			</div>
+			<div class="explore-search">
+				<input type="search" class="search-input">
+				<button type="submit" class='search-button'>Search</button>
+			</div>
+		</div>
+
+		<div class="course-grid"></div>
+
+	</main>
+
+	<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+	<script src="/node_modules/marked/lib/marked.js"></script>
+	<script src="app.js"></script>
+	<script src="index.js"></script>
+</body>
+
+</html>
