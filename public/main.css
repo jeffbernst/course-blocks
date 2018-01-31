@@ -49,12 +49,18 @@ body {
 
 .explore-menu {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
 .explore-title {
   font-size: 30px;
+  font-weight: bold;
+}
+
+.explore-title-and-tags {
+}
+
+.explore-filter-active {
   font-weight: bold;
 }
 
@@ -74,6 +80,29 @@ body {
   border-radius: 8px;
   -webkit-appearance: none;
   -webkit-border-radius: 5px;
+}
+
+@media only screen and (min-width: 620px) {
+
+}
+
+@media only screen and (min-width: 815px) {
+  .explore-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .explore-title {
+    font-size: 30px;
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  .explore-filters {
+    display: inline-block;
+  }
 }
 
 /* ~~~~~ COURSE GRID ~~~~~ */
@@ -127,21 +156,15 @@ body {
   align-items: flex-end;
 }
 
-@media only screen and (min-width: 20px) {
+@media only screen and (min-width: 620px) {
   .course-grid {
-    margin-top: 20px;
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 15px;
   }
 }
 
 @media only screen and (min-width: 815px) {
   .course-grid {
-    margin-top: 20px;
-    display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 15px;
   }
 }
 
