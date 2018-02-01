@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -14,28 +14,66 @@
 <body>
 	<nav class="nav-container">
 		<button class="nav-button">Home</button>
-		<button class="nav-button">Sign Up</button>
+		<div class="nav-right">
+			<button class="nav-button">Log In</button>
+			<button class="nav-button nav-signup-button">Sign Up</button>
+		</div>
 	</nav>
 
 	<main class="main-container">
 		<h1>Welcome! &#x1F44B;</h1>
-		<div class="welcome-message">This site lets you build and enroll in courses for free. To get started just pick a class below and enroll.</div>
+		<div class="top-message">This site lets you build and enroll in courses for free. To get started just pick a class below and enroll.</div>
 		<br>
 
 		<div class="explore-menu">
-			<div class="explore-title-and-tags">
-				<div class="explore-title">Explore</div>&nbsp;&nbsp;
+			<div class="explore-title-and-filters">
+				<div class="explore-title">Explore</div>
 				<div class="explore-filters">
-					<span class="explore-filter-active">Top</span> &nbsp;Language &nbsp;Programming &nbsp;Economics
+					<span class="explore-filter-active">Top</span>&nbsp;<span>Language</span>&nbsp;<span>Programming</span>&nbsp;<span>Math</span>
 				</div>
 			</div>
 			<div class="explore-search">
-				<input type="search" class="search-input">
-				<button type="submit" class='search-button'>Search</button>
+				<form action="#" class="search-form">
+					<input type="search" class="search-input input-box">
+					<button type="submit" class='search-button slim-button'>Search</button>
+				</form>
 			</div>
 		</div>
 
+		<div class="clear-search-results-container">
+			<div class="clear-search-results">&times;</div>
+		</div>
 		<div class="course-grid"></div>
+
+		<div class="signup-modal">
+			<div class="signup-modal-content">
+				<h2>Sign Up &#x1F4DD;</h2>
+				<div class="top-message">
+					If you sign up you’ll be able to track your progress in the courses you’re enrolled in. You can also create and publish courses of your own.
+				</div>
+				<form class="signup-form">
+					<div class="signup-form-field">
+						<label for="name">Name: </label>
+						<input type="text" class="signup-email input-box signup-input-box" id="name">
+					</div>
+					<div class="signup-form-field">
+						<label for="email">Email: </label>
+						<input type="text" class="signup-email input-box signup-input-box" id="email">
+					</div>
+					<div class="signup-form-field">
+						<label for="password">Password: </label>
+						<input type="text" class="signup-email input-box signup-input-box" id="password">
+					</div>
+					<div class="signup-form-field">
+						<label for="confirm-password">Confirm: </label>
+						<input type="text" class="signup-email input-box signup-input-box" id="confirm-password">
+					</div>
+					<div class="signup-submit-button-container">
+						<button type="submit" class='signup-submit-button slim-button'>Sign Up</button>
+					</div>
+				</form>
+			</div>
+		</div>
 
 	</main>
 

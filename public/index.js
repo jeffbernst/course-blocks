@@ -56,19 +56,26 @@ const MOCK_COURSE_TILE_DATA = [
 	}
 ];
 
-function getCourseTiles() {
+function getCoursesForIndexPage() {
 	return new Promise((resolve, reject) => {
 		// api call will go here
 		resolve(MOCK_COURSE_TILE_DATA);
 	})
 }
 
-function renderCourseTiles() {
-	getCourseTiles()
+function createAndAppendCourseTileHtml() {
+	$('.course-grid').html('');
+	$('.clear-search-results').hide();
+	getCoursesForIndexPage()
 		.then(data => {
 			data.forEach(courseInfo => {
-				$('.course-grid').append(`
-					<div class="course-grid-tile ${courseInfo.themeColor}-tile">
+				$('.course-grid').append(renderCourseTile(courseInfo));
+			});
+		})
+}
+
+function renderCourseTile(courseInfo) {
+	return	`<div class="course-grid-tile ${courseInfo.themeColor}-tile">
 						<div class="course-grid-info-container">
 							<div class="course-grid-tile-title">${courseInfo.courseTitle}</div>
 							<div class="course-grid-tile-author">by ${courseInfo.author}</div>
@@ -78,9 +85,57 @@ function renderCourseTiles() {
 							<button type="submit" class="course-grid-enroll-button">Enroll &#x1F680;</button>&nbsp;&nbsp;
 							<span class="course-grid-students-count">${courseInfo.studentCount} students</span>
 						</div>
-					</div>`);
-			});
-		})
+					</div>`
 }
 
-$(renderCourseTiles);
+function watchSearch() {
+	$('.search-form').submit(event => {
+		event.preventDefault();
+
+		$('.course-grid').html('');
+
+		let searchTerm = $(event.currentTarget)
+			.find('.search-input')
+			.val()
+			.trim();
+
+		searchCourses(searchTerm)
+			.then(data => {
+				$('.clear-search-results').show();
+				data.forEach(courseInfo => {
+				$('.course-grid').append(renderCourseTile(courseInfo));
+			})
+		});
+	});
+}
+
+function watchSearchClear() {
+	$('.clear-search-results').click(event => {
+		event.preventDefault();
+
+		$('.search-input').val('');
+		createAndAppendCourseTileHtml();
+	})
+}
+
+function searchCourses(searchTerm) {
+	return new Promise((resolve, reject) => {
+		// api call will go here
+		resolve(mockSearch(searchTerm));
+	})
+}
+
+function mockSearch(searchTerm) {
+	return MOCK_COURSE_TILE_DATA.filter(course => {
+			return course.courseTitle.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+	});
+}
+
+function startApp() {
+	createAndAppendCourseTileHtml();
+	watchSearch();
+	watchSearchClear();
+	watchSignUpButton();
+}
+
+$(startApp);
