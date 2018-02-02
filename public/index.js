@@ -4,57 +4,99 @@ const MOCK_COURSE_TILE_DATA = [
 		"courseTitle": "Learn to Program Apps on STEEM",
 		"author": "Jeff B",
 		"studentCount": 234,
-		"themeColor": "purple"
+		"themeColor": "purple",
+		"tags": [
+			"programming",
+			"crypto"
+		]
 	}, {
 		"courseId": 7,
-		"courseTitle": "Learn Great Stuff",
+		"courseTitle": "Learn Great Stuff About Cryptocurrencies",
 		"author": "Some Other Person",
 		"studentCount": 1123,
-		"themeColor": "blue"
+		"themeColor": "teal",
+		"tags": [
+			"crypto"
+		]
 	}, {
 		"courseId": 5,
 		"courseTitle": "MongoDB",
 		"author": "Steve Stevenson",
 		"studentCount": 500,
-		"themeColor": "purple"
+		"themeColor": "purple",
+		"tags": [
+			"programming"
+		]
 	}, {
 		"courseId": 20,
 		"courseTitle": "Learn CSS Grid",
 		"author": "Gary Gridington",
 		"studentCount": 4,
-		"themeColor": "green"
+		"themeColor": "green",
+		"tags": [
+			"programming"
+		]
 	}, {
 		"courseId": 17,
 		"courseTitle": "JavaScript Fundamentals",
 		"author": "Sally Student",
 		"studentCount": 48,
-		"themeColor": "orange"
+		"themeColor": "orange",
+		"tags": [
+			"programming"
+		]
 	}, {
 		"courseId": 55,
 		"courseTitle": "Learn Some Really Neat Stuff!!",
 		"author": "Me",
 		"studentCount": 48,
-		"themeColor": "pink"
+		"themeColor": "pink",
+		"tags": [
+			"language"
+		]
 	}, {
 		"courseId": 1,
 		"courseTitle": "Learn to Program Apps on STEEM",
 		"author": "Jeff B",
 		"studentCount": 234,
-		"themeColor": "yellow"
+		"themeColor": "yellow",
+		"tags": [
+			"programming",
+			"crypto"
+		]
 	}, {
 		"courseId": 7,
 		"courseTitle": "Learn Great Stuff",
 		"author": "Some Other Person",
 		"studentCount": 1123,
-		"themeColor": "green"
+		"themeColor": "green",
+		"tags": [
+			"language"
+		]
 	}, {
 		"courseId": 20,
 		"courseTitle": "Learn CSS Grid",
 		"author": "Gary Gridington",
 		"studentCount": 4,
-		"themeColor": "blue"
+		"themeColor": "blue",
+		"tags": [
+			"programming"
+		]
 	}
 ];
+
+const MOCK_USER_DATA = {
+
+};
+
+function checkForJsonWebToken() {
+	if (localStorage.getItem("JWT") !== undefined) showMemberScreen();
+}
+
+function showMemberScreen() {
+	$('.welcome-message').hide();
+
+}
 
 function getCoursesForIndexPage() {
 	return new Promise((resolve, reject) => {
@@ -86,6 +128,43 @@ function renderCourseTile(courseInfo) {
 							<span class="course-grid-students-count">${courseInfo.studentCount} students</span>
 						</div>
 					</div>`
+}
+
+function watchFilters() {
+	$('.explore-filter').click(event => {
+		let filter = $(event.currentTarget).text().toLowerCase();
+
+		$('.course-grid').html('');
+		$('.explore-filters span').removeClass('explore-filter-active');
+		$(event.currentTarget).addClass('explore-filter-active');
+
+		getFilteredCourses(filter)
+			.then(data => {
+				data.forEach(courseInfo => {
+					$('.course-grid').append(renderCourseTile(courseInfo));
+				})
+			})
+	});
+}
+
+function watchExploreTitle() {
+	$('.explore-title').click(event => {
+		$('.explore-filters span').removeClass('explore-filter-active');
+		createAndAppendCourseTileHtml();
+	})
+}
+
+function getFilteredCourses(filter) {
+	return new Promise((resolve, reject) => {
+		// api call will go here
+		resolve(mockFilterCourses(filter));
+	})
+}
+
+function mockFilterCourses(filter) {
+	return MOCK_COURSE_TILE_DATA.filter(course => {
+		return course.tags.indexOf(filter) > -1;
+	});
 }
 
 function watchSearch() {
@@ -131,11 +210,38 @@ function mockSearch(searchTerm) {
 	});
 }
 
+function watchSignUpButton() {
+	$('.nav-signup-button').click(event => {
+		$('.modal').show();
+		$('.signup-modal-content').show();
+	})
+}
+
+function watchLogInButton() {
+	$('.nav-login-button').click(event => {
+		$('.modal').show();
+		$('.login-modal-content').show();
+	})
+}
+
+function closeModal() {
+	$('.modal, .close-modal').click(event => {
+		$('.modal').hide();
+		$('.signup-modal-content').hide();
+		$('.login-modal-content').hide();
+	})
+}
+
 function startApp() {
+	checkForJsonWebToken();
 	createAndAppendCourseTileHtml();
 	watchSearch();
 	watchSearchClear();
 	watchSignUpButton();
+	watchLogInButton();
+	closeModal();
+	watchFilters();
+	watchExploreTitle();
 }
 
 $(startApp);

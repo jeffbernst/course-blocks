@@ -1,11 +1,12 @@
 html {
   --dark-grey: #4a4a4a;
-  --blue: #33cfce;
+  --blue: #5EA3E7;
   --orange: #ffaa33;
   --pink: #f934aa;
-  --purple: #b666c7;
+  --purple: #A084D1;
   --green: #33df89;
   --yellow: #f7d633;
+  --teal: #33cfce;
 }
 
 body {
@@ -16,6 +17,10 @@ body {
 
 h2 {
   margin-top: 0;
+}
+
+button {
+  cursor: pointer;
 }
 
 /* ~~~~~ CONTAINERS ~~~~~ */
@@ -79,6 +84,7 @@ h2 {
   font-size: 30px;
   font-weight: bold;
   margin-right: 15px;
+  cursor: pointer;
 }
 
 .explore-filters {
@@ -87,6 +93,10 @@ h2 {
   justify-content: flex-start;
   word-spacing: 10px;
   margin: 5px 0 10px 0;
+}
+
+.explore-filter {
+  cursor: pointer;
 }
 
 .explore-title-and-filters {
@@ -119,7 +129,7 @@ h2 {
   margin-left: 5px;
 }
 
-.search-button:hover {
+.crosshatch-on-hover:hover {
   background-image: linear-gradient(
     -45deg,
     var(--pink) 25%,
@@ -135,13 +145,16 @@ h2 {
 
 .input-box {
   font-size: 14px;
-  flex: 1;
   height: 30px;
   padding: 0 8px;
   border: 2px solid var(--dark-grey);
   border-radius: 8px;
   -webkit-appearance: none;
   -webkit-border-radius: 8px;
+}
+
+.search-input {
+  flex: 1;
 }
 
 .clear-search-results-container {
@@ -153,16 +166,19 @@ h2 {
 .clear-search-results {
   margin-top: 5px;
   margin-bottom: -10px;
-  border: 1px solid var(--dark-grey);
+  display: none;
+}
+
+.close-button {
+  border: 2px solid var(--dark-grey);
   border-radius: 50%;
-  padding: 2px 2px 2px 2px;
+  padding: 2px 2px 1px 2px;
   width: 14px;
   height: 14px;
   line-height: 14px;
   font-size: 18px;
   text-align: center;
   cursor: pointer;
-  display: none;
 }
 
 @media only screen and (min-width: 620px) {
@@ -258,7 +274,7 @@ h2 {
   }
 }
 
-@media only screen and (min-width: 815px) {
+@media only screen and (min-width: 855px) {
   .course-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -290,9 +306,13 @@ h2 {
   background-color: var(--yellow);
 }
 
+.teal-tile {
+  background-color: var(--teal);
+}
+
 /* ~~~~~ MODALS ~~~~~ */
 
-.signup-modal {
+.modal {
   position: fixed;
   z-index: 1;
   left: 0;
@@ -305,37 +325,87 @@ h2 {
   display: none;
 }
 
-.signup-modal-content {
+.modal-content {
+  display: none;
   width: 385px;
-  border: 3px solid var(--dark-grey);
   border-radius: 8px;
   background-color: white;
-  padding: 20px;
+  padding: 30px;
   margin: 80px auto;
-}
-
-.signup-email {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .signup-form {
-  margin: 5px 0;
+  margin-top: 30px;
 }
 
-.signup-form-field {
+.modal-form-field {
   margin-top: 10px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-.signup-input-box {
+.modal-input-box {
   margin-left: 5px;
+  width: 270px;
 }
 
-.signup-submit-button {
+.modal-submit-button {
   margin-top: 10px;
 }
 
-.signup-submit-button-container {
+.modal-submit-button-container {
   display: flex;
   justify-content: flex-end;
+}
+
+.modal-title-and-close-button {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-modal-title-and-close {
+  margin-bottom: -15px;
+}
+
+/* ~~~~~ my courses ~~~~~~ */
+
+.my-course-list {
+  margin: -10px 0 20px 0;
+}
+
+.course-progress-tile {
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.course-progress-title-and-author {
+  width: 220px;
+}
+
+.course-progress-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.course-progress-author {
+  font-size: 18px;
+}
+
+.course-progress-bar {
+  height: 30px;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+}
+
+.course-progress-bar-and-buttons {
+  flex: 1;
 }

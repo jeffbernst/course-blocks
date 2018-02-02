@@ -6,7 +6,7 @@
 	<meta name="viewport"
 		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Course Builder</title>
+	<title>Text Blocks</title>
 	<link rel="stylesheet" href="main.css">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
@@ -15,21 +15,46 @@
 	<nav class="nav-container">
 		<button class="nav-button">Home</button>
 		<div class="nav-right">
-			<button class="nav-button">Log In</button>
+			<button class="nav-button nav-login-button">Log In</button>
 			<button class="nav-button nav-signup-button">Sign Up</button>
 		</div>
 	</nav>
 
 	<main class="main-container">
-		<h1>Welcome! &#x1F44B;</h1>
-		<div class="top-message">This site lets you build and enroll in courses for free. To get started just pick a class below and enroll.</div>
-		<br>
+
+		<!-- welcome message -->
+
+		<div class="welcome-message">
+			<h1>Welcome! &#x1F44B;</h1>
+			<div class="top-message">This site lets you build and enroll in courses for free. To get started just pick a class below.</div>
+			<br>
+		</div>
+
+		<!-- member screen -->
+
+		<div class="my-courses">
+			<h1>My Courses &#x1F4D6;</h1>
+			<div class="my-course-list">
+				<div class="course-progress-tile">
+					<div class="course-progress-title-and-author">
+						<div class="course-progress-title">Learn Japanese</div>
+						<div class="course-progress-author">by Jeff Bernstein</div>
+					</div>
+					<div class="course-progress-bar-and-buttons">
+						<div class="course-progress-bar"></div>
+						<div class="course-progress-buttons"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- explore menu -->
 
 		<div class="explore-menu">
 			<div class="explore-title-and-filters">
 				<div class="explore-title">Explore</div>
 				<div class="explore-filters">
-					<span class="explore-filter-active">Top</span>&nbsp;<span>Language</span>&nbsp;<span>Programming</span>&nbsp;<span>Math</span>
+					<span class="explore-filter">Language</span>&nbsp;<span class="explore-filter">Programming</span>&nbsp;<span class="explore-filter">Crypto</span>
 				</div>
 			</div>
 			<div class="explore-search">
@@ -41,38 +66,67 @@
 		</div>
 
 		<div class="clear-search-results-container">
-			<div class="clear-search-results">&times;</div>
+			<div class="clear-search-results close-button">&times;</div>
 		</div>
 		<div class="course-grid"></div>
 
-		<div class="signup-modal">
-			<div class="signup-modal-content">
+		<!-- modals -->
+
+		<div class="modal"></div>
+
+		<!-- sign up modal -->
+
+		<div class="signup-modal-content modal-content">
+			<div class="modal-title-and-close-button">
 				<h2>Sign Up &#x1F4DD;</h2>
-				<div class="top-message">
-					If you sign up you’ll be able to track your progress in the courses you’re enrolled in. You can also create and publish courses of your own.
-				</div>
-				<form class="signup-form">
-					<div class="signup-form-field">
-						<label for="name">Name: </label>
-						<input type="text" class="signup-email input-box signup-input-box" id="name">
-					</div>
-					<div class="signup-form-field">
-						<label for="email">Email: </label>
-						<input type="text" class="signup-email input-box signup-input-box" id="email">
-					</div>
-					<div class="signup-form-field">
-						<label for="password">Password: </label>
-						<input type="text" class="signup-email input-box signup-input-box" id="password">
-					</div>
-					<div class="signup-form-field">
-						<label for="confirm-password">Confirm: </label>
-						<input type="text" class="signup-email input-box signup-input-box" id="confirm-password">
-					</div>
-					<div class="signup-submit-button-container">
-						<button type="submit" class='signup-submit-button slim-button'>Sign Up</button>
-					</div>
-				</form>
+				<div class="close-modal close-button">&times;</div>
 			</div>
+			<div class="top-message">
+				If you sign up you’ll be able to track your progress in the courses you’re enrolled in. You can also create and publish courses of your own.
+			</div>
+			<form class="signup-form modal-form">
+				<div class="modal-form-field">
+					<label for="signup-name">Name: </label>
+					<input type="text" class="signup-email input-box modal-input-box" id="signup-name" required>
+				</div>
+				<div class="modal-form-field">
+					<label for="signup-email">Email: </label>
+					<input type="text" class="signup-email input-box modal-input-box" id="signup-email" required>
+				</div>
+				<div class="modal-form-field">
+					<label for="signup-password">Password: </label>
+					<input type="password" class="signup-email input-box modal-input-box" id="signup-password" required>
+				</div>
+				<div class="modal-form-field">
+					<label for="signup-confirm-password">Confirm: </label>
+					<input type="password" class="signup-email input-box modal-input-box" id="signup-confirm-password" required>
+				</div>
+				<div class="modal-submit-button-container">
+					<button type="submit" class='signup-submit-button slim-button modal-submit-button'>Sign Up</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- log in modal -->
+
+		<div class="login-modal-content modal-content">
+			<div class="modal-title-and-close-button login-modal-title-and-close">
+				<h2>Log In &#x1F44D;</h2>
+				<div class="close-modal close-button">&times;</div>
+			</div>
+			<form class="login-form modal-form">
+				<div class="modal-form-field">
+					<label for="email">Email: </label>
+					<input type="text" class="login-email input-box modal-input-box" id="email" required>
+				</div>
+				<div class="modal-form-field">
+					<label for="password">Password: </label>
+					<input type="password" class="login-email input-box modal-input-box" id="password" required>
+				</div>
+				<div class="modal-submit-button-container">
+					<button type="submit" class='login-submit-button slim-button modal-submit-button'>Sign Up</button>
+				</div>
+			</form>
 		</div>
 
 	</main>
