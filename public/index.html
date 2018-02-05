@@ -13,10 +13,16 @@
 
 <body>
 	<nav class="nav-container">
-		<button class="nav-button">Home</button>
+		<div class="nav-left">
+			<button class="nav-button nav-home">Home</button>
+			<button class="nav-button nav-create">Create</button>
+		</div>
 		<div class="nav-right">
-			<button class="nav-button nav-login-button">Log In</button>
-			<button class="nav-button nav-signup-button">Sign Up</button>
+			<div class="sign-in-log-in">
+				<button class="nav-button nav-login-button">Log In</button>
+				<button class="nav-button nav-signup-button">Sign Up</button>
+			</div>
+			<div class="nav-user-profile"></div>
 		</div>
 	</nav>
 
@@ -33,19 +39,8 @@
 		<!-- member screen -->
 
 		<div class="my-courses">
-			<h1>My Courses &#x1F4D6;</h1>
-			<div class="my-course-list">
-				<div class="course-progress-tile">
-					<div class="course-progress-title-and-author">
-						<div class="course-progress-title">Learn Japanese</div>
-						<div class="course-progress-author">by Jeff Bernstein</div>
-					</div>
-					<div class="course-progress-bar-and-buttons">
-						<div class="course-progress-bar"></div>
-						<div class="course-progress-buttons"></div>
-					</div>
-				</div>
-			</div>
+			<h1 class="my-courses-title">My Courses</h1>&nbsp;&nbsp;<span class="smiley">ヾ(＠⌒ー⌒＠)ノ</span>
+			<div class="my-course-list"></div>
 		</div>
 
 		<!-- explore menu -->
@@ -60,7 +55,7 @@
 			<div class="explore-search">
 				<form action="#" class="search-form">
 					<input type="search" class="search-input input-box">
-					<button type="submit" class='search-button slim-button'>Search</button>
+					<button type="submit" class='search-button slim-button crosshatch-on-hover'>Search</button>
 				</form>
 			</div>
 		</div>

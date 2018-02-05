@@ -1,12 +1,20 @@
 html {
   --dark-grey: #4a4a4a;
+  --light-grey: #9B9B9B;
   --blue: #5EA3E7;
+  --dark-blue: #0A71DE;
   --orange: #ffaa33;
+  --dark-orange: #FF9503;
   --pink: #f934aa;
+  --dark-pink: #F80294;
   --purple: #A084D1;
-  --green: #33df89;
+  --dark-purple: #6C3FB9;
+  --green: #5AE69F;
+  --dark-green: #02DA6C;
   --yellow: #f7d633;
+  --dark-yellow: #F5CC03;
   --teal: #33cfce;
+  --dark-teal: #01C4C3;
 }
 
 body {
@@ -23,6 +31,15 @@ button {
   cursor: pointer;
 }
 
+hr {
+  border-top: 1px solid var(--light-grey);
+}
+
+p {
+  font-size: 22px;
+  line-height: 30px;
+}
+
 /* ~~~~~ CONTAINERS ~~~~~ */
 
 .main-container,
@@ -36,6 +53,7 @@ button {
 .nav-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 20px;
 }
 
@@ -51,14 +69,15 @@ button {
   color: var(--dark-grey);
 }
 
-.nav-button:hover {
+.nav-button:hover,
+.crosshatch-on-hover:hover {
   background-image: linear-gradient(
     -45deg,
-    var(--pink) 25%,
+    var(--light-grey) 25%,
     transparent 25%,
     transparent 50%,
-    var(--pink) 50%,
-    var(--pink) 75%,
+    var(--light-grey) 50%,
+    var(--light-grey) 75%,
     transparent 75%,
     transparent
   );
@@ -69,7 +88,32 @@ button {
   margin-left: 5px;
 }
 
+.sign-in-log-in {
+  display: none;
+}
+
+.nav-create {
+  display: none;
+}
+
+.nav-user-profile-image {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 3px solid var(--dark-grey);
+  margin-left: 5px;
+}
+
+.nav-user-profile {
+  display: flex;
+  align-items: center;
+}
+
 /* ~~~~~ MAIN ~~~~~ */
+
+.welcome-message {
+  display: none;
+}
 
 .top-message {
   font-size: 24px;
@@ -127,20 +171,6 @@ button {
 
 .search-button {
   margin-left: 5px;
-}
-
-.crosshatch-on-hover:hover {
-  background-image: linear-gradient(
-    -45deg,
-    var(--pink) 25%,
-    transparent 25%,
-    transparent 50%,
-    var(--pink) 50%,
-    var(--pink) 75%,
-    transparent 75%,
-    transparent
-  );
-  background-size: 4px 4px;
 }
 
 .input-box {
@@ -252,6 +282,14 @@ button {
   background: white;
   border: 3px solid var(--dark-grey);
   border-radius: 8px;
+}
+
+.course-grid-enroll-button:hover span {
+  display: none;
+}
+
+.course-grid-enroll-button:hover:before {
+  content: 'Enroll \1F525';
 }
 
 .course-grid-students-count {
@@ -375,6 +413,18 @@ button {
 
 /* ~~~~~ my courses ~~~~~~ */
 
+.my-courses {
+  display: none;
+}
+
+.my-courses-title {
+  display: inline-block;
+}
+
+.smiley {
+  font-size: 14px;
+}
+
 .my-course-list {
   margin: -10px 0 20px 0;
 }
@@ -385,10 +435,11 @@ button {
   padding: 8px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 15px;
 }
 
 .course-progress-title-and-author {
-  width: 220px;
+  width: 350px;
 }
 
 .course-progress-title {
@@ -400,12 +451,283 @@ button {
   font-size: 18px;
 }
 
+.course-progress-bar-and-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.course-progress-bar-index {
+  padding-right: 10px;
+}
+
 .course-progress-bar {
-  height: 30px;
+  width: 100%;
+  height: 40px;
   border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-image: linear-gradient(
+    -45deg,
+    var(--dark-grey) 25%,
+    transparent 25%,
+    transparent 50%,
+    var(--dark-grey) 50%,
+    var(--dark-grey) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 4px 4px;
+}
+
+.course-progress-bar-shader {
+  height: 100%;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  animation-duration: 2s;
+  animation-name: expandBar;
+}
+
+@keyframes expandBar {
+  0% { width: 0; }
+}
+
+.percentage-complete {
+  color: white;
+  white-space: nowrap;
+}
+
+.resume-button,
+.share-button,
+.discuss-button {
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  height: 40px;
+  color: var(--dark-grey);
+  font-size: 16px;
+  font-weight: bold;
+  background: white;
+}
+
+.resume-button:hover span {
+  display: none;
+}
+
+.resume-button:hover:after {
+  content: 'Resume \1F4D6';
+}
+
+.share-button:hover span {
+  display: none;
+}
+
+.share-button:hover:after {
+  content: 'Share \1F49B';
+}
+
+/* ~~~~~ PREVIOUS NEXT ~~~~~~ */
+
+.previous-next {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.previous-container,
+.next-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: var(--light-grey);
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.previous-button,
+.next-button {
+  font-size: 30px;
+  font-weight: normal;
+  color: var(--light-grey);
+  border: 2px solid var(--light-grey);
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  line-height: 21px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.previous-button {
+  margin-right: 10px;
+  padding: 0 1px 0 0;
+}
+
+.next-button {
+  margin-left: 10px;
+  padding: 0 0 0 1px;
+}
+
+/* ~~~~~ Course Content ~~~~~ */
+
+.current-lesson {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.chapter-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.mark-as-completed-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.mark-as-completed-button {
+  width: 215px;
+}
+
+.tall-button {
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--dark-grey);
+  background: none;
+  border: 2px solid var(--dark-grey);
   border-radius: 8px;
 }
 
-.course-progress-bar-and-buttons {
-  flex: 1;
+/* ~~~~~ SIDEBAR ~~~~~ */
+
+.sidebar-container {
+  position: relative;
+}
+
+.sidebar-wrapper {
+  position: absolute;
+  left: -336px;
+}
+
+.sidebar-inner-container {
+  width: 300px;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  position: fixed;
+  top: 142px;
+  bottom: 100px;
+}
+
+.sidebar-course-info {
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  margin: -3px;
+  padding: 5px;
+}
+
+.course-progress-bar-sidebar {
+  box-sizing: border-box;
+}
+
+.sidebar-course-progress-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sidebar-course-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.sidebar-course-author {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.sidebar-table-of-contents {
+  padding: 10px;
+  position: fixed;
+  width: 280px;
+  top: 310px;
+  bottom: 105px;
+  overflow-y: auto;
+}
+
+.sidebar-lesson-number,
+.sidebar-chapter-number {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--light-grey);
+}
+
+.sidebar-lesson-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sidebar-chapter {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.sidebar-chapter-group {
+  margin-bottom: 15px;
+}
+
+.close-sidebar-button {
+  position: fixed;
+  /*bottom: 75px;*/
+  top: 115px;
+}
+
+.close-sidebar-button-container {
+  width: 300px;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+}
+
+.expand-sidebar-desktop {
+  position: fixed;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 75px;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+  padding-bottom: 6px;
+}
+
+.expand-sidebar-mobile {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 75px;
+  height: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

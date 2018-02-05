@@ -11,6 +11,14 @@ app.use(express.static('public', {extensions: ['html', 'htm']}));
 
 app.use('/node_modules', express.static('node_modules'));
 
+app.get('/course/:courseId', (req, res) => {
+	const options = {
+		root: __dirname + '/public/'
+	};
+
+	res.sendFile('course.html', options);
+});
+
 let server;
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {
