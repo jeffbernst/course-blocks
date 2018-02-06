@@ -78,15 +78,20 @@ const MOCK_USER_DATA = {
 	userName: 'jeffbernst',
 	gravatarHash: '75ad827dc5ac6baa1df806dfe15b394e',
   enrolledIn: [
-    {
-      courseId: 1,
-      courseTitle: 'Learn to Program Apps on STEEM',
-      author: 'Jeff B',
-      studentCount: 234,
-      themeColor: 'purple',
-      tags: ['programming', 'crypto'],
-			percentComplete: 50
-    },
+		{
+			courseId: 1,
+			courseTitle: 'Learn to Program Apps on STEEM',
+			author: 'Jeff B',
+			studentCount: 234,
+			themeColor: 'purple',
+			tags: ['programming', 'crypto'],
+			currentLesson: 1,
+			currentChapter: 3,
+			percentComplete: 50,
+			completed: [
+				[1, 2]
+			]
+		},
 		{
 			courseId: 20,
 			courseTitle: 'Learn CSS Grid',
@@ -94,6 +99,8 @@ const MOCK_USER_DATA = {
 			studentCount: 4,
 			themeColor: 'blue',
 			tags: ['programming'],
+			currentLesson: 1,
+			currentChapter: 2,
 			percentComplete: 20
 		},
 		{
@@ -103,6 +110,8 @@ const MOCK_USER_DATA = {
 			studentCount: 1123,
 			themeColor: 'green',
 			tags: ['language'],
+			currentLesson: 1,
+			currentChapter: 2,
 			percentComplete: 90
 		}
   ],
