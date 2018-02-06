@@ -22,22 +22,24 @@ async function loadPage() {
 	$('.expand-sidebar-desktop').hide();
 	$('.expand-sidebar-mobile').hide();
 
-	closeSidebar();
+	closeAndOpenSidebar();
 	const courseData = await getCourse(courseId);
   $('.put-stuff-here').html(JSON.stringify(courseData));
 }
 
-function closeSidebar() {
+function closeAndOpenSidebar() {
   $('.close-sidebar-button').click(event => {
   	$('.sidebar').hide();
   	$('.close-sidebar-button').hide();
   	$('.expand-sidebar-desktop').show();
+  	$('.expand-sidebar-mobile').show();
 	});
 
-	$('.expand-sidebar-desktop').click(event => {
+	$('.expand-sidebar-desktop, .expand-sidebar-mobile').click(event => {
 		$('.sidebar').show();
 		$('.close-sidebar-button').show();
 		$('.expand-sidebar-desktop').hide();
+		$('.expand-sidebar-mobile').hide();
 	})
 }
 

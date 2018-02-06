@@ -209,6 +209,7 @@ p {
   font-size: 18px;
   text-align: center;
   cursor: pointer;
+  background-color: white;
 }
 
 @media only screen and (min-width: 620px) {
@@ -618,8 +619,8 @@ p {
 }
 
 .sidebar-wrapper {
-  position: absolute;
-  left: -336px;
+  position: fixed;
+  left: 20px;
 }
 
 .sidebar {
@@ -628,7 +629,8 @@ p {
   border-radius: 8px;
   position: fixed;
   top: 142px;
-  bottom: 100px;
+  bottom: 20px;
+  background-color: white;
 }
 
 .sidebar-course-info {
@@ -727,4 +729,30 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+
+.expand-sidebar-desktop-wrapper {
+ display: none;
+}
+
+@media only screen and (min-width: 1000px) {
+  .expand-sidebar-mobile-wrapper {
+   display: none;
+  }
+
+  .expand-sidebar-desktop-wrapper {
+    display: flex;
+  }
+
+  .sidebar {
+    bottom: 100px;
+  }
+}
+
+@media only screen and (min-width: 1630px) {
+  .sidebar-wrapper {
+    position: absolute;
+    left: -336px;
+  }
 }
