@@ -19,10 +19,26 @@ function getCourse(courseId) {
 }
 
 async function loadPage() {
+	$('.expand-sidebar-desktop').hide();
+	$('.expand-sidebar-mobile').hide();
+
+	closeSidebar();
 	const courseData = await getCourse(courseId);
   $('.put-stuff-here').html(JSON.stringify(courseData));
 }
 
+function closeSidebar() {
+  $('.close-sidebar-button').click(event => {
+  	$('.sidebar').hide();
+  	$('.close-sidebar-button').hide();
+  	$('.expand-sidebar-desktop').show();
+	});
 
+	$('.expand-sidebar-desktop').click(event => {
+		$('.sidebar').show();
+		$('.close-sidebar-button').show();
+		$('.expand-sidebar-desktop').hide();
+	})
+}
 
 $(loadPage);
