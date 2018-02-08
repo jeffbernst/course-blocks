@@ -501,7 +501,7 @@ p {
   0% { width: 0; }
 }
 
-.percentage-complete {
+.percent-complete {
   color: white;
   white-space: nowrap;
 }
@@ -586,7 +586,7 @@ p {
   margin-bottom: 10px;
 }
 
-.chapter-title {
+.part-title {
   font-size: 26px;
   font-weight: bold;
   margin-bottom: 15px;
@@ -670,7 +670,7 @@ p {
 }
 
 .sidebar-lesson-number,
-.sidebar-chapter-number {
+.sidebar-part-number {
   font-size: 16px;
   font-weight: bold;
   color: var(--light-grey);
@@ -682,12 +682,12 @@ p {
   margin-bottom: 10px;
 }
 
-.sidebar-chapter {
+.sidebar-part {
   font-size: 18px;
   margin-bottom: 5px;
 }
 
-.sidebar-chapter-group {
+.sidebar-part-group {
   margin-bottom: 15px;
 }
 
@@ -740,11 +740,10 @@ p {
  display: none;
 }
 
-.sidebar-enroll-button-container {
+.sidebar-button-container {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  width: 290px;
 }
 
 .sidebar-button-container-wrapper {
