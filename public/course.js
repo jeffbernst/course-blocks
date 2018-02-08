@@ -11,8 +11,13 @@ const MOCK_COURSE_DATA = [
 			lessonTitle: 'First Lesson Title Here & Some Other Stuff',
 			parts: [
 				{
-					partTitle: 'Here\'s a part Title',
-					partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
+					partTitle: 'How does this look if I make it much longer like this?',
+					partContent: `					
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
+
+## Here's a markdown title
+
+_And here's some italic text._ **Here's some bold text.**
 
 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
 
@@ -31,10 +36,35 @@ Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus
 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
 				}
 			]
-		}]
+			},
+			{
+				lessonTitle: 'Here\'s a Second Lesson!',
+				parts: [
+					{
+						partTitle: 'Here\'s a part Title',
+						partContent: `This is great! **I can even write in bold!**`},
+					{
+						partTitle: 'Here\'s a part Title',
+						partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus. consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
+						}
+				]
+			},
+				{
+					lessonTitle: 'And Here is My Third & Final Lesson!',
+					parts: [
+						{
+							partTitle: 'Here\'s a part Title',
+							partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
+							},
+						{
+							partTitle: 'Here\'s a part Title',
+							partContent: `I don't really know what to write anymore`
+							}
+					]
+			}]
   },
 	{
-    courseId: 1,
+    courseId: 2,
     courseTitle: 'Learn CSS Grid',
     courseAuthor: 'Gary Gridington',
     studentCount: 2,
@@ -68,7 +98,7 @@ Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus
 		}]
   },
 	{
-    courseId: 1,
+    courseId: 3,
     courseTitle: 'Learn to Program Apps on STEEM',
     courseAuthor: 'Jeff Bernstein',
     studentCount: 234,
@@ -114,35 +144,94 @@ const MOCK_USER_DATA = {
 			courseAuthor: 'Jeff B',
 			themeColor: 'purple',
 			tags: ['programming', 'crypto'],
-			currentLesson: 1, // maybe this can be the lesson after the last lesson marked as completed
-			currentPart: 3,
-			completed: [				// and divide them by the total parts to get percent complete
+			currentLesson: 0, // maybe this can be the lesson after the last lesson marked as completed
+			currentPart: 0,
+			completed: [
 				[1]
-			]
+			],
+			lessons: [{
+				lessonTitle: 'First Lesson Title Here & Some Other Stuff',
+				parts: [
+					{
+						partTitle: 'How does this look if I make it much longer like this?',
+						partContent: `					
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
+
+## Here's a markdown title
+
+_And here's some italic text._ **Here's some bold text.**
+
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
+
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
+
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
+					},
+					{
+						partTitle: 'Here\'s a part Title',
+						partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
+
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
+
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
+
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
+					}
+				]
+			},
+				{
+					lessonTitle: 'Here\'s a Second Lesson!',
+					parts: [
+						{
+							partTitle: 'Here\'s a part Title',
+							partContent: `This is great! **I can even write in bold!**`},
+						{
+							partTitle: 'Here\'s a part Title',
+							partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus. consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
+						}
+					]
+				},
+				{
+					lessonTitle: 'And Here is My Third & Final Lesson!',
+					parts: [
+						{
+							partTitle: 'Here\'s a part Title',
+							partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
+						},
+						{
+							partTitle: 'Here\'s a part Title',
+							partContent: `I don't really know what to write anymore`
+						}
+					]
+				}]
 		},
 		{
-			courseId: 20,
+			courseId: 2,
 			courseTitle: 'Learn CSS Grid',
 			courseAuthor: 'Gary Gridington',
 			themeColor: 'blue',
 			tags: ['programming'],
-			currentLesson: 1,
-			currentPart: 2,
-			completed: [				// and divide them by the total parts to get percent complete
-				[1, 2]
-			]
-		},
-		{
-			courseId: 7,
-			courseTitle: 'Learn Great Stuff',
-			courseAuthor: 'Some Other Person',
-			themeColor: 'green',
-			tags: ['language'],
-			currentLesson: 1,
-			currentPart: 2,
-			completed: [				// and divide them by the total parts to get percent complete
-				[1, 2]
-			]
+			currentLesson: 0,
+			currentPart: 1,
+			completed: [
+				[0]
+			],
+			lessons: [{
+				lessonTitle: 'First Lesson Title Here & Some Other Stuff',
+				parts: [
+					{
+						partTitle: 'Here\'s a part Title',
+						partContent: `tetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
+					},
+					{
+						partTitle: 'Here\'s a part Title Again',
+						partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
+
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
+					}
+				]
+			}]
 		}
 	],
 	created: [
@@ -219,16 +308,25 @@ async function loadPage() {
 
 	const courseData = await getCourse(courseId);
 	const userData = await getUserData(courseId);
+
 	loadSideBar(courseData, userData);
-	loadCourseData(courseData, userData);
+	loadCurrentLocation(courseData, userData);
+	changeCurrentPart(courseData);
+	nextButton(courseData);
 }
 
 function loadSideBar(courseData, userData) {
 	const userCourseData = userData.enrolledIn.find(course => course.courseId == courseId);
+	let percentComplete = calculatePercentComplete(courseData, userCourseData);
 
+	$('.sidebar-course-info').addClass(`${courseData.themeColor}-tile`);
 	$('.sidebar-course-title').html(courseData.courseTitle);
 	$('.sidebar-course-author').html(`by ${courseData.courseAuthor}`);
-	$('.percent-complete').html(`${calculatePercentComplete(courseData, userCourseData)}% complete`);
+	$('.course-progress-bar-shader').css({
+		'width': `${percentComplete}%`,
+		'background-color': `var(--dark-${courseData.themeColor})`
+	})
+	$('.percent-complete').html(`${percentComplete}% complete`);
 
 	let sidebarCourseInfoHeight = $('.sidebar-course-info').height();
 	$('.sidebar-table-of-contents')
@@ -259,15 +357,29 @@ function createTableOfContents(courseData) {
 	return tableOfContentsString;
 }
 
-function loadCourseData(courseData, userData) {
+function loadCurrentLocation(courseData, userData) {
+	const userCourseData = userData.enrolledIn.find(course => course.courseId == courseId);
+	let currentLesson = userCourseData.currentLesson;
+	let currentPart = userCourseData.currentPart;
+	let currentPartData = courseData.lessons[currentLesson].parts[currentPart];
 
+	if (
+		courseData.lessons[currentLesson].parts[currentPart + 1] === undefined &&
+		courseData.lessons[currentLesson + 1] === undefined
+	) {
+		$('.next-container').hide();
+	}
+
+	$('.current-lesson').html(`Lesson ${currentLesson+1} / Part ${currentPart+1}`);
+	$('.part-title').html(currentPartData.partTitle);
+	$('.part-content').html(marked(currentPartData.partContent));
 }
 
 function calculatePercentComplete(courseData, userData) {
 	let courseSize = courseData.lessons.reduce((acc, cur) => acc + cur.parts.length, 0);
 	let completedByUser = userData.completed.reduce((acc, cur) => acc + cur.length, 0);
 
-	return (completedByUser / courseSize) * 100;
+	return Math.floor((completedByUser / courseSize) * 100);
 }
 
 function closeAndOpenSidebar() {
@@ -283,6 +395,65 @@ function closeAndOpenSidebar() {
 		$('.close-sidebar-button').show();
 		$('.expand-sidebar-desktop').hide();
 		$('.expand-sidebar-mobile').hide();
+	})
+}
+
+function changeCurrentPart(courseData) {
+	$('.sidebar-table-of-contents').on('click', '.sidebar-part', event => {
+		let clickedPart =
+			(event.currentTarget.innerText)
+				.match(/\d/)[0];
+
+		let clickedLesson =
+			$(event.currentTarget)
+				.parent()
+				.prevAll('.sidebar-lesson-number')
+				.text()
+				.match(/\d/)[0];
+
+		let clickedPartData = courseData.lessons[clickedLesson-1].parts[clickedPart-1];
+
+		// NEED TO ADD HANDLING OF NEXT/PREVIOUS BUTTONS HERE
+
+		$('.current-lesson').html(`Lesson ${clickedLesson} / Part ${clickedPart}`);
+		$('.part-title').html(clickedPartData.partTitle);
+		$('.part-content').html(marked(clickedPartData.partContent));
+	})
+}
+
+function nextButton(courseData) {
+	$('.next-button').click(event => {
+		let currentLessonAndPartString = $('.current-lesson').text();
+
+		let currentLesson = Number(currentLessonAndPartString.match(/\d/)[0]) - 1;
+		let currentPart = Number(currentLessonAndPartString.match(/\d$/)[0]) - 1;
+
+		// let nextLesson = currentLesson;
+		// let nextPart = currentPart;
+
+		let nextPart = currentPart + 1 >= courseData.lessons[currentLesson].parts.length ? 0 : currentPart + 1;
+		let nextLesson = nextPart === 0 ? currentLesson + 1 : currentLesson;
+
+		// if (
+		// 	!(courseData.lessons[currentLesson].parts[currentPart + 1] === undefined &&
+		// 	courseData.lessons[currentLesson + 1] === undefined)
+		// ) {
+		// 	nextPart = currentPart + 1 >= courseData.lessons[currentLesson].parts.length ? 0 : currentPart + 1;
+		// 	nextLesson = nextPart === 0 ? currentLesson + 1 : currentLesson;
+		// }
+
+		if (
+			courseData.lessons[nextLesson].parts[nextPart + 1] === undefined &&
+			courseData.lessons[nextLesson + 1] === undefined
+		) {
+			$('.next-container').hide();
+		}
+
+		let nextPartData = courseData.lessons[nextLesson].parts[nextPart];
+
+		$('.current-lesson').html(`Lesson ${nextLesson+1} / Part ${nextPart+1}`);
+		$('.part-title').html(nextPartData.partTitle);
+		$('.part-content').html(marked(nextPartData.partContent));
 	})
 }
 

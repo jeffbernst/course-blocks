@@ -1,6 +1,7 @@
 html {
   --dark-grey: #4a4a4a;
   --light-grey: #9B9B9B;
+  --very-light-grey: #F0F0F0;
   --blue: #5EA3E7;
   --dark-blue: #0A71DE;
   --orange: #ffaa33;
@@ -40,11 +41,16 @@ p {
   line-height: 30px;
 }
 
+a {
+  text-decoration: none;
+  color: var(--dark-grey);
+}
+
 /* ~~~~~ CONTAINERS ~~~~~ */
 
 .main-container,
 .nav-container {
-  margin: 0 auto;
+  margin: 0 auto 30px auto;
   padding-left: 20px;
   padding-right: 20px;
   max-width: 940px;
@@ -460,7 +466,6 @@ p {
 }
 
 .course-progress-bar-index {
-  padding-right: 10px;
 }
 
 .course-progress-bar {
@@ -684,7 +689,14 @@ p {
 
 .sidebar-part {
   font-size: 18px;
-  margin-bottom: 5px;
+  cursor: pointer;
+  padding: 0 5px;
+  margin: 0 -5px 5px -5px;
+}
+
+.sidebar-part:hover {
+  border-radius: 5px;
+  background-color: var(--very-light-grey);
 }
 
 .sidebar-part-group {

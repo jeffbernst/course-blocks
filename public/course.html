@@ -38,14 +38,16 @@
 			</div>
 		</div>
 
+		<!-- ~~~~~ SIDEBAR ~~~~~ -->
+
 		<div class="sidebar-container">
 			<div class="sidebar-wrapper">
 				<div class="sidebar">
-					<div class="sidebar-course-info purple-tile">
+					<div class="sidebar-course-info">
 						<div class="sidebar-course-title"></div>
 						<div class="sidebar-course-author"></div>
 						<div class="course-progress-bar course-progress-bar-sidebar">
-							<div class="course-progress-bar-shader" style="width:50%; background-color:var(--dark-purple);">
+							<div class="course-progress-bar-shader">
 								<span class="percent-complete"></span>
 							</div>
 						</div>
@@ -56,8 +58,6 @@
 							</div>
 						</div>
 					</div>
-
-					<!-- table of contents-->
 					<div class="sidebar-table-of-contents"></div>
 				</div>
 
@@ -75,22 +75,17 @@
 			</div>
 		</div>
 
-		<div class="current-lesson">Lesson 2 / Part 2</div>
-		<div class="part-title">Really Interesting Stuff About Learning Japanese</div>
+		<!-- ~~~~~ END OF SIDEBAR ~~~~~ -->
+
+		<div class="current-lesson"></div>
+		<div class="part-title"></div>
 
 		<hr>
 
-		<div class="part-content">
-			<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.</p>
-			<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.</p>
-			<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.</p>
-			<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.</p>
-			<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.</p>
-			<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.</p>
-		</div>
+		<div class="part-content"></div>
 
 		<div class="mark-as-completed-container">
-			<button class="mark-as-completed-button tall-button">Mark as Completed &#10004;</button>
+			<button class="mark-as-completed-button tall-button crosshatch-on-hover">Mark as Completed &#10004;</button>
 		</div>
 
 		<div class="previous-next">
@@ -104,10 +99,10 @@
 			</div>
 		</div>
 
-
 	</main>
 
 	<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+	<script src="/node_modules/marked/lib/marked.js"></script>
 	<script src="/course.js"></script>
 </body>
 </html>
