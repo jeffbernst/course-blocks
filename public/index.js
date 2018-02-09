@@ -145,7 +145,7 @@ const MOCK_USER_DATA = {
 			themeColor: 'purple',
 			tags: ['programming', 'crypto'],
 			currentLesson: 0, // maybe this can be the lesson after the last lesson marked as completed
-			currentPart: 0,
+			currentPart: 0, // add percent complete calculation on back end
 			completed: [
 				[1]
 			],
@@ -211,10 +211,10 @@ Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus
 			courseAuthor: 'Gary Gridington',
 			themeColor: 'blue',
 			tags: ['programming'],
-			currentLesson: 1,
-			currentPart: 2,
+			currentLesson: 0,
+			currentPart: 1,
 			completed: [
-				[1, 2]
+				[0]
 			],
 			lessons: [{
 				lessonTitle: 'First Lesson Title Here & Some Other Stuff',
