@@ -64,6 +64,10 @@ a {
 }
 
 /* ~~~~~ NAV ~~~~~ */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
 
 .nav-button {
   border-radius: 10px;
@@ -88,6 +92,44 @@ a {
     transparent
   );
   background-size: 4px 4px;
+}
+
+.logo {
+  box-sizing: border-box;
+  border: 3px solid var(--dark-grey);
+  border-radius: 10px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.logo-right-half {
+  border-radius: 0 8px 8px 0;
+  border-left: 3px solid var(--dark-grey);
+  width: 17px;
+  height: 100%;
+}
+
+.logo-top-right {
+  border-bottom: 3px solid var(--dark-grey);
+  height: calc(31px / 2);
+  width: 100%;
+  border-radius: 0 8px 0 0;
+}
+
+.logo:hover {
+  background-color: var(--purple);
+}
+
+.logo:hover .logo-right-half  {
+  background-color: var(--green);
+}
+
+.logo:hover .logo-top-right {
+  background-color: var(--pink);
 }
 
 .nav-signup-button {
