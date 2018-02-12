@@ -44,6 +44,20 @@
 		</div>
 	</div>
 
+	<div class="pick-to-edit">
+		<div class="pick-to-edit-title">Pick a lesson to edit it! &#x270D;</div>
+		<svg width="164px" height="163px" viewBox="0 0 164 163" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+			<!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+			<desc>Created with Sketch.</desc>
+			<defs></defs>
+			<g id="create-/-tap-to-edit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+				<g id="Desktop-Copy" transform="translate(-434.000000, -177.000000)" stroke="#4A4A4A" stroke-width="6">
+					<path d="M589.277605,179.039139 C615.409609,236.186621 535.098586,303.050806 488.989345,319.766214 C470.334806,326.528811 455.851242,322.670449 438.004259,325.129452 C434.940433,325.551593 444.214807,325.978296 447.040243,327.236131 C450.761254,328.892661 454.124702,331.300521 457.376275,333.753538 C458.468243,334.577329 461.230927,337.396054 459.933467,336.9629 C425.990225,325.631039 444.133751,329.249001 467.888221,311.30946" id="Path-2"></path>
+				</g>
+			</g>
+		</svg>
+	</div>
+
 	<!-- ~~~~~ SIDEBAR ~~~~~ -->
 
 	<div class="sidebar-container">
@@ -51,16 +65,19 @@
 			<div class="sidebar">
 				<div class="sidebar-course-info">
 					<div class="sidebar-course-title"></div>
-					<div class="sidebar-course-author"></div>
-					<div class="course-progress-bar course-progress-bar-sidebar">
-						<div class="course-progress-bar-shader">
-							<span class="percent-complete"></span>
-						</div>
+					<div class="sidebar-create-color-picker">
+						<div class="sidebar-create-color-picker-tile purple-tile" data-color="purple"></div>
+						<div class="sidebar-create-color-picker-tile blue-tile" data-color="blue"></div>
+						<div class="sidebar-create-color-picker-tile orange-tile" data-color="orange"></div>
+						<div class="sidebar-create-color-picker-tile pink-tile" data-color="pink"></div>
+						<div class="sidebar-create-color-picker-tile green-tile" data-color="green"></div>
+						<div class="sidebar-create-color-picker-tile yellow-tile" data-color="yellow"></div>
 					</div>
 					<div class="sidebar-button-container-wrapper">
-						<div class="sidebar-button-container">
-							<button class="share-button"><span>Share &#x1F4E3;</span></button>
-							<button class="course-grid-enroll-button sidebar-enroll-button"><span>Enroll &#x1F680;</span></button>
+						<div class="sidebar-button-container sidebar-button-container-create">
+							<button class="preview-button"><span>Preview</span></button>
+							<button class="publish-button"><span>Publish</span></button>
+							<button class="delete-button"><span>Delete</span></button>
 						</div>
 					</div>
 				</div>
@@ -84,14 +101,16 @@
 	<!-- ~~~~~ END OF SIDEBAR ~~~~~ -->
 
 	<div class="current-lesson"></div>
-	<div class="part-title"></div>
+	<form class="edit-part">
+		<textarea class="part-title"></textarea>
 
-	<hr>
+		<hr>
 
-	<div class="part-content"></div>
+		<textarea class="part-content"></textarea>
+	</form>
 
 	<div class="mark-as-completed-container">
-		<button class="mark-as-completed-button tall-button crosshatch-on-hover">Mark as Completed &#10004;</button>
+		<button class="save-draft-button tall-button crosshatch-on-hover">Save Draft &#x1F4D3;</button>
 	</div>
 
 	<div class="previous-next">
@@ -109,6 +128,7 @@
 
 <script src="/node_modules/jquery/dist/jquery.min.js"></script>
 <script src="/node_modules/marked/lib/marked.js"></script>
-<script src="/course.js"></script>
+<script src="/main.js"></script>
+<script src="/create.js"></script>
 </body>
 </html>

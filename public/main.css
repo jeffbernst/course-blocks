@@ -905,3 +905,127 @@ a {
     left: -336px;
   }
 }
+
+/* ~~~~~ CREATE ~~~~~ */
+
+.sidebar-create-color-picker {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 5px;
+  margin: 5px 0;
+}
+
+.sidebar-create-color-picker-tile {
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.sidebar-create-color-picker-tile:hover,
+.sidebar-create-color-picker-tile-selected {
+  background-image: linear-gradient(
+    -45deg,
+    var(--dark-grey) 25%,
+    transparent 25%,
+    transparent 50%,
+    var(--dark-grey) 50%,
+    var(--dark-grey) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 4px 4px;
+}
+
+.pick-to-edit {
+  margin-top: 35px;
+  display: none;
+}
+
+.pick-to-edit-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: 68px;
+}
+
+/* ~~~~~ CREATE DROPDOWN ~~~~~ */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 130px;
+  overflow: auto;
+  z-index: 1;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  margin-top: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: white;
+}
+
+.dropdown-content a {
+  text-decoration: none;
+  display: block;
+  padding: 5px 10px;
+}
+
+.dropdown a:hover {
+  background-color: var(--very-light-grey);
+}
+
+.create-dropdown-new-course {
+  border-bottom: 1px solid var(--dark-grey);
+}
+
+.preview-button,
+.publish-button,
+.delete-button {
+  height: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--dark-grey);
+  background: white;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  padding-top: 0;
+  box-sizing: content-box;
+}
+
+.delete-button:hover {
+  background-color: red;
+}
+
+.sidebar-button-container-create {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 5px;
+}
+
+textarea.part-title {
+  width: 100%;
+  height: 33px;
+  color: var(--dark-grey);
+  margin-bottom: 0;
+  border-radius: 8px;
+  padding: 0 10px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+textarea.part-content {
+  width: 100%;
+  height: 525px;
+  font-size: inherit;
+  color: var(--dark-grey);
+  border-radius: 8px;
+  padding: 10px;
+  resize: vertical;
+  box-sizing: border-box;
+}

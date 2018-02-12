@@ -19,6 +19,14 @@ app.get('/course/:courseId', (req, res) => {
 	res.sendFile('course.html', options);
 });
 
+app.get('/create/:courseId', (req, res) => {
+	const options = {
+		root: __dirname + '/public/'
+	};
+
+	res.sendFile('create.html', options);
+});
+
 let server;
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {
