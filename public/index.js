@@ -296,8 +296,10 @@ function getCourseData() {
 async function showMemberScreen() {
   const userData = await getUserData();
 
+// <button class="nav-button nav-profile-button">${userData.userName}</button>
+
   $('.nav-user-profile').html(`
-		<button class="nav-button nav-profile-button">${userData.userName}</button>
+		<button class="nav-button nav-create">Create</button>
   	<img src='https://www.gravatar.com/avatar/${userData.gravatarHash}' alt='user profile' class="nav-user-profile-image">
   `);
 

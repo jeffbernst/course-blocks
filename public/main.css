@@ -19,9 +19,9 @@ html {
 }
 
 body {
-  /*font-family: 'Open Sans', sans-serif;*/
   font-family: 'Avenir Next', sans-serif;
   color: var(--dark-grey);
+  /*background-color: #fbfbfb;*/
 }
 
 h2 {
@@ -102,14 +102,19 @@ a {
   width: 40px;
   display: flex;
   justify-content: flex-end;
-  margin-right: 5px;
+  margin-right: 6px;
   cursor: pointer;
+}
+
+.logo-left-half {
+  width: 16px;
+  border-radius: 8px 0 0 8px;
 }
 
 .logo-right-half {
   border-radius: 0 8px 8px 0;
   border-left: 3px solid var(--dark-grey);
-  width: 17px;
+  width: 15px;
   height: 100%;
 }
 
@@ -120,20 +125,74 @@ a {
   border-radius: 0 8px 0 0;
 }
 
-.logo:hover {
-  background-color: var(--purple);
+.nav-left:hover .logo-left-half {
+  /*background-color: var(--pink);*/
+  background-image: linear-gradient(
+    -45deg,
+    var(--purple) 25%,
+    transparent 25%,
+    transparent 50%,
+    var(--purple) 50%,
+    var(--purple) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 4px 4px;
 }
 
-.logo:hover .logo-right-half  {
-  background-color: var(--green);
+.nav-left:hover .logo-right-half  {
+  /*background-color: var(--yellow);*/
+  background-image: linear-gradient(
+    -45deg,
+    var(--yellow) 25%,
+    transparent 25%,
+    transparent 50%,
+    var(--yellow) 50%,
+    var(--yellow) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 4px 4px;
 }
 
-.logo:hover .logo-top-right {
-  background-color: var(--pink);
+.nav-left:hover .logo-top-right {
+  /*background-color: var(--blue);*/
+  background-image: linear-gradient(
+    -45deg,
+    var(--pink) 25%,
+    transparent 25%,
+    transparent 50%,
+    var(--pink) 50%,
+    var(--pink) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 4px 4px;
+}
+
+.brand-name {
+  /*font-family: Consolas, sans-serif;*/
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 19px;
+  height: 40px;
+  width: 60px;
+  margin-top: 5px;
+  /*margin-top: 5px;*/
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.brand-name-second-word {
+  /*letter-spacing: 0.05em;*/
 }
 
 .nav-signup-button {
   margin-left: 5px;
+}
+
+.nav-home {
+  margin-right: 5px;
 }
 
 .sign-in-log-in {
@@ -142,11 +201,13 @@ a {
 
 .nav-create {
   display: none;
+  /*font-family: Consolas, sans-serif;*/
+  /*padding-top: 5px;*/
 }
 
 .nav-user-profile-image {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
   border: 3px solid var(--dark-grey);
   margin-left: 5px;
@@ -331,12 +392,13 @@ a {
 
 .course-grid-enroll-button {
   height: 40px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: var(--dark-grey);
   background: white;
   border: 3px solid var(--dark-grey);
   border-radius: 8px;
+  padding-top: 0;
 }
 
 .course-grid-enroll-button:hover span {
@@ -572,6 +634,7 @@ a {
   font-size: 16px;
   font-weight: bold;
   background: white;
+  padding-top: 0;
 }
 
 .resume-button:hover span {

@@ -5,9 +5,110 @@
 	<meta name="viewport"
 				content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Create</title>
+	<title>My Course</title>
+	<link rel="stylesheet" href="/main.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
+
 <body>
 
+<nav class="nav-container">
+	<div class="nav-left">
+		<a href="/"><div class="logo">
+			<div class="logo-left-half"></div>
+			<div class="logo-right-half">
+				<div class="logo-top-right"></div>
+			</div>
+		</div></a>
+		<a href="/"><div class="brand-name">Course Blocks</div></a>
+	</div>
+	<div class="nav-right">
+		<div class="sign-in-log-in">
+			<button class="nav-button nav-login-button">Log In</button>
+			<button class="nav-button nav-signup-button">Sign Up</button>
+		</div>
+		<div class="nav-user-profile"></div>
+	</div>
+</nav>
+
+<main class="main-container">
+
+	<div class="previous-next">
+		<div class="previous-container">
+			<div class="previous-button">&#8249;</div>
+			Previous
+		</div>
+		<div class="next-container">
+			Next
+			<div class="next-button">&#8250;</div>
+		</div>
+	</div>
+
+	<!-- ~~~~~ SIDEBAR ~~~~~ -->
+
+	<div class="sidebar-container">
+		<div class="sidebar-wrapper">
+			<div class="sidebar">
+				<div class="sidebar-course-info">
+					<div class="sidebar-course-title"></div>
+					<div class="sidebar-course-author"></div>
+					<div class="course-progress-bar course-progress-bar-sidebar">
+						<div class="course-progress-bar-shader">
+							<span class="percent-complete"></span>
+						</div>
+					</div>
+					<div class="sidebar-button-container-wrapper">
+						<div class="sidebar-button-container">
+							<button class="share-button"><span>Share &#x1F4E3;</span></button>
+							<button class="course-grid-enroll-button sidebar-enroll-button"><span>Enroll &#x1F680;</span></button>
+						</div>
+					</div>
+				</div>
+				<div class="sidebar-table-of-contents"></div>
+			</div>
+
+			<div class="close-sidebar-button-container">
+				<div class="close-sidebar-button close-button">&times;</div>
+			</div>
+
+			<div class="expand-sidebar-desktop-wrapper">
+				<div class="expand-sidebar-desktop">&#8250;</div>
+			</div>
+
+			<div class="expand-sidebar-mobile-wrapper">
+				<div class="expand-sidebar-mobile">Lessons</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ~~~~~ END OF SIDEBAR ~~~~~ -->
+
+	<div class="current-lesson"></div>
+	<div class="part-title"></div>
+
+	<hr>
+
+	<div class="part-content"></div>
+
+	<div class="mark-as-completed-container">
+		<button class="mark-as-completed-button tall-button crosshatch-on-hover">Mark as Completed &#10004;</button>
+	</div>
+
+	<div class="previous-next">
+		<div class="previous-container">
+			<div class="previous-button">&#8249;</div>
+			Previous
+		</div>
+		<div class="next-container">
+			Next
+			<div class="next-button">&#8250;</div>
+		</div>
+	</div>
+
+</main>
+
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/node_modules/marked/lib/marked.js"></script>
+<script src="/course.js"></script>
 </body>
 </html>

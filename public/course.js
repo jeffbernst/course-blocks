@@ -283,11 +283,11 @@ function checkForJsonWebToken() {
 }
 
 async function showMemberNav() {
-	const memberData = await getUserData();
+	const userData = await getUserData();
 
 	$('.nav-user-profile').html(`
-		<button class="nav-button nav-profile-button">${memberData.userName}</button>
-  	<img src='https://www.gravatar.com/avatar/${memberData.gravatarHash}' alt='user profile' class="nav-user-profile-image">
+		<button class="nav-button nav-create">Create</button>
+  	<img src='https://www.gravatar.com/avatar/${userData.gravatarHash}' alt='user profile' class="nav-user-profile-image">
   `);
 
 	$('.nav-create').show();
@@ -296,12 +296,13 @@ async function showMemberNav() {
 async function loadPage() {
 	checkForJsonWebToken();
 
-	$('.expand-sidebar-desktop').hide();
-	$('.expand-sidebar-mobile').hide();
-	closeAndOpenSidebar();
-
 	const courseData = await getCourse(courseId);
 	const userData = await getUserData(courseId);
+
+	$('.expand-sidebar-desktop').hide().css('background-color', `var(--${courseData.themeColor})`);
+	$('.expand-sidebar-mobile').hide().css('background-color', `var(--${courseData.themeColor})`);
+
+	closeAndOpenSidebar();
 
 	loadSideBar(courseData, userData);
 	loadCurrentLocation(courseData, userData);
