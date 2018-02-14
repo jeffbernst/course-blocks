@@ -61,8 +61,8 @@
 						</div>
 						<div class="sidebar-button-container-wrapper">
 							<div class="sidebar-button-container">
-								<button class="share-button"><span>Share &#x1F4E3;</span></button>
 								<button class="course-grid-enroll-button sidebar-enroll-button"><span>Enroll &#x1F680;</span></button>
+								<button class="share-button"><span>Share &#x1F4E3;</span></button>
 							</div>
 						</div>
 					</div>
@@ -107,10 +107,70 @@
 			</div>
 		</div>
 
+		<!-- modals -->
+
+		<div class="modal"></div>
+
+		<!-- sign up modal -->
+
+		<div class="signup-modal-content modal-content">
+			<div class="modal-title-and-close-button">
+				<h2>Sign Up &#x1F4DD;</h2>
+				<div class="close-modal close-button">&times;</div>
+			</div>
+			<div class="top-message">
+				If you sign up you’ll be able to track your progress in the courses you’re enrolled in. You can also create and publish courses of your own.
+			</div>
+			<form class="signup-form modal-form">
+				<div class="modal-form-field">
+					<label for="signup-name">Name: </label>
+					<input type="text" class="signup-email input-box modal-input-box" id="signup-name" required>
+				</div>
+				<div class="modal-form-field">
+					<label for="signup-email">Email: </label>
+					<input type="text" class="signup-email input-box modal-input-box" id="signup-email" required>
+				</div>
+				<div class="modal-form-field">
+					<label for="signup-password">Password: </label>
+					<input type="password" class="signup-email input-box modal-input-box" id="signup-password" required>
+				</div>
+				<div class="modal-form-field">
+					<label for="signup-confirm-password">Confirm: </label>
+					<input type="password" class="signup-email input-box modal-input-box" id="signup-confirm-password" required>
+				</div>
+				<div class="modal-submit-button-container">
+					<button type="submit" class='signup-submit-button slim-button modal-submit-button'>Sign Up</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- log in modal -->
+
+		<div class="login-modal-content modal-content">
+			<div class="modal-title-and-close-button login-modal-title-and-close">
+				<h2>Log In &#x1F44D;</h2>
+				<div class="close-modal close-button">&times;</div>
+			</div>
+			<form class="login-form modal-form">
+				<div class="modal-form-field">
+					<label for="email">Email: </label>
+					<input type="text" class="login-email input-box modal-input-box" id="email" required>
+				</div>
+				<div class="modal-form-field">
+					<label for="password">Password: </label>
+					<input type="password" class="login-email input-box modal-input-box" id="password" required>
+				</div>
+				<div class="modal-submit-button-container">
+					<button type="submit" class='login-submit-button slim-button modal-submit-button'>Sign Up</button>
+				</div>
+			</form>
+		</div>
+
 	</main>
 
 	<script src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<script src="/node_modules/marked/lib/marked.js"></script>
+	<script src="/main.js"></script>
 	<script src="/course.js"></script>
 </body>
 </html>
