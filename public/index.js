@@ -282,20 +282,6 @@ function checkForJsonWebToken() {
 	}
 }
 
-// function getUserData() {
-//   return new Promise((resolve, reject) => {
-//     // api call will go here
-//     resolve(MOCK_USER_DATA);
-//   });
-// }
-
-// function getCourseData() {
-// 	return new Promise((resolve, reject) => {
-// 		// api call will go here
-// 		resolve(MOCK_COURSE_DATA);
-// 	})
-// }
-
 function getCoursesForIndexPage() {
 	return new Promise((resolve, reject) => {
 		// api call will go here
@@ -314,8 +300,8 @@ async function showMemberScreen() {
   	// <img src='https://www.gravatar.com/avatar/${userData.gravatarHash}' alt='user profile' class="nav-user-profile-image">
 	// `);
 	//
-	// $('.nav-create').show();
-	// $('.my-courses').show();
+	$('.nav-create').show();
+	$('.my-courses').show();
 
 	userData.enrolledIn.forEach(userCourseData => {
 		$('.my-course-list').append(`
@@ -346,8 +332,6 @@ function calculatePercentComplete(userCourseData) {
 
 	return Math.floor((completedByUser / courseSize) * 100);
 }
-
-
 
 function createAndAppendCourseTileHtml() {
   $('.course-grid').html('');

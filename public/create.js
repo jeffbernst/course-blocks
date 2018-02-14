@@ -1,12 +1,22 @@
 const url = window.location.href;
 const draftId = (typeof url.match(/\/([^/]+)$/)[1] === 'undefined') ? 'not in url' : url.match(/\/([^/]+)$/)[1];
 
+function checkForJsonWebToken() {
+	if (localStorage.getItem('JWT') !== null) showMemberNav();
+	else {
+		$('.sign-in-log-in').show();
+		$('.welcome-message').show();
+		$('.course-progress-bar').hide();
+		$('.sidebar-button-container-wrapper').show();
+	}
+}
+
 async function loadCreatePage() {
 	checkForJsonWebToken();
 
 	// const courseData = await getCourse(draftId);
 	const userData = await getUserData();
-	const draftData = userData.drafts.find(draft => draft.courseId === draftId);
+	const draftData = userData.drafts.find(draft => draft.courseId == draftId);
 
 	$('.expand-sidebar-desktop').hide().css('background-color', `var(--${draftData.themeColor})`);
 	$('.expand-sidebar-mobile').hide().css('background-color', `var(--${draftData.themeColor})`);
@@ -27,6 +37,7 @@ async function loadCreatePage() {
 	createDropdown();
 	changeCourseColor();
 	saveDraft(draftData);
+	createNewDraft();
 }
 
 function loadCreateSideBar(draftData, userData) {
@@ -38,6 +49,8 @@ function loadCreateSideBar(draftData, userData) {
 	$('.sidebar-table-of-contents')
 		.css("top", () => sidebarCourseInfoHeight + 10)
 		.html(createTableOfContents(draftData));
+
+	dragula([document.querySelector('.sidebar-part-group')]);
 }
 
 function changeCourseColor() {
@@ -71,13 +84,47 @@ function saveDraft(draftData) {
 
 function updateDatabase(draftData, title, content, lesson, part) {
 	return new Promise((resolve, reject) => {
-		let updatedDraftData = draftData.slice();
-		updatedDraftData.lessons[lesson].parts[part].partTitle = title;
-		updatedDraftData.lessons[lesson].parts[part].partContent = content;
-		// update localstorage
-		console.log(updatedDraftData);
+		let currentUserData = JSON.parse(localStorage.getItem('MOCK_USER_DATA'));
+		let draftIndex = currentUserData.drafts.findIndex(draft => draft.courseId == draftId);
+
+		currentUserData.drafts[draftIndex].lessons[lesson].parts[part].partTitle = title;
+		currentUserData.drafts[draftIndex].lessons[lesson].parts[part].partContent = content;
+
+		let updatedUserData = Object.assign({}, currentUserData);
+
+		localStorage.setItem('MOCK_USER_DATA', JSON.stringify(updatedUserData));
+
+		location.reload();
+
+		// need to update sidebar and course data that is in the dom
+		// moveToClickedLesson is currently using the course data from initial page load
+
 		resolve('updated!')
 	})
+}
+
+function createNewDraft() {
+	// initialize course with basic course data and 0 courseIndex
+	// change courseIndex to proper number when published and copied to course database
+	const newDraftData =
+		{
+			courseId: 6,
+			courseTitle: "My Great Course",
+			themeColor: 'purple',
+			tags: [],
+			courseSummary: 'My great summary.',
+			lessons: [
+				{
+					lessonTitle: 'My Great Lesson',
+					parts: [
+						{
+							partTitle: 'My Great Part',
+							partContent: 'Text goes here.'
+						}
+					]
+				}
+			]
+		};
 }
 
 $(loadCreatePage);

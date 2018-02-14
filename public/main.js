@@ -298,15 +298,7 @@ function getUserData() {
 	});
 }
 
-function checkForJsonWebToken() {
-	if (localStorage.getItem('JWT') !== null) showMemberNav();
-	else {
-		$('.sign-in-log-in').show();
-		$('.welcome-message').show();
-		$('.course-progress-bar').hide();
-		$('.sidebar-button-container-wrapper').show();
-	}
-}
+
 
 function watchSignUpButton() {
 	$('.nav-signup-button').click(event => {
