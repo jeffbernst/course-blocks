@@ -1,5 +1,3 @@
-'use strict';
-
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const {app, runServer, closeServer} = require('../server');
@@ -40,5 +38,4 @@ describe('initial build', function () {
 		});
 	});
 
-	// how do i implement pages that will be filled from data in the database? like profile pages
 });
