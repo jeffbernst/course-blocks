@@ -1,7 +1,5 @@
 language: node_js
 node_js: node
-#notifications:
-#  email: false
 deploy:
   provider: heroku
   api_key:
@@ -9,3 +7,6 @@ deploy:
   app: course-blocks
   on:
     repo: jeffbernst/node-capstone
+env:
+  matrix:
+    secure: A2F5GXWh1XhHcxZ7nSgRmlvjMU8qJpRkgzBLKBppO50ILyeunjvjxmC8Asb95wFyQ5F1fWJcjE0s/68Kb6TYk2DtxJbQLzIrkiapiWSDx/uea+yt+7xGNaJyZZn6c0qu7E4JRf+nXiOIUkFijWwSu4fmV4gXNxwWOfKYI3BoLr/acDLhapUtcgc2pNvNv4vITRJTUEbimExpi3uv5/D0zupEOahljMg2GJFIdg1h7M6dnPmWsM7nquasLTQQ+YW1ixLZ+33v7kGdRaCY1E4jK7s/VELUMnHwi1FON2z0yJ2T0u2tyiXtXtLKBFRg1of5iEcrEA/v+7sdWSZ6vjj/zusjcGq1TD8SvoOJTGi0e50y3umpFfNXIUdzwoNO21cwKtdCGIGySJ0HJ/PzgNHiIcCODbhYqJXuH4Xie2zYQnMEIsKn0x7LVcc+J3kFczYWEpAMotCXiowm+/LlLYI/oBEgzW6AEHMDQvdQoGTpOTMC2p7hnjyUejGF8iTPtBZENmMi13WafANOKK3/xjxarui0C/lhNd/kzqpvQ2HWGh7/eAAYgUMYg9EZbQD4zsBW1r5LqgmRlFAfk/xyxwD6qyDmf8mOL0cZuqF6sHfuvF/BWDpz9BuEJM1dZ3TzqqVz1WJZFwqNjOtD7NbiMpkxLw2KR7U1wEW1lIQOqR9gI98=
