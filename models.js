@@ -29,32 +29,16 @@ const userSchema = new Schema(
 		userId: String,
 		userName: String,
 		gravatarHash: String,
-		// should enrolledIn be linked from courses database?
-		enrolledIn: [Course],
-		drafts: [
+		enrolledIn: [
 			{
-				courseId: 5,
-				courseTitle: "This is a Really Great Course on Stuff",
-				themeColor: 'purple',
-				tags: ['language', 'crypto'],
-				courseSummary: 'Here is my really great summary.',
-				lessons: [
-					{
-						lessonTitle: 'A Great Lesson DRAFT!',
-						parts: [
-							{
-								partTitle: 'Here is My part Title in this great draft',
-								partContent: 'lorem lorem lorem'
-							},
-							{
-								partTitle: 'Here is My Second part Title again in a draft :D',
-								partContent: 'lorem again!'
-							}
-						]
-					}
-				]
+				currentLesson: Number,
+				currentPart: Number,
+				completed: [[Number]],
+				// should courseData be linked from courses database?
+				courseData: Course
 			}
-		]
+		],
+		drafts: [Course]
 	}
 );
 

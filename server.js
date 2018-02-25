@@ -1,12 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const uuidv4 = require('uuid/v4');
-mongoose.Promise = global.Promise;
-
 const bodyparser = require('body-parser');
 const {Course} = require('./models');
 
 const app = express();
+
+mongoose.Promise = global.Promise;
+
 
 DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/test';
 PORT = process.env.PORT || 8080;
@@ -39,6 +40,14 @@ app.post('api/drafts', async (req, res) => {
 		const newDraft = await Course.create({...req.body, courseId: uuidv4});
 
 	} catch (err) {
+		console.error(err);
+	}
+});
+
+app.post('api/users', async (req, res) => {
+	try {
+
+	} catch(err) {
 		console.error(err);
 	}
 });
