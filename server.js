@@ -1,6 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const uuidv4 = require('uuid/v4');
 mongoose.Promise = global.Promise;
+
+const bodyparser = require('body-parser');
+const {Course} = require('./models');
 
 const app = express();
 
@@ -8,8 +12,8 @@ DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/test';
 PORT = process.env.PORT || 8080;
 
 app.use(express.static('public', {extensions: ['html', 'htm']}));
-
 app.use('/node_modules', express.static('node_modules'));
+app.use(bodyparser.json());
 
 app.get('/course/:courseId', (req, res) => {
 	const options = {
@@ -25,6 +29,18 @@ app.get('/create/:courseId', (req, res) => {
 	};
 
 	res.sendFile('create.html', options);
+});
+
+app.post('api/drafts', async (req, res) => {
+	try  {
+		// grab user object
+		// update user object
+		// save and send updated draft
+		const newDraft = await Course.create({...req.body, courseId: uuidv4});
+
+	} catch (err) {
+		console.error(err);
+	}
 });
 
 let server;
@@ -62,6 +78,7 @@ function closeServer() {
 }
 
 if (require.main === module) {
+	runServer();
 	app.listen(process.env.PORT || 8080, function () {
 		console.info(`App listening on ${this.address().port}`);
 	});

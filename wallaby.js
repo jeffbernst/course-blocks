@@ -2,6 +2,8 @@ module.exports = function (wallaby) {
 	return {
 		files: [
 			'server.js',
+			'models.js',
+			'.env.test',
 			'public/**/*'
 		],
 
@@ -18,8 +20,8 @@ module.exports = function (wallaby) {
 
 		workers: {
 			initial: 1,
-			regular: 1
-			// restart: true
+			regular: 1,
+			restart: true
 		},
 
 		debug: true

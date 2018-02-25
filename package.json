@@ -4,11 +4,14 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^5.0.0",
     "dragula": "^3.7.2",
     "express": "^4.16.2",
     "jquery": "^3.3.1",
     "marked": "^0.3.12",
-    "mongoose": "^4.13.9"
+    "mongoose": "^4.13.9",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "chai-http": "^3.0.0",
