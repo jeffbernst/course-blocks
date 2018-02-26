@@ -2,12 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const uuidv4 = require('uuid/v4');
 const bodyparser = require('body-parser');
-const {Course} = require('./models');
+const {Course, User} = require('./models');
 
 const app = express();
 
 mongoose.Promise = global.Promise;
-
 
 DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/test';
 PORT = process.env.PORT || 8080;
@@ -15,6 +14,8 @@ PORT = process.env.PORT || 8080;
 app.use(express.static('public', {extensions: ['html', 'htm']}));
 app.use('/node_modules', express.static('node_modules'));
 app.use(bodyparser.json());
+
+// http requests
 
 app.get('/course/:courseId', (req, res) => {
 	const options = {
@@ -32,6 +33,8 @@ app.get('/create/:courseId', (req, res) => {
 	res.sendFile('create.html', options);
 });
 
+// API
+
 app.post('api/drafts', async (req, res) => {
 	try  {
 		// grab user object
@@ -46,11 +49,23 @@ app.post('api/drafts', async (req, res) => {
 
 app.post('api/users', async (req, res) => {
 	try {
-
+		const newUser = await User.create({...req.body, userId: uuidv4});
+		res.send(newUser);
 	} catch(err) {
 		console.error(err);
 	}
 });
+
+app.get('api/users/:userId', async (req, res) => {
+	try {
+		const user = await User.findOne({userId});
+		res.send(user);
+	} catch(err) {
+		console.error(err);
+	}
+});
+
+// start or stop server
 
 let server;
 

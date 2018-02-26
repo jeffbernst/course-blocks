@@ -35,10 +35,10 @@ const userSchema = new Schema(
 				currentPart: Number,
 				completed: [[Number]],
 				// should courseData be linked from courses database?
-				courseData: Course
+				courseData: courseSchema
 			}
 		],
-		drafts: [Course]
+		drafts: [courseSchema]
 	}
 );
 
