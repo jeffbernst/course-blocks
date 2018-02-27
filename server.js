@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const uuidv4 = require('uuid/v4');
 const bodyparser = require('body-parser');
 const {Course, User} = require('./models');
-
+const jwt = require('jsonwebtoken');
 const app = express();
 
 mongoose.Promise = global.Promise;
@@ -35,31 +35,52 @@ app.get('/create/:courseId', (req, res) => {
 
 // API
 
-app.post('api/drafts', async (req, res) => {
+app.post('/api/drafts', async (req, res) => {
 	try  {
 		// grab user object
 		// update user object
 		// save and send updated draft
-		const newDraft = await Course.create({...req.body, courseId: uuidv4});
-
+		const newDraft = await Course.create({...req.body, courseId: uuidv4()});
+		res.send(newDraft);
 	} catch (err) {
 		console.error(err);
 	}
 });
 
-app.post('api/users', async (req, res) => {
+app.post('/api/users', async (req, res) => {
 	try {
-		const newUser = await User.create({...req.body, userId: uuidv4});
-		res.send(newUser);
+		const newUser = await User.create({...req.body, userId: uuidv4()});
+
+		// where do i handle password checks?
+
+		const token = jwt.sign({userId: newUser.userId}, process.env.SECRET_CODE);
+		const user = {
+			jwt: token,
+			userData: newUser
+		};
+
+		res.send(user);
+
 	} catch(err) {
 		console.error(err);
 	}
 });
 
-app.get('api/users/:userId', async (req, res) => {
+app.put('/api/users/:userId', async (req, res) => {
 	try {
-		const user = await User.findOne({userId});
+		const updatedUser = await User.updateOne({userId: req.params.userId}, {...req.body});
+		res.send(updatedUser);
+
+	} catch(err) {
+		console.error(err);
+	}
+})
+
+app.get('/api/users/:userId', async (req, res) => {
+	try {
+		const user = await User.findOne({userId: req.params.userId});
 		res.send(user);
+
 	} catch(err) {
 		console.error(err);
 	}
