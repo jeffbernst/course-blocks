@@ -40,7 +40,7 @@ const mockUserData = {
 		{
 			currentLesson: 5,
 			currentPart: 3,
-			completed: [[1,2]],
+			completed: [[1, 2]],
 			// should courseData be linked from courses database?
 			courseData: {
 				courseTitle: "My Great Course",
@@ -89,7 +89,7 @@ const mockUserDataUpdated = {
 		{
 			currentLesson: 5,
 			currentPart: 3,
-			completed: [[1,2]],
+			completed: [[1, 2]],
 			// should courseData be linked from courses database?
 			courseData: {
 				courseTitle: "My Great Course",
@@ -131,6 +131,13 @@ const mockUserDataUpdated = {
 	]
 };
 
+async function tearDownDb() {
+	console.warn('Deleting database');
+	// return mongoose.connection.dropDatabase();
+	await User.remove({});
+	await Course.remove({});
+}
+
 // TEST INITIAL BUILD
 
 describe('initial build', function () {
@@ -141,6 +148,10 @@ describe('initial build', function () {
 
 	after(function () {
 		return closeServer();
+	});
+
+	afterEach(function() {
+		tearDownDb();
 	});
 
 	describe('index page', function () {
@@ -177,15 +188,39 @@ describe('api endpoints', function () {
 	});
 
 	it('should create new draft', async function () {
+		// const seedUser = await chai.request(app)
+		// 	.post('/api/users')
+		// 	.send(mockUserData);
+		//
+		// seedUser.should.have.status(200);
+		// seedUser.body.userData.should.containSubset(mockUserData);
+
+		await User.create({...mockUserData, userId: 1});
+
 		const res = await chai.request(app)
-			.post('/api/drafts')
+			.post(`/api/drafts/1`)
 			.send(mockCourseData);
 
 		res.should.have.status(200);
 		res.body.should.containSubset(mockCourseData);
 
-		const courseInDb = await Course.findOne({courseId: res.body.courseId});
-		courseInDb.should.containSubset(mockCourseData);
+		const userInDb = await User.findOne(
+			{'drafts.courseId': res.body.courseId}
+		);
+
+		// const draftInDb = await User.aggregate(
+		// 	[
+		// 		{ "$match": { "drafts.courseId": res.body.courseId } },
+		// 		{ "$unwind": "$drafts" },
+		// 		{ "$match": { "drafts.courseId": res.body.courseId } },
+		// 	]
+		// );
+
+		// projections to return matched object, try aggregate
+
+		const draftInDb = userInDb.drafts.find(draft => draft.courseId === res.body.courseId);
+
+		draftInDb.should.containSubset(mockCourseData);
 	});
 
 	it('should create new user', async function () {
@@ -196,36 +231,43 @@ describe('api endpoints', function () {
 		res.should.have.status(200);
 		res.body.userData.should.containSubset(mockUserData);
 
-		const userInDb = await User.findOne({userId: res.body.userData.userId});
+		const userInDb = await User.findOne(
+			{userId: res.body.userData.userId}
+		);
 		userInDb.should.containSubset(mockUserData);
 
 	});
 
 	it('should get specific user', async function () {
-		const seedUser = await chai.request(app)
-			.post('/api/users')
-			.send(mockUserData);
+		// const seedUser = await chai.request(app)
+		// 	.post('/api/users')
+		// 	.send(mockUserData);
+		//
+		// seedUser.should.have.status(200);
+		// seedUser.body.userData.should.containSubset(mockUserData);
 
-		seedUser.should.have.status(200);
-		seedUser.body.userData.should.containSubset(mockUserData);
+		await User.create({...mockUserData, userId: 1});
 
 		const res = await chai.request(app)
-			.get(`/api/users/${seedUser.body.userData.userId}`);
+			.get(`/api/users/1`);
 
 		res.should.have.status(200);
+		res.body.should.containSubset(mockUserData);
 	});
 
 	// edit draft
 	it('should edit specified draft', async function () {
-		const seedUser = await chai.request(app)
-			.post('/api/users')
-			.send(mockUserData);
+		// const seedUser = await chai.request(app)
+		// 	.post('/api/users')
+		// 	.send(mockUserData);
+		//
+		// seedUser.should.have.status(200);
+		// seedUser.body.userData.should.containSubset(mockUserData);
 
-		seedUser.should.have.status(200);
-		seedUser.body.userData.should.containSubset(mockUserData);
+		await User.create({...mockUserData, userId: 1});
 
 		const res = await chai.request(app)
-			.put(`/api/users/${seedUser.body.userData.userId}`)
+			.put(`/api/drafts/1`)
 			.send(mockUserDataUpdated);
 
 		res.should.have.status(200);
@@ -235,6 +277,4 @@ describe('api endpoints', function () {
 	})
 
 	// publish draft
-
-	// edit user info
 });

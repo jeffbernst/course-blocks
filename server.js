@@ -15,7 +15,7 @@ app.use(express.static('public', {extensions: ['html', 'htm']}));
 app.use('/node_modules', express.static('node_modules'));
 app.use(bodyparser.json());
 
-// http requests
+// ~~~~~~ http requests ~~~~~~
 
 app.get('/course/:courseId', (req, res) => {
 	const options = {
@@ -33,19 +33,42 @@ app.get('/create/:courseId', (req, res) => {
 	res.sendFile('create.html', options);
 });
 
-// API
+// ~~~~~~ DRAFTS API ~~~~~~
 
-app.post('/api/drafts', async (req, res) => {
-	try  {
-		// grab user object
-		// update user object
-		// save and send updated draft
-		const newDraft = await Course.create({...req.body, courseId: uuidv4()});
+app.post('/api/drafts/:userId', async (req, res) => {
+	try {
+		// don't have userId in URL, get it from JWT
+
+		// need to send userId with update
+		// make sure user has access to do this
+		// req.user should have jwt info
+		const newDraft = {...req.body, courseId: uuidv4()};
+
+		const updatedUser = await User.findOneAndUpdate(
+			{userId: req.params.userId},
+			{$push: {drafts: newDraft}}
+		);
 		res.send(newDraft);
+
 	} catch (err) {
 		console.error(err);
 	}
 });
+
+app.put('/api/drafts/:userId', async (req, res) => {
+	try {
+		const updatedUser = await User.updateOne(
+			{userId: req.params.userId},
+			{...req.body}
+		);
+		res.send(updatedUser);
+
+	} catch (err) {
+		console.error(err);
+	}
+});
+
+// ~~~~~~ USER API ~~~~~~
 
 app.post('/api/users', async (req, res) => {
 	try {
@@ -53,7 +76,10 @@ app.post('/api/users', async (req, res) => {
 
 		// where do i handle password checks?
 
-		const token = jwt.sign({userId: newUser.userId}, process.env.SECRET_CODE);
+		const token = jwt.sign(
+			{userId: newUser.userId},
+			process.env.SECRET_CODE
+		);
 		const user = {
 			jwt: token,
 			userData: newUser
@@ -61,32 +87,23 @@ app.post('/api/users', async (req, res) => {
 
 		res.send(user);
 
-	} catch(err) {
+	} catch (err) {
 		console.error(err);
 	}
 });
 
-app.put('/api/users/:userId', async (req, res) => {
-	try {
-		const updatedUser = await User.updateOne({userId: req.params.userId}, {...req.body});
-		res.send(updatedUser);
-
-	} catch(err) {
-		console.error(err);
-	}
-})
-
 app.get('/api/users/:userId', async (req, res) => {
+	// can i just use mongo id instead of creating one with uuid?
 	try {
 		const user = await User.findOne({userId: req.params.userId});
 		res.send(user);
 
-	} catch(err) {
+	} catch (err) {
 		console.error(err);
 	}
 });
 
-// start or stop server
+// ~~~~~~ start and stop server ~~~~~~
 
 let server;
 
