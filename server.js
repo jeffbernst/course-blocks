@@ -14,6 +14,7 @@ PORT = process.env.PORT || 8080;
 app.use(express.static('public', {extensions: ['html', 'htm']}));
 app.use('/node_modules', express.static('node_modules'));
 app.use(bodyparser.json());
+// add passport middleware for al endpoints
 
 // ~~~~~~ http requests ~~~~~~
 
@@ -35,6 +36,18 @@ app.get('/create/:courseId', (req, res) => {
 
 // ~~~~~~ DRAFTS API ~~~~~~
 
+// create function to make new draft and update user
+async function createNewDraftAndUpdateUser(draft, userId) {
+	const newDraft = {...draft, courseId: uuidv4()};
+
+	const updatedUser = await User.findOneAndUpdate(
+		{userId},
+		{$push: {drafts: newDraft}}
+	);
+
+	return newDraft;
+}
+
 app.post('/api/drafts/:userId', async (req, res) => {
 	try {
 		// don't have userId in URL, get it from JWT
@@ -42,12 +55,7 @@ app.post('/api/drafts/:userId', async (req, res) => {
 		// need to send userId with update
 		// make sure user has access to do this
 		// req.user should have jwt info
-		const newDraft = {...req.body, courseId: uuidv4()};
-
-		const updatedUser = await User.findOneAndUpdate(
-			{userId: req.params.userId},
-			{$push: {drafts: newDraft}}
-		);
+		const newDraft = await createNewDraftAndUpdateUser(req.body, req.params.userId);
 		res.send(newDraft);
 
 	} catch (err) {
@@ -55,38 +63,28 @@ app.post('/api/drafts/:userId', async (req, res) => {
 	}
 });
 
-// update draft in user array
+async function updateDraftInUserObject(updatedDraft, userId) {
+	const userToUpdate = await User.findOne(
+		{userId: userId}
+	);
+
+	const draftToUpdate = userToUpdate.drafts.find(
+		draft => draft.courseId === updatedDraft.courseId
+	);
+
+	if (draftToUpdate) {
+		draftToUpdate.remove();
+		userToUpdate.drafts.push(updatedDraft);
+	}
+
+	await userToUpdate.save();
+
+	return updatedDraft;
+}
+
 app.put('/api/drafts/:userId', async (req, res) => {
 	try {
-		// change this so i find draft and update it
-		// right now i'm sending the whole updated user object
-
-		// try save() method
-		// grab user object
-		// in code, manually update the draft
-		// then user save() on user object
-
-		// const updatedUser = await User.findOneAndUpdate(
-		// 	{userId: req.params.userId},
-		// 	{...req.body}
-		// );
-		// res.send(updatedUser);
-
-		const userToUpdate = await User.findOne(
-			{userId: req.params.userId}
-		);
-
-		const draftToUpdate = userToUpdate.drafts.find(
-			draft => draft.courseId === req.body.courseId
-		);
-
-		if (draftToUpdate) {
-			draftToUpdate.remove();
-			userToUpdate.drafts.push(req.body);
-		}
-
-		userToUpdate.save();
-
+		updateDraftInUserObject(req.body, req.params.userId);
 		res.send(req.body);
 
 	} catch (err) {
@@ -96,32 +94,39 @@ app.put('/api/drafts/:userId', async (req, res) => {
 
 // ~~~~~~ USER API ~~~~~~
 
+async function createNewUser(userData) {
+	const newUser = await User.create({...userData, userId: uuidv4()});
+
+	const token = jwt.sign(
+		{userId: newUser.userId},
+		process.env.SECRET_CODE
+	);
+	const user = {
+		jwt: token,
+		userData: newUser
+	};
+
+	return user;
+}
+
 app.post('/api/users', async (req, res) => {
 	try {
-		const newUser = await User.create({...req.body, userId: uuidv4()});
-
-		// where do i handle password checks?
-
-		const token = jwt.sign(
-			{userId: newUser.userId},
-			process.env.SECRET_CODE
-		);
-		const user = {
-			jwt: token,
-			userData: newUser
-		};
-
-		res.send(user);
+		const newUser = await createNewUser(req.body);
+		res.send(newUser);
 
 	} catch (err) {
 		console.error(err);
 	}
 });
 
+async function getUser(userId) {
+	return await User.findOne({userId: userId});
+}
+
 app.get('/api/users/:userId', async (req, res) => {
 	// can i just use mongo id instead of creating one with uuid?
 	try {
-		const user = await User.findOne({userId: req.params.userId});
+		const user = await getUser(req.params.userId);
 		res.send(user);
 
 	} catch (err) {
@@ -131,10 +136,14 @@ app.get('/api/users/:userId', async (req, res) => {
 
 // ~~~~~~ COURSES API ~~~~~~
 
+async function publishCourse(course) {
+	await Course.findOne({courseId: course.courseId}).remove();
+	return await Course.create(course);
+}
+
 app.post('/api/courses', async (req, res) => {
 	try {
-		await Course.findOne({courseId: req.body.courseId}).remove();
-		const newCourse = await Course.create(req.body);
+		const newCourse = await publishCourse(req.body);
 		res.send(newCourse);
 
 	} catch (err) {
@@ -185,4 +194,13 @@ if (require.main === module) {
 	});
 }
 
-module.exports = {runServer, app, closeServer};
+module.exports = {
+	runServer,
+	app,
+	closeServer,
+	createNewDraftAndUpdateUser,
+	updateDraftInUserObject,
+	createNewUser,
+	getUser,
+	publishCourse
+};

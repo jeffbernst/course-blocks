@@ -1,6 +1,14 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const {app, runServer, closeServer} = require('../server');
+const {
+	app,
+	runServer,
+	closeServer,
+	createNewDraftAndUpdateUser,
+	updateDraftInUserObject,
+	createNewUser,
+	getUser,
+	publishCourse} = require('../server');
 const {Course, User} = require('../models');
 const chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
@@ -20,6 +28,24 @@ const mockCourseData = {
 	themeColor: 'purple',
 	tags: [],
 	courseSummary: 'My great summary.',
+	lessons: [
+		{
+			lessonTitle: 'My Great Lesson',
+			parts: [
+				{
+					partTitle: 'My Great Part',
+					partContent: 'Text goes here.'
+				}
+			]
+		}
+	]
+};
+
+const mockCourseDataUpdated = {
+	courseTitle: "My Great Course UPDATED!!!",
+	themeColor: 'purple',
+	tags: [],
+	courseSummary: '>.<',
 	lessons: [
 		{
 			lessonTitle: 'My Great Lesson',
@@ -190,42 +216,28 @@ describe('api endpoints', function () {
 	it('should create new draft', async function () {
 		await User.create({...mockUserData, userId: 1});
 
-		const res = await chai.request(app)
-			.post(`/api/drafts/1`)
-			.send(mockCourseData);
+		const newDraft =
+			await createNewDraftAndUpdateUser(mockCourseData, 1);
 
-		res.should.have.status(200);
-		res.body.should.containSubset(mockCourseData);
+		newDraft.should.containSubset(mockCourseData);
 
 		const userInDb = await User.findOne(
-			{'drafts.courseId': res.body.courseId}
+			{'drafts.courseId': newDraft.courseId}
 		);
 
-		// const draftInDb = await User.aggregate(
-		// 	[
-		// 		{ "$match": { "drafts.courseId": res.body.courseId } },
-		// 		{ "$unwind": "$drafts" },
-		// 		{ "$match": { "drafts.courseId": res.body.courseId } },
-		// 	]
-		// );
-
-		// projections to return matched object, try aggregate
-
-		const draftInDb = userInDb.drafts.find(draft => draft.courseId === res.body.courseId);
+		const draftInDb = userInDb.drafts.find(
+			draft => draft.courseId === newDraft.courseId);
 
 		draftInDb.should.containSubset(mockCourseData);
 	});
 
 	it('should create new user', async function () {
-		const res = await chai.request(app)
-			.post('/api/users')
-			.send(mockUserData);
+		const newUser = await createNewUser(mockUserData);
 
-		res.should.have.status(200);
-		res.body.userData.should.containSubset(mockUserData);
+		newUser.userData.should.containSubset(mockUserData);
 
 		const userInDb = await User.findOne(
-			{userId: res.body.userData.userId}
+			{userId: newUser.userData.userId}
 		);
 		userInDb.should.containSubset(mockUserData);
 
@@ -234,36 +246,60 @@ describe('api endpoints', function () {
 	it('should get specific user', async function () {
 		await User.create({...mockUserData, userId: 1});
 
-		const res = await chai.request(app)
-			.get(`/api/users/1`);
+		const user = await getUser(1);
 
-		res.should.have.status(200);
-		res.body.should.containSubset(mockUserData);
+		user.should.containSubset(mockUserData);
 	});
 
 	it('should edit specified draft', async function () {
-		await User.create({...mockUserData, userId: 1});
+		await User.create(
+				{
+					...mockUserData,
+					userId: 1,
+					drafts: [
+						{
+							courseTitle: "My Great Course",
+							courseId: 1,
+							themeColor: 'purple',
+							tags: [],
+							courseSummary: 'My great summary.',
+							lessons: [
+								{
+									lessonTitle: 'My Great Lesson',
+									parts: [
+										{
+											partTitle: 'My Great Part',
+											partContent: 'Text goes here.'
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			);
 
-		const res = await chai.request(app)
-			.put(`/api/drafts/1`)
-			.send(mockUserDataUpdated);
+		const draft = await updateDraftInUserObject({
+				...mockCourseDataUpdated,
+				courseId: 1
+			}, 1);
 
-		res.should.have.status(200);
-		res.body.should.containSubset(mockUserDataUpdated);
-		// i need to make sure i limit the possible changes to the drafts and nothing else
-		// i need to confirm with the jwt that the user has access to do this
+		draft.should.containSubset(mockCourseDataUpdated);
+
+		const userInDb = await User.findOne({userId: 1});
+		userInDb.should.containSubset(mockUserData);
 	});
 
 	it('should publish draft', async function () {
 		await User.create({...mockUserData, userId: 1});
 
-		const res = await chai.request(app)
-			.post('/api/courses/')
-			.send(mockCourseData);
-		// do i want to get the draft data from the user object?
-		// or just accept in the body of the request?
+		const newCourse = await publishCourse(mockCourseData);
 
-		res.should.have.status(200);
-		res.body.should.containSubset(mockCourseData);
+		newCourse.should.containSubset(mockCourseData);
+
+		const courseInDb = await Course.findOne(
+			{courseId: newCourse.courseId}
+		);
+		courseInDb.should.containSubset(mockCourseData);
 	});
 });
