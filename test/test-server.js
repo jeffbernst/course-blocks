@@ -150,7 +150,7 @@ describe('initial build', function () {
 		return closeServer();
 	});
 
-	afterEach(function() {
+	afterEach(function () {
 		tearDownDb();
 	});
 
@@ -188,13 +188,6 @@ describe('api endpoints', function () {
 	});
 
 	it('should create new draft', async function () {
-		// const seedUser = await chai.request(app)
-		// 	.post('/api/users')
-		// 	.send(mockUserData);
-		//
-		// seedUser.should.have.status(200);
-		// seedUser.body.userData.should.containSubset(mockUserData);
-
 		await User.create({...mockUserData, userId: 1});
 
 		const res = await chai.request(app)
@@ -239,13 +232,6 @@ describe('api endpoints', function () {
 	});
 
 	it('should get specific user', async function () {
-		// const seedUser = await chai.request(app)
-		// 	.post('/api/users')
-		// 	.send(mockUserData);
-		//
-		// seedUser.should.have.status(200);
-		// seedUser.body.userData.should.containSubset(mockUserData);
-
 		await User.create({...mockUserData, userId: 1});
 
 		const res = await chai.request(app)
@@ -255,15 +241,7 @@ describe('api endpoints', function () {
 		res.body.should.containSubset(mockUserData);
 	});
 
-	// edit draft
 	it('should edit specified draft', async function () {
-		// const seedUser = await chai.request(app)
-		// 	.post('/api/users')
-		// 	.send(mockUserData);
-		//
-		// seedUser.should.have.status(200);
-		// seedUser.body.userData.should.containSubset(mockUserData);
-
 		await User.create({...mockUserData, userId: 1});
 
 		const res = await chai.request(app)
@@ -271,10 +249,21 @@ describe('api endpoints', function () {
 			.send(mockUserDataUpdated);
 
 		res.should.have.status(200);
-
+		res.body.should.containSubset(mockUserDataUpdated);
 		// i need to make sure i limit the possible changes to the drafts and nothing else
 		// i need to confirm with the jwt that the user has access to do this
-	})
+	});
 
-	// publish draft
+	it('should publish draft', async function () {
+		await User.create({...mockUserData, userId: 1});
+
+		const res = await chai.request(app)
+			.post('/api/courses/')
+			.send(mockCourseData);
+		// do i want to get the draft data from the user object?
+		// or just accept in the body of the request?
+
+		res.should.have.status(200);
+		res.body.should.containSubset(mockCourseData);
+	});
 });

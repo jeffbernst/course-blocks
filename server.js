@@ -55,13 +55,39 @@ app.post('/api/drafts/:userId', async (req, res) => {
 	}
 });
 
+// update draft in user array
 app.put('/api/drafts/:userId', async (req, res) => {
 	try {
-		const updatedUser = await User.updateOne(
-			{userId: req.params.userId},
-			{...req.body}
+		// change this so i find draft and update it
+		// right now i'm sending the whole updated user object
+
+		// try save() method
+		// grab user object
+		// in code, manually update the draft
+		// then user save() on user object
+
+		// const updatedUser = await User.findOneAndUpdate(
+		// 	{userId: req.params.userId},
+		// 	{...req.body}
+		// );
+		// res.send(updatedUser);
+
+		const userToUpdate = await User.findOne(
+			{userId: req.params.userId}
 		);
-		res.send(updatedUser);
+
+		const draftToUpdate = userToUpdate.drafts.find(
+			draft => draft.courseId === req.body.courseId
+		);
+
+		if (draftToUpdate) {
+			draftToUpdate.remove();
+			userToUpdate.drafts.push(req.body);
+		}
+
+		userToUpdate.save();
+
+		res.send(req.body);
 
 	} catch (err) {
 		console.error(err);
@@ -97,6 +123,19 @@ app.get('/api/users/:userId', async (req, res) => {
 	try {
 		const user = await User.findOne({userId: req.params.userId});
 		res.send(user);
+
+	} catch (err) {
+		console.error(err);
+	}
+});
+
+// ~~~~~~ COURSES API ~~~~~~
+
+app.post('/api/courses', async (req, res) => {
+	try {
+		await Course.findOne({courseId: req.body.courseId}).remove();
+		const newCourse = await Course.create(req.body);
+		res.send(newCourse);
 
 	} catch (err) {
 		console.error(err);
