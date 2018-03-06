@@ -177,7 +177,7 @@ describe('initial build', function () {
 	});
 
 	afterEach(function () {
-		tearDownDb();
+		return tearDownDb();
 	});
 
 	describe('index page', function () {
@@ -211,6 +211,10 @@ describe('api endpoints', function () {
 
 	after(function () {
 		return closeServer();
+	});
+
+	afterEach(function () {
+		return tearDownDb();
 	});
 
 	it('should create new draft', async function () {
@@ -279,15 +283,17 @@ describe('api endpoints', function () {
 				}
 			);
 
-		const draft = await updateDraftInUserObject({
+		const updatedDraft = await updateDraftInUserObject({
 				...mockCourseDataUpdated,
-				courseId: 1
+				courseId: '1'
 			}, 1);
 
-		draft.should.containSubset(mockCourseDataUpdated);
+		updatedDraft.should.containSubset(mockCourseDataUpdated);
 
 		const userInDb = await User.findOne({userId: 1});
-		userInDb.should.containSubset(mockUserData);
+		const draftInDb = userInDb.drafts.find(
+			draft => draft.courseId === '1');
+		draftInDb.should.containSubset(mockCourseDataUpdated);
 	});
 
 	it('should publish draft', async function () {

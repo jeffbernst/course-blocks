@@ -2,8 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const uuidv4 = require('uuid/v4');
 const bodyparser = require('body-parser');
-const {Course, User} = require('./models');
+const passport = require('passport');
 const jwt = require('jsonwebtoken');
+
+const {Course, User} = require('./models');
+const {jwtStrategy} = require('./strategies');
 const app = express();
 
 mongoose.Promise = global.Promise;
@@ -14,7 +17,10 @@ PORT = process.env.PORT || 8080;
 app.use(express.static('public', {extensions: ['html', 'htm']}));
 app.use('/node_modules', express.static('node_modules'));
 app.use(bodyparser.json());
-// add passport middleware for al endpoints
+
+passport.use(jwtStrategy);
+
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // ~~~~~~ http requests ~~~~~~
 
@@ -48,14 +54,14 @@ async function createNewDraftAndUpdateUser(draft, userId) {
 	return newDraft;
 }
 
-app.post('/api/drafts/:userId', async (req, res) => {
+app.post('/api/drafts', jwtAuth, async (req, res) => {
 	try {
 		// don't have userId in URL, get it from JWT
 
 		// need to send userId with update
 		// make sure user has access to do this
 		// req.user should have jwt info
-		const newDraft = await createNewDraftAndUpdateUser(req.body, req.params.userId);
+		const newDraft = await createNewDraftAndUpdateUser(req.body, req.user._id);
 		res.send(newDraft);
 
 	} catch (err) {
@@ -82,9 +88,9 @@ async function updateDraftInUserObject(updatedDraft, userId) {
 	return updatedDraft;
 }
 
-app.put('/api/drafts/:userId', async (req, res) => {
+app.put('/api/drafts', jwtAuth, async (req, res) => {
 	try {
-		updateDraftInUserObject(req.body, req.params.userId);
+		await updateDraftInUserObject(req.body, req.user._id);
 		res.send(req.body);
 
 	} catch (err) {
@@ -95,11 +101,11 @@ app.put('/api/drafts/:userId', async (req, res) => {
 // ~~~~~~ USER API ~~~~~~
 
 async function createNewUser(userData) {
-	const newUser = await User.create({...userData, userId: uuidv4()});
+	const newUser = await User.create(userData);
 
 	const token = jwt.sign(
-		{userId: newUser.userId},
-		process.env.SECRET_CODE
+		{user: {_id: newUser._id}},
+		process.env.JWT_SECRET
 	);
 	const user = {
 		jwt: token,
@@ -109,7 +115,7 @@ async function createNewUser(userData) {
 	return user;
 }
 
-app.post('/api/users', async (req, res) => {
+app.post('/api/users', jwtAuth, async (req, res) => {
 	try {
 		const newUser = await createNewUser(req.body);
 		res.send(newUser);
@@ -141,7 +147,7 @@ async function publishCourse(course) {
 	return await Course.create(course);
 }
 
-app.post('/api/courses', async (req, res) => {
+app.post('/api/courses', jwtAuth, async (req, res) => {
 	try {
 		const newCourse = await publishCourse(req.body);
 		res.send(newCourse);

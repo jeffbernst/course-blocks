@@ -5,6 +5,8 @@ const courseSchema = new Schema(
 	{
 		courseId: String,
 		courseTitle: String,
+		authorId: String,
+		author: { type: Schema.Types.ObjectId, ref: "User" },
 		themeColor: String,
 		tags: [String],
 		courseSummary: String,
