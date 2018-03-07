@@ -9,13 +9,17 @@
     "dragula": "^3.7.2",
     "express": "^4.16.2",
     "jquery": "^3.3.1",
+    "jsonwebtoken": "^8.1.1",
     "marked": "^0.3.12",
     "mongoose": "^4.13.9",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.1",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
-    "chai-http": "^3.0.0",
     "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "chai-subset": "^1.6.0",
     "mocha": "^4.1.0"
   },
   "scripts": {

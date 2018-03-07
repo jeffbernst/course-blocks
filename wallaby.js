@@ -3,6 +3,7 @@ module.exports = function (wallaby) {
 		files: [
 			'server.js',
 			'models.js',
+			'strategies.js',
 			'.env.test',
 			'public/**/*'
 		],

@@ -307,6 +307,10 @@ function watchSignUpButton() {
 	});
 }
 
+function watchSignUpForm() {
+	// set up listener and form handling
+}
+
 function watchLogInButton() {
 	$('.nav-login-button').click(event => {
 		$('.modal').show();

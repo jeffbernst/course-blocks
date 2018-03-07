@@ -31,6 +31,7 @@ async function loadPage() {
 	previousButton(courseData);
 	createDropdown();
 	watchSignUpButton();
+	watchSignUpForm();
 	watchLogInButton();
 	closeModal();
 }

@@ -38,6 +38,7 @@ async function loadCreatePage() {
 	changeCourseColor();
 	saveDraft(draftData);
 	createNewDraft();
+	watchSignUpForm();
 }
 
 function loadCreateSideBar(draftData, userData) {

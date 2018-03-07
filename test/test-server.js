@@ -1,7 +1,17 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const {app, runServer, closeServer} = require('../server');
-const {Course} = require('../models');
+const {
+	app,
+	runServer,
+	closeServer,
+	createNewDraftAndUpdateUser,
+	updateDraftInUserObject,
+	createNewUser,
+	getUser,
+	publishCourse} = require('../server');
+const {Course, User} = require('../models');
+const chaiSubset = require('chai-subset');
+chai.use(chaiSubset);
 
 require('dotenv').config({path: '.env.test'});
 
@@ -11,6 +21,151 @@ chai.should();
 
 chai.use(chaiHttp);
 
+// MOCK DATA
+
+const mockCourseData = {
+	courseTitle: "My Great Course",
+	themeColor: 'purple',
+	tags: [],
+	courseSummary: 'My great summary.',
+	lessons: [
+		{
+			lessonTitle: 'My Great Lesson',
+			parts: [
+				{
+					partTitle: 'My Great Part',
+					partContent: 'Text goes here.'
+				}
+			]
+		}
+	]
+};
+
+const mockCourseDataUpdated = {
+	courseTitle: "My Great Course UPDATED!!!",
+	themeColor: 'purple',
+	tags: [],
+	courseSummary: '>.<',
+	lessons: [
+		{
+			lessonTitle: 'My Great Lesson',
+			parts: [
+				{
+					partTitle: 'My Great Part',
+					partContent: 'Text goes here.'
+				}
+			]
+		}
+	]
+};
+
+const mockUserData = {
+	userName: 'Jeff',
+	gravatarHash: '75ad827dc5ac6baa1df806dfe15b394e',
+	enrolledIn: [
+		{
+			currentLesson: 5,
+			currentPart: 3,
+			completed: [[1, 2]],
+			// should courseData be linked from courses database?
+			courseData: {
+				courseTitle: "My Great Course",
+				themeColor: 'purple',
+				tags: [],
+				courseSummary: 'My great summary.',
+				lessons: [
+					{
+						lessonTitle: 'My Great Lesson',
+						parts: [
+							{
+								partTitle: 'My Great Part',
+								partContent: 'Text goes here.'
+							}
+						]
+					}
+				]
+			}
+		}
+	],
+	drafts: [
+		{
+			courseTitle: "My Great Course",
+			themeColor: 'purple',
+			tags: [],
+			courseSummary: 'My great summary.',
+			lessons: [
+				{
+					lessonTitle: 'My Great Lesson',
+					parts: [
+						{
+							partTitle: 'My Great Part',
+							partContent: 'Text goes here.'
+						}
+					]
+				}
+			]
+		}
+	]
+};
+
+const mockUserDataUpdated = {
+	userName: 'Jeff',
+	gravatarHash: '75ad827dc5ac6baa1df806dfe15b394e',
+	enrolledIn: [
+		{
+			currentLesson: 5,
+			currentPart: 3,
+			completed: [[1, 2]],
+			// should courseData be linked from courses database?
+			courseData: {
+				courseTitle: "My Great Course",
+				themeColor: 'purple',
+				tags: [],
+				courseSummary: 'My great summary.',
+				lessons: [
+					{
+						lessonTitle: 'My Great Lesson',
+						parts: [
+							{
+								partTitle: 'My Great Part',
+								partContent: 'Text goes here.'
+							}
+						]
+					}
+				]
+			}
+		}
+	],
+	drafts: [
+		{
+			courseTitle: "My Great Course Was Just UPDATED!!!!!",
+			themeColor: 'purple',
+			tags: [],
+			courseSummary: 'UPDATED!!',
+			lessons: [
+				{
+					lessonTitle: 'My Great Lesson',
+					parts: [
+						{
+							partTitle: 'My Great Part',
+							partContent: 'Text goes here.'
+						}
+					]
+				}
+			]
+		}
+	]
+};
+
+async function tearDownDb() {
+	console.warn('Deleting database');
+	// return mongoose.connection.dropDatabase();
+	await User.remove({});
+	await Course.remove({});
+}
+
+// TEST INITIAL BUILD
+
 describe('initial build', function () {
 
 	before(function () {
@@ -19,6 +174,10 @@ describe('initial build', function () {
 
 	after(function () {
 		return closeServer();
+	});
+
+	afterEach(function () {
+		return tearDownDb();
 	});
 
 	describe('index page', function () {
@@ -43,6 +202,8 @@ describe('initial build', function () {
 
 });
 
+// TEST API ENDPOINTS
+
 describe('api endpoints', function () {
 	before(function () {
 		return runServer(TEST_DATABASE_URL, 63000);
@@ -52,22 +213,69 @@ describe('api endpoints', function () {
 		return closeServer();
 	});
 
-	it('should post to database', async function () {
-		const res = await chai.request(app)
-			.post('/api/drafts')
-			.send(
+	afterEach(function () {
+		return tearDownDb();
+	});
+
+	it('should create new draft', async function () {
+		await User.create({...mockUserData, userId: 1});
+
+		const newDraft =
+			await createNewDraftAndUpdateUser(mockCourseData, 1);
+
+		newDraft.should.containSubset(mockCourseData);
+
+		const userInDb = await User.findOne(
+			{'drafts.courseId': newDraft.courseId}
+		);
+
+		const draftInDb = userInDb.drafts.find(
+			draft => draft.courseId === newDraft.courseId);
+
+		draftInDb.should.containSubset(mockCourseData);
+	});
+
+	it('should create new user', async function () {
+		const newUser = await createNewUser(mockUserData);
+
+		newUser.userData.should.containSubset(mockUserData);
+
+		const userInDb = await User.findOne(
+			{userId: newUser.userData.userId}
+		);
+		userInDb.should.containSubset(mockUserData);
+
+	});
+
+	it('should get specific user', async function () {
+		await User.create({...mockUserData, userId: 1});
+
+		const user = await getUser(1);
+
+		user.should.containSubset(mockUserData);
+	});
+
+	it('should edit specified draft', async function () {
+		await User.create(
 				{
-					courseTitle: "My Great Course",
-					themeColor: 'purple',
-					tags: [],
-					courseSummary: 'My great summary.',
-					lessons: [
+					...mockUserData,
+					userId: 1,
+					drafts: [
 						{
-							lessonTitle: 'My Great Lesson',
-							parts: [
+							courseTitle: "My Great Course",
+							courseId: 1,
+							themeColor: 'purple',
+							tags: [],
+							courseSummary: 'My great summary.',
+							lessons: [
 								{
-									partTitle: 'My Great Part',
-									partContent: 'Text goes here.'
+									lessonTitle: 'My Great Lesson',
+									parts: [
+										{
+											partTitle: 'My Great Part',
+											partContent: 'Text goes here.'
+										}
+									]
 								}
 							]
 						}
@@ -75,46 +283,29 @@ describe('api endpoints', function () {
 				}
 			);
 
-		res.should.have.status(200);
-		res.should.deep.equal(
-			{
-				courseTitle: "My Great Course",
-				themeColor: 'purple',
-				tags: [],
-				courseSummary: 'My great summary.',
-				lessons: [
-					{
-						lessonTitle: 'My Great Lesson',
-						parts: [
-							{
-								partTitle: 'My Great Part',
-								partContent: 'Text goes here.'
-							}
-						]
-					}
-				]
-			}
-		);
+		const updatedDraft = await updateDraftInUserObject({
+				...mockCourseDataUpdated,
+				courseId: '1'
+			}, 1);
 
-		const courseInDb = await Course.findOne({courseId: res.courseId});
-		courseInDb.should.deep.equal(
-			{
-				courseTitle: "My Great Course",
-				themeColor: 'purple',
-				tags: [],
-				courseSummary: 'My great summary.',
-				lessons: [
-					{
-						lessonTitle: 'My Great Lesson',
-						parts: [
-							{
-								partTitle: 'My Great Part',
-								partContent: 'Text goes here.'
-							}
-						]
-					}
-				]
-			}
+		updatedDraft.should.containSubset(mockCourseDataUpdated);
+
+		const userInDb = await User.findOne({userId: 1});
+		const draftInDb = userInDb.drafts.find(
+			draft => draft.courseId === '1');
+		draftInDb.should.containSubset(mockCourseDataUpdated);
+	});
+
+	it('should publish draft', async function () {
+		await User.create({...mockUserData, userId: 1});
+
+		const newCourse = await publishCourse(mockCourseData);
+
+		newCourse.should.containSubset(mockCourseData);
+
+		const courseInDb = await Course.findOne(
+			{courseId: newCourse.courseId}
 		);
+		courseInDb.should.containSubset(mockCourseData);
 	});
 });
