@@ -1,3 +1,7 @@
+if (require.main === module) {
+	require('dotenv').config();
+}
+
 const express = require('express');
 const mongoose = require('mongoose');
 const uuidv4 = require('uuid/v4');
@@ -195,9 +199,6 @@ function closeServer() {
 
 if (require.main === module) {
 	runServer();
-	app.listen(process.env.PORT || 8080, function () {
-		console.info(`App listening on ${this.address().port}`);
-	});
 }
 
 module.exports = {

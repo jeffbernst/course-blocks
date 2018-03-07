@@ -447,6 +447,7 @@ function startApp() {
   watchSearch();
   watchSearchClear();
   watchSignUpButton();
+  watchSignUpForm();
   watchLogInButton();
   closeModal();
   watchFilters();

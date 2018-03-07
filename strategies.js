@@ -1,7 +1,5 @@
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 
-require('dotenv').config({path: '.env.test'});
-
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const jwtStrategy = new JwtStrategy(
