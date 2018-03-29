@@ -51,7 +51,9 @@ function loadCreateSideBar(draftData, userData) {
 		.css("top", () => sidebarCourseInfoHeight + 10)
 		.html(createTableOfContents(draftData));
 
-	dragula([document.querySelector('.sidebar-part-group')]);
+	// dragula([document.querySelector('.sidebar-part-group')]);
+	const drake = dragula([document.querySelector('.sidebar-part-group')]);
+	drake.on('drop', (el, target, source, sibling) => console.log('el: ', el, 'target: ', target, 'source: ', source, 'sibling: ', sibling));
 }
 
 function changeCourseColor() {

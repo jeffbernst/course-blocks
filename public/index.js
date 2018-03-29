@@ -392,6 +392,7 @@ function getFilteredCourses(filter) {
 }
 
 function mockFilterCourses(filter) {
+	let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'));
   return MOCK_COURSE_DATA.filter(course => {
     return course.tags.indexOf(filter) > -1;
   });
@@ -434,6 +435,7 @@ function searchCourses(searchTerm) {
 }
 
 function mockSearch(searchTerm) {
+	let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'));
   return MOCK_COURSE_DATA.filter(course => {
     return (
       course.courseTitle.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
