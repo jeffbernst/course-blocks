@@ -1,30 +1,28 @@
-module.exports = function (wallaby) {
-	return {
-		files: [
-			'server.js',
-			'models.js',
-			'strategies.js',
-			'.env.test',
-			'public/**/*'
-		],
+module.exports = function(wallaby) {
+  return {
+    files: [
+      "server.js",
+      "models.js",
+      "strategies.js",
+      ".env.test",
+      "public/**/*"
+    ],
 
-		tests: [
-			'test/**/test-*.js'
-		],
+    tests: ["test/**/test-*.js"],
 
-		testFramework: 'mocha',
+    testFramework: "mocha",
 
-		env: {
-			type: 'node',
-			runner: 'node'
-		},
+    env: {
+      type: "node",
+      runner: "node"
+    },
 
-		workers: {
-			initial: 1,
-			regular: 1,
-			restart: true
-		},
+    workers: {
+      initial: 1,
+      regular: 1,
+      restart: true
+    },
 
-		debug: true
-	};
-};
+    debug: true
+  }
+}
