@@ -11,7 +11,7 @@ const userSchema = new Schema({
       currentLesson: Number,
       currentPart: Number,
       completed: [[Number]],
-      // should courseData be linked from courses database?
+      // TODO should courseData be linked from courses database?
       courseData: courseSchema
     }
   ],
