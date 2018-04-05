@@ -1,6 +1,6 @@
-if (require.main === module) {
-  require('dotenv').config()
-}
+// if (require.main === module) {
+require('dotenv').config()
+// }
 
 const express = require('express')
 const mongoose = require('mongoose')
@@ -8,13 +8,13 @@ const bodyparser = require('body-parser')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 
-const { jwtStrategy } = require('../strategies')
-const { DATABASE_URL, PORT } = require('../config.js')
+const { jwtStrategy } = require('./strategies')
+const { DATABASE_URL, PORT } = require('./config.js')
 const app = express()
 
-const coursesRouter = require('./coursesRouter')
-const draftsRouter = require('./draftsRouter')
-const usersRouter = require('./usersRouter')
+const { router: coursesRouter } = require('./routes/coursesRouter')
+const { router: draftsRouter } = require('./routes/draftsRouter')
+const { router: usersRouter } = require('./routes/usersRouter')
 
 app.use('/api/courses', coursesRouter)
 app.use('/api/drafts', draftsRouter)

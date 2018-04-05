@@ -18,4 +18,6 @@ const userSchema = new Schema({
   drafts: [courseSchema]
 })
 
-export const User = mongoose.model('user', userSchema)
+const User = mongoose.model('user', userSchema)
+
+module.exports = { User }

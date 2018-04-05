@@ -54,5 +54,7 @@ router.get('/:userId', async (req, res) => {
 })
 
 module.exports = {
-  router
+  router,
+  createNewUser,
+  getUser
 }

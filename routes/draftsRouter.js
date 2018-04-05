@@ -72,5 +72,7 @@ router.put('/', jwtAuth, async (req, res) => {
 })
 
 module.exports = {
-  router
+  router,
+  createNewDraftAndUpdateUser,
+  updateDraftInUserObject
 }
