@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "chai-things": "^0.2.0",
     "dotenv": "^5.0.0",
     "dragula": "^3.7.2",
     "express": "^4.16.2",

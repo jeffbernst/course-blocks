@@ -33,6 +33,7 @@ async function createNewUser(userData) {
   return user
 }
 
+// TODO return promise out of function and resolve or rject into my try catch
 router.post('/', jsonParser, async (req, res) => {
   try {
     const requiredFields = ['name', 'email', 'password']
