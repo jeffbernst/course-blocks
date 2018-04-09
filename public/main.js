@@ -333,12 +333,15 @@ function watchSignUpForm() {
     // $.post('api/users/', userData, data => {
     //   console.log(data)
     // })
+    console.log(userData)
 
     $.ajax({
       type: 'POST',
-      url: 'api/uses/',
-      crossDomain: true,
-      data: userData,
+      url: 'api/users/',
+      contentType: 'application/json',
+      dataType: 'json',
+      // crossDomain: true,
+      data: JSON.stringify(userData),
       error: function(error) {
         $('.signup-message').html(
           `<p style="color:red">An error has occurred: ${

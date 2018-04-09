@@ -36,6 +36,7 @@ async function createNewUser(userData) {
 // TODO return promise out of function and resolve or rject into my try catch
 router.post('/', jsonParser, async (req, res) => {
   try {
+    console.log(req.body)
     const requiredFields = ['name', 'email', 'password']
     const missingField = requiredFields.find(field => !(field in req.body))
 
@@ -107,7 +108,7 @@ router.post('/', jsonParser, async (req, res) => {
     let { name = '', email, password } = req.body
     name = name.trim()
 
-    return User.find({ username })
+    return User.find({ email })
       .count()
       .then(count => {
         if (count > 0) {
@@ -115,8 +116,8 @@ router.post('/', jsonParser, async (req, res) => {
           return Promise.reject({
             code: 422,
             reason: 'ValidationError',
-            message: 'Username already taken',
-            location: 'username'
+            message: 'Email address has already been used.',
+            location: 'email'
           })
         }
         // If there is no existing user, hash the password
@@ -131,7 +132,7 @@ router.post('/', jsonParser, async (req, res) => {
         })
       })
       .then(user => {
-        return res.status(201).json(user.serialize())
+        return res.status(201).json(User.serialize())
       })
       .catch(err => {
         // Forward validation errors on to the client, otherwise give a 500
@@ -139,6 +140,7 @@ router.post('/', jsonParser, async (req, res) => {
         if (err.reason === 'ValidationError') {
           return res.status(err.code).json(err)
         }
+        console.log(err)
         res.status(500).json({ code: 500, message: 'Internal server error' })
       })
 
