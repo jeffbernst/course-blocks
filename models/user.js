@@ -1,10 +1,14 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const bcrypt = require('bcryptjs')
 const { courseSchema } = require('./course')
 
 const userSchema = new Schema({
   userId: String,
   userName: String,
+  // TODO make required
+  userEmail: String,
+  password: String,
   gravatarHash: String,
   enrolledIn: [
     {
@@ -20,9 +24,8 @@ const userSchema = new Schema({
 
 userSchema.methods.serialize = function() {
   return {
-    username: this.username || '',
-    firstName: this.firstName || '',
-    lastName: this.lastName || ''
+    name: this.name || '',
+    email: this.email || ''
   }
 }
 

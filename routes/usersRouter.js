@@ -5,10 +5,12 @@ if (require.main === module) {
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-// const passport = require('passport')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
 // const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
+// const urlEncoded = bodyParser.jsonUrlEncoded()
 
 const { User } = require('../models/user')
 // const { jwtStrategy } = require('../strategies')
@@ -17,6 +19,43 @@ const { User } = require('../models/user')
 mongoose.Promise = global.Promise
 
 // passport.use(jwtStrategy)
+router.use(passport.initialize())
+router.use(jsonParser)
+
+const localStrategy = new LocalStrategy(
+  { usernameField: 'userEmail', passwordField: 'password' },
+  (userEmail, password, callback) => {
+    console.log(userEmail, password)
+    let user
+    User.findOne({ userEmail })
+      .then(_user => {
+        user = _user
+        if (!user)
+          return Promise.reject({
+            reason: 'Login error.',
+            message: 'User email incorrect.'
+          })
+        return user.validatePassword(password)
+      })
+      .then(isValid => {
+        if (!isValid)
+          return Promise.reject({
+            reason: 'Login error.',
+            message: 'Incorrect password.'
+          })
+        return callback(null, user)
+      })
+      .catch(error => {
+        if (error.reason === 'Login error.') {
+          return callback(null, false, error)
+        } else {
+          return callback(error, false)
+        }
+      })
+  }
+)
+
+passport.use(localStrategy)
 
 // const jwtAuth = passport.authenticate('jwt', { session: false })
 
@@ -33,7 +72,7 @@ async function createNewUser(userData) {
   return user
 }
 
-// TODO return promise out of function and resolve or rject into my try catch
+// TODO return promise out of function and resolve or reject into my try catch
 router.post('/', jsonParser, async (req, res) => {
   try {
     console.log(req.body)
@@ -125,14 +164,13 @@ router.post('/', jsonParser, async (req, res) => {
       })
       .then(hash => {
         return User.create({
-          username,
-          password: hash,
-          firstName,
-          lastName
+          name,
+          email,
+          password: hash
         })
       })
       .then(user => {
-        return res.status(201).json(User.serialize())
+        return res.status(201).json(user.serialize())
       })
       .catch(err => {
         // Forward validation errors on to the client, otherwise give a 500
@@ -151,6 +189,14 @@ router.post('/', jsonParser, async (req, res) => {
     console.error(err)
   }
 })
+
+router.post(
+  '/login',
+  passport.authenticate('local', { session: false }),
+  (req, res) => {
+    console.log('user successfully logged in')
+  }
+)
 
 async function getUser(userId) {
   return await User.findOne({ userId: userId })
