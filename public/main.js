@@ -330,8 +330,25 @@ function watchSignUpForm() {
       password
     }
 
-    $.post('api/users/', userData, data => {
-      console.log(data)
+    // $.post('api/users/', userData, data => {
+    //   console.log(data)
+    // })
+
+    $.ajax({
+      type: 'POST',
+      url: 'api/uses/',
+      crossDomain: true,
+      data: userData,
+      error: function(error) {
+        $('.signup-message').html(
+          `<p style="color:red">An error has occurred: ${
+            error.responseText
+          }</p>`
+        )
+      },
+      success: function(data) {
+        $('.signup-message').html('<p style="color:Green">Signed up.</p>')
+      }
     })
   })
 

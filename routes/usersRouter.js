@@ -5,28 +5,28 @@ if (require.main === module) {
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-const passport = require('passport')
-const jwt = require('jsonwebtoken')
+// const passport = require('passport')
+// const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 
 const { User } = require('../models/user')
-const { jwtStrategy } = require('../strategies')
-const app = express()
+// const { jwtStrategy } = require('../strategies')
+// const app = express()
 
 mongoose.Promise = global.Promise
 
-passport.use(jwtStrategy)
+// passport.use(jwtStrategy)
 
-const jwtAuth = passport.authenticate('jwt', { session: false })
+// const jwtAuth = passport.authenticate('jwt', { session: false })
 
 async function createNewUser(userData) {
   // my original code
   const newUser = await User.create(userData)
 
-  const token = jwt.sign({ user: { _id: newUser._id } }, process.env.JWT_SECRET)
+  // const token = jwt.sign({ user: { _id: newUser._id } }, process.env.JWT_SECRET)
   const user = {
-    jwt: token,
+    // jwt: token,
     userData: newUser
   }
 
@@ -143,8 +143,8 @@ router.post('/', jsonParser, async (req, res) => {
       })
 
     // my original code
-    const newUser = await createNewUser(req.body)
-    res.send(newUser)
+    // const newUser = await createNewUser(req.body)
+    // res.send(newUser)
   } catch (err) {
     console.error(err)
   }
