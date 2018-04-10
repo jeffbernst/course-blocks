@@ -6,19 +6,20 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
-// const jwt = require('jsonwebtoken')
+// const LocalStrategy = require('passport-local').Strategy
+const { Strategy: LocalStrategy } = require('passport-local')
+const config = require('../config')
+const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 // const urlEncoded = bodyParser.jsonUrlEncoded()
 
 const { User } = require('../models/user')
-// const { jwtStrategy } = require('../strategies')
+const { jwtStrategy } = require('../strategies')
 // const app = express()
 
 mongoose.Promise = global.Promise
 
-// passport.use(jwtStrategy)
 router.use(passport.initialize())
 router.use(jsonParser)
 
@@ -27,6 +28,7 @@ const localStrategy = new LocalStrategy(
   (userEmail, password, callback) => {
     console.log(userEmail, password)
     let user
+
     User.findOne({ userEmail })
       .then(_user => {
         user = _user
@@ -56,8 +58,18 @@ const localStrategy = new LocalStrategy(
 )
 
 passport.use(localStrategy)
+passport.use(jwtStrategy)
+
+const createAuthToken = function(user) {
+  return jwt.sign({ user }, config.JWT_SECRET, {
+    subject: user.username,
+    expiresIn: config.JWT_EXPIRY,
+    algorithm: 'HS256'
+  })
+}
 
 // const jwtAuth = passport.authenticate('jwt', { session: false })
+const localAuth = passport.authenticate('local', { session: false })
 
 async function createNewUser(userData) {
   // my original code
@@ -173,7 +185,6 @@ router.post('/', jsonParser, async (req, res) => {
         if (err.reason === 'ValidationError') {
           return res.status(err.code).json(err)
         }
-        console.log(err)
         res.status(500).json({ code: 500, message: 'Internal server error' })
       })
 
@@ -185,13 +196,11 @@ router.post('/', jsonParser, async (req, res) => {
   }
 })
 
-router.post(
-  '/login',
-  passport.authenticate('local', { session: false }),
-  (req, res) => {
-    console.log('user successfully logged in')
-  }
-)
+router.post('/login', localAuth, (req, res) => {
+  console.log('user successfully logged in')
+  const authToken = createAuthToken(req.user.serialize())
+  res.json({ authToken })
+})
 
 async function getUser(userId) {
   return await User.findOne({ userId: userId })

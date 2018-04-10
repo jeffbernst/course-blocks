@@ -367,10 +367,10 @@ function watchLoginForm() {
   $('.login-form').submit(event => {
     event.preventDefault()
     const email = $(event.currentTarget)
-      .find('#signup-email')
+      .find('#login-email')
       .val()
     const password = $(event.currentTarget)
-      .find('#signup-password')
+      .find('#login-password')
       .val()
 
     const userData = {
