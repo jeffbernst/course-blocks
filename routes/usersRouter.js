@@ -64,12 +64,10 @@ async function createNewUser(userData) {
   const newUser = await User.create(userData)
 
   // const token = jwt.sign({ user: { _id: newUser._id } }, process.env.JWT_SECRET)
-  const user = {
+  return {
     // jwt: token,
     userData: newUser
   }
-
-  return user
 }
 
 // TODO return promise out of function and resolve or reject into my try catch
@@ -151,7 +149,6 @@ router.post('/', jsonParser, async (req, res) => {
       .count()
       .then(count => {
         if (count > 0) {
-          // There is an existing user with the same username
           return Promise.reject({
             code: 422,
             reason: 'ValidationError',
@@ -159,13 +156,13 @@ router.post('/', jsonParser, async (req, res) => {
             location: 'email'
           })
         }
-        // If there is no existing user, hash the password
+
         return User.hashPassword(password)
       })
       .then(hash => {
         return User.create({
-          name,
-          email,
+          userName: name,
+          userEmail: email,
           password: hash
         })
       })
@@ -173,8 +170,6 @@ router.post('/', jsonParser, async (req, res) => {
         return res.status(201).json(user.serialize())
       })
       .catch(err => {
-        // Forward validation errors on to the client, otherwise give a 500
-        // error because something unexpected has happened
         if (err.reason === 'ValidationError') {
           return res.status(err.code).json(err)
         }
