@@ -340,7 +340,7 @@ function watchSignUpForm() {
       url: 'api/users/',
       contentType: 'application/json',
       dataType: 'json',
-      // crossDomain: true,
+      crossDomain: true,
       data: JSON.stringify(userData),
       error: function(error) {
         $('.signup-message').html(
@@ -383,7 +383,7 @@ function watchLoginForm() {
       url: 'api/users/login',
       contentType: 'application/json',
       dataType: 'json',
-      // crossDomain: true,
+      crossDomain: true,
       data: JSON.stringify(userData),
       error: function(error) {
         $('.login-message').html(
@@ -393,7 +393,8 @@ function watchLoginForm() {
         )
       },
       success: function(data) {
-        $('.login-message').html('<p style="color:Green">Signed up.</p>')
+        console.log(data)
+        $('.login-message').html('<p style="color:Green">Signed in.</p>')
       }
     })
   })

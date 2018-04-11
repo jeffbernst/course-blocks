@@ -32,6 +32,7 @@ const localStrategy = new LocalStrategy(
     User.findOne({ userEmail })
       .then(_user => {
         user = _user
+        console.log(_user)
         if (!user)
           return Promise.reject({
             reason: 'Login error.',
@@ -40,6 +41,7 @@ const localStrategy = new LocalStrategy(
         return user.validatePassword(password)
       })
       .then(isValid => {
+        console.log(isValid)
         if (!isValid)
           return Promise.reject({
             reason: 'Login error.',
@@ -49,7 +51,8 @@ const localStrategy = new LocalStrategy(
       })
       .catch(error => {
         if (error.reason === 'Login error.') {
-          return callback(null, false, error)
+          console.log(error)
+          return callback(null, false, { message: error.message })
         } else {
           return callback(error, false)
         }
@@ -61,14 +64,15 @@ passport.use(localStrategy)
 passport.use(jwtStrategy)
 
 const createAuthToken = function(user) {
+  console.log(user.userEmail)
   return jwt.sign({ user }, config.JWT_SECRET, {
-    subject: user.username,
+    subject: user.userEmail,
     expiresIn: config.JWT_EXPIRY,
     algorithm: 'HS256'
   })
 }
 
-// const jwtAuth = passport.authenticate('jwt', { session: false })
+const jwtAuth = passport.authenticate('jwt', { session: false })
 const localAuth = passport.authenticate('local', { session: false })
 
 async function createNewUser(userData) {
@@ -197,9 +201,15 @@ router.post('/', jsonParser, async (req, res) => {
 })
 
 router.post('/login', localAuth, (req, res) => {
-  console.log('user successfully logged in')
   const authToken = createAuthToken(req.user.serialize())
+  console.log(authToken)
   res.json({ authToken })
+  // res.json({ responseText: 'logged in' })
+})
+
+router.get('/testthisroute', jwtAuth, (req, res) => {
+  console.log('accessed a protected endpoint')
+  res.send('accessed properly')
 })
 
 async function getUser(userId) {

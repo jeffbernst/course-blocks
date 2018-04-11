@@ -24,8 +24,8 @@ const userSchema = new Schema({
 
 userSchema.methods.serialize = function() {
   return {
-    name: this.name || '',
-    email: this.email || ''
+    userName: this.userName || '',
+    userEmail: this.userEmail || ''
   }
 }
 
