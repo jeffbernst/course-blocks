@@ -464,7 +464,7 @@ function watchLoginForm() {
         )
       },
       success: function(data) {
-        console.log(data)
+        localStorage.setItem('JWT', JSON.stringify(data));
         $('.login-message').html('<p style="color:Green">Signed in.</p>')
       }
     })

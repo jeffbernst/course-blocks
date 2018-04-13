@@ -7,7 +7,6 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const passport = require('passport')
 // const LocalStrategy = require('passport-local').Strategy
-const { Strategy: LocalStrategy } = require('passport-local')
 const config = require('../config')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
@@ -15,50 +14,13 @@ const jsonParser = bodyParser.json()
 // const urlEncoded = bodyParser.jsonUrlEncoded()
 
 const { User } = require('../models/user')
-const { jwtStrategy } = require('../strategies')
+const { jwtStrategy, localStrategy } = require('../strategies')
 // const app = express()
 
 mongoose.Promise = global.Promise
 
 router.use(passport.initialize())
 router.use(jsonParser)
-
-const localStrategy = new LocalStrategy(
-  { usernameField: 'userEmail', passwordField: 'password' },
-  (userEmail, password, callback) => {
-    console.log(userEmail, password)
-    let user
-
-    User.findOne({ userEmail })
-      .then(_user => {
-        user = _user
-        console.log(_user)
-        if (!user)
-          return Promise.reject({
-            reason: 'Login error.',
-            message: 'User email incorrect.'
-          })
-        return user.validatePassword(password)
-      })
-      .then(isValid => {
-        console.log(isValid)
-        if (!isValid)
-          return Promise.reject({
-            reason: 'Login error.',
-            message: 'Incorrect password.'
-          })
-        return callback(null, user)
-      })
-      .catch(error => {
-        if (error.reason === 'Login error.') {
-          console.log(error)
-          return callback(null, false, { message: error.message })
-        } else {
-          return callback(error, false)
-        }
-      })
-  }
-)
 
 passport.use(localStrategy)
 passport.use(jwtStrategy)
@@ -207,16 +169,21 @@ router.post('/login', localAuth, (req, res) => {
   // res.json({ responseText: 'logged in' })
 })
 
-router.get('/testthisroute', jwtAuth, (req, res) => {
+// router.post('/refresh', jwtAuth, (req, res) => {
+//   const authToken = createAuthToken(req.user);
+//   res.json({authToken});
+// });
+
+router.post('/testthisroute', jwtAuth, (req, res) => {
   console.log('accessed a protected endpoint')
-  res.send('accessed properly')
+  res.json({message: 'accessed properly'})
 })
 
 async function getUser(userId) {
   return await User.findOne({ userId: userId })
 }
 
-router.get('/:userId', async (req, res) => {
+router.get('/:userId', jwtAuth, async (req, res) => {
   // can i just use mongo id instead of creating one with uuid?
   try {
     const user = await getUser(req.params.userId)

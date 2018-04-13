@@ -17,6 +17,10 @@ passport.use(jwtStrategy)
 
 const jwtAuth = passport.authenticate('jwt', { session: false })
 
+// get request for all courses for index
+
+// get request for specific course
+
 async function publishCourse(course) {
   await Course.findOne({ courseId: course.courseId }).remove()
   return await Course.create(course)

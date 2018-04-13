@@ -458,6 +458,23 @@ function mockSearch(searchTerm) {
   })
 }
 
+function testApi() {
+  $.ajax({
+    type: 'POST',
+    url: 'api/users/testthisroute',
+    contentType: 'application/json',
+    dataType: 'json',
+    headers: {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJOYW1lIjoiSmVmZiIsInVzZXJFbWFpbCI6ImVtYWlsQGplZmYuY29tIn0sImlhdCI6MTUyMzQ2OTg4NCwiZXhwIjoxNTI0MDc0Njg0LCJzdWIiOiJlbWFpbEBqZWZmLmNvbSJ9.UNnDf_Qaw7mDZMc9Jr3HnuwNgNF_qxE9_L5hS1EJofk"},
+    crossDomain: true,
+    error: function(error) {
+      console.log('there was an error: ', error)
+    },
+    success: function(data) {
+      console.log('it worked!')
+    }
+  })
+}
+
 function startApp() {
   checkForJsonWebToken()
   createAndAppendCourseTileHtml()
@@ -471,6 +488,7 @@ function startApp() {
   watchFilters()
   watchExploreTitle()
   createDropdown()
+  testApi()
 }
 
 $(startApp)
