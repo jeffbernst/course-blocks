@@ -305,6 +305,75 @@ function watchSignUpButton() {
   })
 }
 
+function checkSignupInfo(userData) {
+  const requiredFields = ['name', 'email', 'password']
+  const missingField = requiredFields.find(field => !(field in userData))
+
+  if (missingField) {
+    $('.signup-message').html(
+      `<div style="color:red">Missing field: ${missingField}</div>`
+    )
+    return
+  }
+
+  const stringFields = ['name', 'email', 'password']
+  const nonStringField = stringFields.find(
+    field => field in userData && typeof userData[field] !== 'string'
+  )
+
+  if (nonStringField) {
+    $('.signup-message').html(
+      `<div style="color:red">Incorrect field type (expected string): ${nonStringField}</div>`
+    )
+    return
+  }
+
+  const explicitlyTrimmedFields = ['email', 'password']
+  const nonTrimmedField = explicitlyTrimmedFields.find(
+    field => userData[field].trim() !== userData[field]
+  )
+
+  if (nonTrimmedField) {
+    $('.signup-message').html(
+      `<div style="color:red">${nonTrimmedField.charAt(0).toUpperCase() + nonTrimmedField.slice(1)} can't start or end with whitespace.</div>`
+    )
+    return
+  }
+
+  const sizedFields = {
+    password: {
+      min: 10,
+      max: 72
+    }
+  }
+  const tooSmallField = Object.keys(sizedFields).find(
+    field =>
+      'min' in sizedFields[field] &&
+      userData[field].trim().length < sizedFields[field].min
+  )
+  const tooLargeField = Object.keys(sizedFields).find(
+    field =>
+      'max' in sizedFields[field] &&
+      userData[field].trim().length > sizedFields[field].max
+  )
+
+  if (tooSmallField || tooLargeField) {
+    const message = tooSmallField
+      ? `${tooSmallField.charAt(0).toUpperCase() +
+      tooSmallField.slice(1)} must be at least ${
+        sizedFields[tooSmallField].min
+        } characters long.`
+      : `${tooLargeField.charAt(0).toUpperCase() +
+      tooSmallField.slice(1)} must be at most ${
+        sizedFields[tooLargeField].max
+        } characters long.`
+
+    $('.signup-message').html(`<div style="color:red">${message}</div>`)
+    return
+  }
+  return userData
+}
+
 function watchSignUpForm() {
   $('.signup-form').submit(event => {
     event.preventDefault()
@@ -322,37 +391,39 @@ function watchSignUpForm() {
       .find('#signup-confirm-password')
       .val()
 
-    // TODO confirm that passwords match
-
-    const userData = {
-      name,
-      email,
-      password
-    }
-
-    // $.post('api/users/', userData, data => {
-    //   console.log(data)
-    // })
-    console.log(userData)
-
-    $.ajax({
-      type: 'POST',
-      url: 'api/users/',
-      contentType: 'application/json',
-      dataType: 'json',
-      crossDomain: true,
-      data: JSON.stringify(userData),
-      error: function(error) {
-        $('.signup-message').html(
-          `<p style="color:red">An error has occurred: ${
-            error.responseText
-          }</p>`
-        )
-      },
-      success: function(data) {
-        $('.signup-message').html('<p style="color:Green">Signed up.</p>')
+    if (password !== passwordConfirmation)
+      $('.signup-message').html(
+        `<div style="color:red">Passwords do not match.</div>`
+      )
+    else {
+      const userData = {
+        name,
+        email,
+        password
       }
-    })
+
+      const checkData = checkSignupInfo(userData)
+
+      if (checkData)
+        $.ajax({
+          type: 'POST',
+          url: 'api/users/',
+          contentType: 'application/json',
+          dataType: 'json',
+          crossDomain: true,
+          data: JSON.stringify(userData),
+          error: function(error) {
+            $('.signup-message').html(
+              `<p style="color:red">An error has occurred: ${
+                error.responseText
+              }</p>`
+            )
+          },
+          success: function(data) {
+            $('.signup-message').html('<p style="color:Green">Signed up.</p>')
+          }
+        })
+    }
   })
 }
 
