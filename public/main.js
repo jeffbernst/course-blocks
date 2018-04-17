@@ -457,6 +457,7 @@ function watchLoginForm() {
       crossDomain: true,
       data: JSON.stringify(userData),
       error: function(error) {
+        console.log(error)
         $('.login-message').html(
           `<p style="color:red">An error has occurred: ${
             error.responseText
@@ -464,6 +465,7 @@ function watchLoginForm() {
         )
       },
       success: function(data) {
+        console.log('succeeded')
         localStorage.setItem('JWT', JSON.stringify(data));
         $('.login-message').html('<p style="color:Green">Signed in.</p>')
       }

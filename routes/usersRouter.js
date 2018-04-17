@@ -3,6 +3,7 @@ if (require.main === module) {
 }
 
 const express = require('express')
+const flash = require('connect-flash');
 const router = express.Router()
 const mongoose = require('mongoose')
 const passport = require('passport')
@@ -26,7 +27,6 @@ passport.use(localStrategy)
 passport.use(jwtStrategy)
 
 const createAuthToken = function(user) {
-  console.log(user.userEmail)
   return jwt.sign({ user }, config.JWT_SECRET, {
     subject: user.userEmail,
     expiresIn: config.JWT_EXPIRY,
@@ -35,7 +35,7 @@ const createAuthToken = function(user) {
 }
 
 const jwtAuth = passport.authenticate('jwt', { session: false })
-const localAuth = passport.authenticate('local', { session: false })
+const localAuth = passport.authenticate('local', { session: false, failureFlash: true })
 
 async function createNewUser(userData) {
   // my original code
@@ -51,7 +51,6 @@ async function createNewUser(userData) {
 // TODO return promise out of function and resolve or reject into my try catch
 router.post('/', jsonParser, async (req, res) => {
   try {
-    console.log(req.body)
     const requiredFields = ['name', 'email', 'password']
     const missingField = requiredFields.find(field => !(field in req.body))
 
@@ -164,7 +163,6 @@ router.post('/', jsonParser, async (req, res) => {
 
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize())
-  console.log(authToken)
   res.json({ authToken })
   // res.json({ responseText: 'logged in' })
 })
@@ -175,7 +173,6 @@ router.post('/login', localAuth, (req, res) => {
 // });
 
 router.post('/testthisroute', jwtAuth, (req, res) => {
-  console.log('accessed a protected endpoint')
   res.json({message: 'accessed properly'})
 })
 
