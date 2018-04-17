@@ -172,9 +172,9 @@ router.post('/login', localAuth, (req, res) => {
 //   res.json({authToken});
 // });
 
-router.post('/testthisroute', jwtAuth, (req, res) => {
-  res.json({message: 'accessed properly'})
-})
+// router.post('/testthisroute', jwtAuth, (req, res) => {
+//   res.json({message: 'accessed properly'})
+// })
 
 async function getUser(userId) {
   return await User.findOne({ userId: userId })
