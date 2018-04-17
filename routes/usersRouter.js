@@ -165,7 +165,11 @@ router.post('/', jsonParser, async (req, res) => {
 
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize())
-  res.json({ authToken })
+  res.json({
+    authToken,
+    userId: req.user._id,
+    gravatarHash: req.user.gravatarHash
+  })
   // for member nav need:
   // 1. gravatar hash
   // 2. list of drafts and draftIds
