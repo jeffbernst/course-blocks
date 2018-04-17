@@ -273,80 +273,95 @@
 
 function checkForJsonWebToken() {
   if (localStorage.getItem('JWT') !== null) {
-  	showMemberScreen();
-  	showMemberNav();
-	}
-  else {
-  	$('.sign-in-log-in').show();
-  	$('.welcome-message').show();
-	}
+    showMemberScreen()
+    showMemberNav()
+  } else {
+    $('.sign-in-log-in').show()
+    $('.welcome-message').show()
+  }
 }
 
 function getCoursesForIndexPage() {
-	return new Promise((resolve, reject) => {
-		// api call will go here
-		let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'));
-		resolve(MOCK_COURSE_DATA);
-	});
+  return new Promise((resolve, reject) => {
+    // api call will go here
+    let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
+    resolve(MOCK_COURSE_DATA)
+  })
 }
 
 async function showMemberScreen() {
-  const userData = await getUserData();
+  const userData = await getUserData()
 
-// <button class="nav-button nav-profile-button">${userData.userName}</button>
+  // <button class="nav-button nav-profile-button">${userData.userName}</button>
 
-	// $('.nav-user-profile').html(`
-	// 	<button class="nav-button nav-create">Create</button>
-  	// <img src='https://www.gravatar.com/avatar/${userData.gravatarHash}' alt='user profile' class="nav-user-profile-image">
-	// `);
-	//
-	$('.nav-create').show();
-	$('.my-courses').show();
+  // $('.nav-user-profile').html(`
+  // 	<button class="nav-button nav-create">Create</button>
+  // <img src='https://www.gravatar.com/avatar/${userData.gravatarHash}' alt='user profile' class="nav-user-profile-image">
+  // `);
+  //
+  $('.nav-create').show()
+  $('.my-courses').show()
 
-	userData.enrolledIn.forEach(userCourseData => {
-		$('.my-course-list').append(`
+  userData.enrolledIn.forEach(userCourseData => {
+    $('.my-course-list').append(`
 			<div class="course-progress-tile ${userCourseData.themeColor}-tile">
 				<div class="course-progress-title-and-author">
-					<div class="course-progress-title"><a href="/course/${userCourseData.courseId}">${userCourseData.courseTitle}</a></div>
+					<div class="course-progress-title"><a href="/course/${
+            userCourseData.courseId
+          }">${userCourseData.courseTitle}</a></div>
 					<div class="course-progress-author">by ${userCourseData.courseAuthor}</div>
 				</div>
 				<div class="course-progress-bar-and-buttons">
 					<div class="course-progress-bar course-progress-bar-index">
-						<div class="course-progress-bar-shader" style="background-color: var(--dark-${userCourseData.themeColor}); width: ${calculatePercentComplete(userCourseData)}%;">
-							<span class="percent-complete">${calculatePercentComplete(userCourseData)}% complete</span>
+						<div class="course-progress-bar-shader" style="background-color: var(--dark-${
+              userCourseData.themeColor
+            }); width: ${calculatePercentComplete(userCourseData)}%;">
+							<span class="percent-complete">${calculatePercentComplete(
+                userCourseData
+              )}% complete</span>
 						</div>
 					</div>
 					<div class="course-progress-buttons">
-						<a href="/course/${userCourseData.courseId}"><button class="resume-button"><span>Resume &#x1F4D8</span></button></a>
+						<a href="/course/${
+              userCourseData.courseId
+            }"><button class="resume-button"><span>Resume &#x1F4D8</span></button></a>
 						<button class="share-button"><span>Share &#x1F4E3;</span></button>
 					</div>
 				</div>
 			</div>
 		`)
-	})
+  })
 }
 
 function calculatePercentComplete(userCourseData) {
-	let courseSize = userCourseData.lessons.reduce((acc, cur) => acc + cur.parts.length, 0);
-	let completedByUser = userCourseData.completed.reduce((acc, cur) => acc + cur.length, 0);
+  let courseSize = userCourseData.lessons.reduce(
+    (acc, cur) => acc + cur.parts.length,
+    0
+  )
+  let completedByUser = userCourseData.completed.reduce(
+    (acc, cur) => acc + cur.length,
+    0
+  )
 
-	return Math.floor((completedByUser / courseSize) * 100);
+  return Math.floor(completedByUser / courseSize * 100)
 }
 
 function createAndAppendCourseTileHtml() {
-  $('.course-grid').html('');
-  $('.clear-search-results').hide();
+  $('.course-grid').html('')
+  $('.clear-search-results').hide()
   getCoursesForIndexPage().then(data => {
     data.forEach(courseInfo => {
-      $('.course-grid').append(renderCourseTile(courseInfo));
-    });
-  });
+      $('.course-grid').append(renderCourseTile(courseInfo))
+    })
+  })
 }
 
 function renderCourseTile(courseInfo) {
   return `<div class="course-grid-tile ${courseInfo.themeColor}-tile">
 						<div class="course-grid-info-container">
-							<a href="/course/${courseInfo.courseId}"><div class="course-grid-tile-title">${courseInfo.courseTitle}</div></a>
+							<a href="/course/${courseInfo.courseId}"><div class="course-grid-tile-title">${
+    courseInfo.courseTitle
+  }</div></a>
 							<div class="course-grid-tile-author">by ${courseInfo.courseAuthor}</div>
 						</div>	
 						<br>
@@ -356,106 +371,124 @@ function renderCourseTile(courseInfo) {
                 courseInfo.studentCount
               } students</span>
 						</div>
-					</div>`;
+					</div>`
 }
 
 function watchFilters() {
   $('.explore-filter').click(event => {
     let filter = $(event.currentTarget)
       .text()
-      .toLowerCase();
+      .toLowerCase()
 
-    $('.course-grid').html('');
-    $('.explore-filters span').removeClass('explore-filter-active');
-    $(event.currentTarget).addClass('explore-filter-active');
+    $('.course-grid').html('')
+    $('.explore-filters span').removeClass('explore-filter-active')
+    $(event.currentTarget).addClass('explore-filter-active')
 
     getFilteredCourses(filter).then(data => {
       data.forEach(courseInfo => {
-        $('.course-grid').append(renderCourseTile(courseInfo));
-      });
-    });
-  });
+        $('.course-grid').append(renderCourseTile(courseInfo))
+      })
+    })
+  })
 }
 
 function watchExploreTitle() {
   $('.explore-title').click(event => {
-    $('.explore-filters span').removeClass('explore-filter-active');
-    createAndAppendCourseTileHtml();
-  });
+    $('.explore-filters span').removeClass('explore-filter-active')
+    createAndAppendCourseTileHtml()
+  })
 }
 
 function getFilteredCourses(filter) {
   return new Promise((resolve, reject) => {
     // api call will go here
-    resolve(mockFilterCourses(filter));
-  });
+    resolve(mockFilterCourses(filter))
+  })
 }
 
 function mockFilterCourses(filter) {
-	let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'));
+  let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
   return MOCK_COURSE_DATA.filter(course => {
-    return course.tags.indexOf(filter) > -1;
-  });
+    return course.tags.indexOf(filter) > -1
+  })
 }
 
 function watchSearch() {
   $('.search-form').submit(event => {
-    event.preventDefault();
+    event.preventDefault()
 
-    $('.course-grid').html('');
+    $('.course-grid').html('')
 
     let searchTerm = $(event.currentTarget)
       .find('.search-input')
       .val()
-      .trim();
+      .trim()
 
     searchCourses(searchTerm).then(data => {
-      $('.clear-search-results').show();
+      $('.clear-search-results').show()
       data.forEach(courseInfo => {
-        $('.course-grid').append(renderCourseTile(courseInfo));
-      });
-    });
-  });
+        $('.course-grid').append(renderCourseTile(courseInfo))
+      })
+    })
+  })
 }
 
 function watchSearchClear() {
   $('.clear-search-results').click(event => {
-    event.preventDefault();
+    event.preventDefault()
 
-    $('.search-input').val('');
-    createAndAppendCourseTileHtml();
-  });
+    $('.search-input').val('')
+    createAndAppendCourseTileHtml()
+  })
 }
 
 function searchCourses(searchTerm) {
   return new Promise((resolve, reject) => {
     // api call will go here
-    resolve(mockSearch(searchTerm));
-  });
+    resolve(mockSearch(searchTerm))
+  })
 }
 
 function mockSearch(searchTerm) {
-	let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'));
+  let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
   return MOCK_COURSE_DATA.filter(course => {
     return (
       course.courseTitle.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-    );
-  });
+    )
+  })
 }
+
+// function testApi() {
+//   $.ajax({
+//     type: 'POST',
+//     url: 'api/users/testthisroute',
+//     contentType: 'application/json',
+//     dataType: 'json',
+//     headers: {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJOYW1lIjoiSmVmZiIsInVzZXJFbWFpbCI6ImVtYWlsQGplZmYuY29tIn0sImlhdCI6MTUyMzQ2OTg4NCwiZXhwIjoxNTI0MDc0Njg0LCJzdWIiOiJlbWFpbEBqZWZmLmNvbSJ9.UNnDf_Qaw7mDZMc9Jr3HnuwNgNF_qxE9_L5hS1EJofk"},
+//     crossDomain: true,
+//     error: function(error) {
+//       console.log('there was an error: ', error)
+//     },
+//     success: function(data) {
+//       console.log('it worked!')
+//     }
+//   })
+// }
 
 function startApp() {
-  checkForJsonWebToken();
-  createAndAppendCourseTileHtml();
-  watchSearch();
-  watchSearchClear();
-  watchSignUpButton();
-  watchSignUpForm();
-  watchLogInButton();
-  closeModal();
-  watchFilters();
-  watchExploreTitle();
-  createDropdown();
+  checkForJsonWebToken()
+  createAndAppendCourseTileHtml()
+  watchSearch()
+  watchSearchClear()
+  watchSignUpButton()
+  watchSignUpForm()
+  watchLogInButton()
+  watchLoginForm()
+  closeModal()
+  watchFilters()
+  watchExploreTitle()
+  createDropdown()
+  // testApi()
 }
 
-$(startApp);
-
+$(startApp)

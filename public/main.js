@@ -285,54 +285,211 @@
 
 function getCourse(courseId) {
   return new Promise((resolve, reject) => {
-    let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem("MOCK_COURSE_DATA"));
-    resolve(MOCK_COURSE_DATA.find(course => course.courseId == courseId));
-  });
+    let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
+    resolve(MOCK_COURSE_DATA.find(course => course.courseId == courseId))
+  })
 }
 
 function getUserData() {
   return new Promise((resolve, reject) => {
     // api call will go here
-    let MOCK_USER_DATA = JSON.parse(localStorage.getItem("MOCK_USER_DATA"));
-    resolve(MOCK_USER_DATA);
-  });
+    let MOCK_USER_DATA = JSON.parse(localStorage.getItem('MOCK_USER_DATA'))
+    resolve(MOCK_USER_DATA)
+  })
 }
 
 function watchSignUpButton() {
-  $(".nav-signup-button").click(event => {
-    $(".modal").show();
-    $(".signup-modal-content").show();
-  });
+  $('.nav-signup-button').click(event => {
+    $('.modal').show()
+    $('.signup-modal-content').show()
+  })
+}
+
+function checkSignupInfo(userData) {
+  const requiredFields = ['name', 'email', 'password']
+  const missingField = requiredFields.find(field => !(field in userData))
+
+  if (missingField) {
+    $('.signup-message').html(
+      `<div style="color:red">Missing field: ${missingField}</div>`
+    )
+    return
+  }
+
+  const stringFields = ['name', 'email', 'password']
+  const nonStringField = stringFields.find(
+    field => field in userData && typeof userData[field] !== 'string'
+  )
+
+  if (nonStringField) {
+    $('.signup-message').html(
+      `<div style="color:red">Incorrect field type (expected string): ${nonStringField}</div>`
+    )
+    return
+  }
+
+  const explicitlyTrimmedFields = ['email', 'password']
+  const nonTrimmedField = explicitlyTrimmedFields.find(
+    field => userData[field].trim() !== userData[field]
+  )
+
+  if (nonTrimmedField) {
+    $('.signup-message').html(
+      `<div style="color:red">${nonTrimmedField.charAt(0).toUpperCase() + nonTrimmedField.slice(1)} can't start or end with whitespace.</div>`
+    )
+    return
+  }
+
+  const sizedFields = {
+    password: {
+      min: 10,
+      max: 72
+    }
+  }
+  const tooSmallField = Object.keys(sizedFields).find(
+    field =>
+      'min' in sizedFields[field] &&
+      userData[field].trim().length < sizedFields[field].min
+  )
+  const tooLargeField = Object.keys(sizedFields).find(
+    field =>
+      'max' in sizedFields[field] &&
+      userData[field].trim().length > sizedFields[field].max
+  )
+
+  if (tooSmallField || tooLargeField) {
+    const message = tooSmallField
+      ? `${tooSmallField.charAt(0).toUpperCase() +
+      tooSmallField.slice(1)} must be at least ${
+        sizedFields[tooSmallField].min
+        } characters long.`
+      : `${tooLargeField.charAt(0).toUpperCase() +
+      tooSmallField.slice(1)} must be at most ${
+        sizedFields[tooLargeField].max
+        } characters long.`
+
+    $('.signup-message').html(`<div style="color:red">${message}</div>`)
+    return
+  }
+  return userData
 }
 
 function watchSignUpForm() {
-  // set up listener and form handling
+  $('.signup-form').submit(event => {
+    event.preventDefault()
+
+    const name = $(event.currentTarget)
+      .find('#signup-name')
+      .val()
+    const email = $(event.currentTarget)
+      .find('#signup-email')
+      .val()
+    const password = $(event.currentTarget)
+      .find('#signup-password')
+      .val()
+    const passwordConfirmation = $(event.currentTarget)
+      .find('#signup-confirm-password')
+      .val()
+
+    if (password !== passwordConfirmation)
+      $('.signup-message').html(
+        `<div style="color:red">Passwords do not match.</div>`
+      )
+    else {
+      const userData = {
+        name,
+        email,
+        password
+      }
+
+      const checkData = checkSignupInfo(userData)
+
+      if (checkData)
+        $.ajax({
+          type: 'POST',
+          url: 'api/users/',
+          contentType: 'application/json',
+          dataType: 'json',
+          crossDomain: true,
+          data: JSON.stringify(userData),
+          error: function(error) {
+            $('.signup-message').html(
+              `<p style="color:red">An error has occurred: ${
+                error.responseText
+              }</p>`
+            )
+          },
+          success: function(data) {
+            $('.signup-message').html('<p style="color:Green">Signed up.</p>')
+          }
+        })
+    }
+  })
 }
 
 function watchLogInButton() {
-  $(".nav-login-button").click(event => {
-    $(".modal").show();
-    $(".login-modal-content").show();
-  });
+  $('.nav-login-button').click(event => {
+    $('.modal').show()
+    $('.login-modal-content').show()
+  })
+}
+
+function watchLoginForm() {
+  $('.login-form').submit(event => {
+    event.preventDefault()
+    const email = $(event.currentTarget)
+      .find('#login-email')
+      .val()
+    const password = $(event.currentTarget)
+      .find('#login-password')
+      .val()
+
+    const userData = {
+      userEmail: email,
+      password
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: 'api/users/login',
+      contentType: 'application/json',
+      dataType: 'json',
+      crossDomain: true,
+      data: JSON.stringify(userData),
+      error: function(error) {
+        console.log(error)
+        $('.login-message').html(
+          `<p style="color:red">An error has occurred: ${
+            error.responseText
+          }</p>`
+        )
+      },
+      success: function(data) {
+        console.log('succeeded')
+        localStorage.setItem('JWT', JSON.stringify(data));
+        $('.login-message').html('<p style="color:Green">Signed in.</p>')
+      }
+    })
+  })
 }
 
 function closeModal() {
-  $(".modal, .close-modal").click(event => {
-    $(".modal").hide();
-    $(".signup-modal-content").hide();
-    $(".login-modal-content").hide();
-  });
+  $('.modal, .close-modal').click(event => {
+    $('.modal').hide()
+    $('.signup-modal-content').hide()
+    $('.login-modal-content').hide()
+  })
 }
 
 async function showMemberNav() {
-  const userData = await getUserData();
+  const userData = await getUserData()
   let createDropdownData = userData.drafts
     .map(
       course => `<a href="/create/${course.courseId}">${course.courseTitle}</a>`
     )
-    .join("");
+    .join('')
 
-  $(".nav-user-profile").html(`
+  $('.nav-user-profile').html(`
 		<div class="dropdown">
 			<button class="nav-button nav-create">Create</button>
 			<div class="dropdown-content">
@@ -343,20 +500,20 @@ async function showMemberNav() {
   	<img src='https://www.gravatar.com/avatar/${
       userData.gravatarHash
     }' alt='user profile' class="nav-user-profile-image">
-  `);
+  `)
 
-  $(".nav-create").show();
+  $('.nav-create').show()
 }
 
 function createDropdown() {
-  $(".nav-create").click(event => {
-    $(".dropdown-content").toggle();
-  });
+  $('.nav-create').click(event => {
+    $('.dropdown-content').toggle()
+  })
 }
 
 function createTableOfContents(courseData) {
-  let tableOfContentsString = "";
-  let lessons = courseData.lessons;
+  let tableOfContentsString = ''
+  let lessons = courseData.lessons
 
   for (let i = 0; i < lessons.length; i++) {
     tableOfContentsString += `
@@ -365,173 +522,173 @@ function createTableOfContents(courseData) {
       1}</div>
 			<div class="sidebar-lesson-title">${lessons[i].lessonTitle}</div>
 			<div class="sidebar-part-group">
-		`;
+		`
     for (let j = 0; j < lessons[i].parts.length; j++) {
       tableOfContentsString += `
 				<div class="sidebar-part" data-part-number="${j}">
 					<span class="sidebar-part-number">- ${j + 1}: </span>
 					${lessons[i].parts[j].partTitle}
 				</div>
-			`;
+			`
     }
-    tableOfContentsString += `</div></div>`;
+    tableOfContentsString += `</div></div>`
   }
-  return tableOfContentsString;
+  return tableOfContentsString
 }
 
 function closeAndOpenSidebar() {
-  $(".close-sidebar-button").click(event => {
-    $(".sidebar").hide();
-    $(".close-sidebar-button").hide();
-    $(".expand-sidebar-desktop").show();
-    $(".expand-sidebar-mobile").show();
-  });
+  $('.close-sidebar-button').click(event => {
+    $('.sidebar').hide()
+    $('.close-sidebar-button').hide()
+    $('.expand-sidebar-desktop').show()
+    $('.expand-sidebar-mobile').show()
+  })
 
-  $(".expand-sidebar-desktop, .expand-sidebar-mobile").click(event => {
-    $(".sidebar").show();
-    $(".close-sidebar-button").show();
-    $(".expand-sidebar-desktop").hide();
-    $(".expand-sidebar-mobile").hide();
-  });
+  $('.expand-sidebar-desktop, .expand-sidebar-mobile').click(event => {
+    $('.sidebar').show()
+    $('.close-sidebar-button').show()
+    $('.expand-sidebar-desktop').hide()
+    $('.expand-sidebar-mobile').hide()
+  })
 }
 
 function moveToClickedLesson(courseData) {
-  $(".sidebar-table-of-contents").on("click", ".sidebar-part", event => {
-    let clickedPart = $(event.currentTarget).data("partNumber");
+  $('.sidebar-table-of-contents').on('click', '.sidebar-part', event => {
+    let clickedPart = $(event.currentTarget).data('partNumber')
 
     let clickedLesson = $(event.currentTarget)
       .parent()
-      .prevAll(".sidebar-lesson-number")
-      .data("lessonNumber");
+      .prevAll('.sidebar-lesson-number')
+      .data('lessonNumber')
 
-    let clickedPartData = courseData.lessons[clickedLesson].parts[clickedPart];
+    let clickedPartData = courseData.lessons[clickedLesson].parts[clickedPart]
 
     // show for create page
-    $(".previous-next").show();
-    $(".edit-part").show();
-    $(".mark-as-completed-container").show();
-    $(".pick-to-edit").hide();
+    $('.previous-next').show()
+    $('.edit-part').show()
+    $('.mark-as-completed-container').show()
+    $('.pick-to-edit').hide()
 
-    showOrHideNextAndPreviousButtons(courseData, clickedLesson, clickedPart);
-    updateLessonLocationData(clickedLesson, clickedPart);
+    showOrHideNextAndPreviousButtons(courseData, clickedLesson, clickedPart)
+    updateLessonLocationData(clickedLesson, clickedPart)
 
-    $("div.part-title").html(clickedPartData.partTitle);
-    $("div.part-content").html(marked(clickedPartData.partContent));
+    $('div.part-title').html(clickedPartData.partTitle)
+    $('div.part-content').html(marked(clickedPartData.partContent))
 
-    $("textarea.part-title").val(clickedPartData.partTitle);
-    $("textarea.part-content").val(clickedPartData.partContent);
-  });
+    $('textarea.part-title').val(clickedPartData.partTitle)
+    $('textarea.part-content').val(clickedPartData.partContent)
+  })
 
-  $(".sidebar-table-of-contents").on(
-    "click",
-    ".sidebar-lesson-title",
+  $('.sidebar-table-of-contents').on(
+    'click',
+    '.sidebar-lesson-title',
     event => {
       let clickedLesson = $(event.currentTarget)
         .prev()
-        .data("lessonNumber");
+        .data('lessonNumber')
 
-      let clickedPartData = courseData.lessons[clickedLesson].parts[0];
+      let clickedPartData = courseData.lessons[clickedLesson].parts[0]
 
-      showOrHideNextAndPreviousButtons(courseData, clickedLesson, 0);
-      updateLessonLocationData(clickedLesson, 0);
+      showOrHideNextAndPreviousButtons(courseData, clickedLesson, 0)
+      updateLessonLocationData(clickedLesson, 0)
 
-      $(".part-title").html(clickedPartData.partTitle);
-      $(".part-content").html(marked(clickedPartData.partContent));
+      $('.part-title').html(clickedPartData.partTitle)
+      $('.part-content').html(marked(clickedPartData.partContent))
 
-      $("textarea.part-title").val(clickedPartData.partTitle);
-      $("textarea.part-content").val(clickedPartData.partContent);
+      $('textarea.part-title').val(clickedPartData.partTitle)
+      $('textarea.part-content').val(clickedPartData.partContent)
     }
-  );
+  )
 }
 
 function nextButton(courseData) {
-  $(".next-button").click(event => {
-    let currentLesson = Number($(".current-lesson").data("lesson"));
-    let currentPart = Number($(".current-lesson").data("part"));
+  $('.next-button').click(event => {
+    let currentLesson = Number($('.current-lesson').data('lesson'))
+    let currentPart = Number($('.current-lesson').data('part'))
 
     let nextPart =
       currentPart + 1 >= courseData.lessons[currentLesson].parts.length
         ? 0
-        : currentPart + 1;
-    let nextLesson = nextPart === 0 ? currentLesson + 1 : currentLesson;
+        : currentPart + 1
+    let nextLesson = nextPart === 0 ? currentLesson + 1 : currentLesson
 
-    let nextPartData = courseData.lessons[nextLesson].parts[nextPart];
+    let nextPartData = courseData.lessons[nextLesson].parts[nextPart]
 
-    showOrHideNextAndPreviousButtons(courseData, nextLesson, nextPart);
-    updateLessonLocationData(nextLesson, nextPart);
+    showOrHideNextAndPreviousButtons(courseData, nextLesson, nextPart)
+    updateLessonLocationData(nextLesson, nextPart)
 
-    $(".part-title").html(nextPartData.partTitle);
-    $(".part-content").html(marked(nextPartData.partContent));
+    $('.part-title').html(nextPartData.partTitle)
+    $('.part-content').html(marked(nextPartData.partContent))
 
-    $("textarea.part-title").val(nextPartData.partTitle);
-    $("textarea.part-content").val(nextPartData.partContent);
-  });
+    $('textarea.part-title').val(nextPartData.partTitle)
+    $('textarea.part-content').val(nextPartData.partContent)
+  })
 }
 
 function previousButton(courseData) {
-  $(".previous-button").click(event => {
-    let currentLesson = Number($(".current-lesson").data("lesson"));
-    let currentPart = Number($(".current-lesson").data("part"));
+  $('.previous-button').click(event => {
+    let currentLesson = Number($('.current-lesson').data('lesson'))
+    let currentPart = Number($('.current-lesson').data('part'))
 
     let previousPart =
       currentPart === 0
         ? courseData.lessons[currentLesson - 1].parts.length - 1
-        : currentPart - 1;
-    let previousLesson = currentPart === 0 ? currentLesson - 1 : currentLesson;
+        : currentPart - 1
+    let previousLesson = currentPart === 0 ? currentLesson - 1 : currentLesson
 
     let previousPartData =
-      courseData.lessons[previousLesson].parts[previousPart];
+      courseData.lessons[previousLesson].parts[previousPart]
 
-    showOrHideNextAndPreviousButtons(courseData, previousLesson, previousPart);
-    updateLessonLocationData(previousLesson, previousPart);
+    showOrHideNextAndPreviousButtons(courseData, previousLesson, previousPart)
+    updateLessonLocationData(previousLesson, previousPart)
 
-    $(".part-title").html(previousPartData.partTitle);
-    $(".part-content").html(marked(previousPartData.partContent));
+    $('.part-title').html(previousPartData.partTitle)
+    $('.part-content').html(marked(previousPartData.partContent))
 
-    $("textarea.part-title").val(previousPartData.partTitle);
-    $("textarea.part-content").val(previousPartData.partContent);
-  });
+    $('textarea.part-title').val(previousPartData.partTitle)
+    $('textarea.part-content').val(previousPartData.partContent)
+  })
 }
 
 function updateLessonLocationData(lesson, part) {
-  $(".current-lesson")
+  $('.current-lesson')
     .html(`Lesson ${lesson + 1} / Part ${part + 1}`)
-    .data({ lesson: `${lesson}`, part: `${part}` });
+    .data({ lesson: `${lesson}`, part: `${part}` })
 
-  highlightCurrentPart(lesson, part);
+  highlightCurrentPart(lesson, part)
 }
 
 function highlightCurrentPart(lesson, part) {
   // remove highlight from all parts
-  $(".sidebar-part").removeClass("sidebar-part-highlighted");
+  $('.sidebar-part').removeClass('sidebar-part-highlighted')
 
-  $(".sidebar-table-of-contents")
+  $('.sidebar-table-of-contents')
     .find(`.sidebar-lesson-number[data-lesson-number=${lesson}]`)
     .parent()
     .find(`.sidebar-part[data-part-number=${part}]`)
-    .addClass("sidebar-part-highlighted");
+    .addClass('sidebar-part-highlighted')
 }
 
 function showOrHideNextAndPreviousButtons(courseData, lesson, part) {
-  $(".previous-next").css("justify-content", "space-between");
+  $('.previous-next').css('justify-content', 'space-between')
 
   if (
     courseData.lessons[lesson].parts[part + 1] === undefined &&
     courseData.lessons[lesson + 1] === undefined
   ) {
-    $(".next-container").hide();
-    $(".previous-next").css("justify-content", "flex-start");
+    $('.next-container').hide()
+    $('.previous-next').css('justify-content', 'flex-start')
   } else {
-    $(".next-container").show();
+    $('.next-container').show()
   }
 
   if (
     courseData.lessons[lesson].parts[part - 1] === undefined &&
     courseData.lessons[lesson - 1] === undefined
   ) {
-    $(".previous-container").hide();
-    $(".previous-next").css("justify-content", "flex-end");
+    $('.previous-container').hide()
+    $('.previous-next').css('justify-content', 'flex-end')
   } else {
-    $(".previous-container").show();
+    $('.previous-container').show()
   }
 }

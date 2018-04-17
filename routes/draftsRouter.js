@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken')
 
 const { User } = require('../models/user')
 const { jwtStrategy } = require('../strategies')
-const app = express()
+// const app = express()
 
 mongoose.Promise = global.Promise
 

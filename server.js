@@ -5,10 +5,10 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyparser = require('body-parser')
-const passport = require('passport')
-const jwt = require('jsonwebtoken')
+// const passport = require('passport')
+// const jwt = require('jsonwebtoken')
 
-const { jwtStrategy } = require('./strategies')
+// const { jwtStrategy } = require('./strategies')
 const { DATABASE_URL, PORT } = require('./config.js')
 const app = express()
 
@@ -26,7 +26,7 @@ app.use(express.static('public', { extensions: ['html', 'htm'] }))
 app.use('/node_modules', express.static('node_modules'))
 app.use(bodyparser.json())
 
-passport.use(jwtStrategy)
+// passport.use(jwtStrategy)
 
 app.get('/course/:courseId', (req, res) => {
   const options = {

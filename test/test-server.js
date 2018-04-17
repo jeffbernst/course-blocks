@@ -13,6 +13,7 @@ const chaiSubset = require('chai-subset')
 const { TEST_DATABASE_URL } = require('../config')
 
 chai.use(chaiSubset)
+chai.use(require('chai-things'))
 
 require('dotenv').config({ path: '.env.test' })
 
@@ -219,17 +220,19 @@ describe('api endpoints', function() {
   it('should create new draft', async function() {
     await User.create({ ...mockUserData, userId: 1 })
 
-    const newDraft = await createNewDraftAndUpdateUser(mockCourseData, 1)
+    const updatedUser = await createNewDraftAndUpdateUser(mockCourseData, 1)
 
-    // TODO the new response gives me back the whole user object but i only want the course
-    // newDraft.should.containSubset(mockCourseData)
+    updatedUser.drafts.should.include.something.that.containSubset(
+      mockCourseData
+    )
 
     const userInDb = await User.findOne({
-      'drafts.courseId': newDraft.courseId
+      // TODO update contain subset
+      'drafts.courseId': updatedUser.drafts[0].courseId
     })
 
     const draftInDb = userInDb.drafts.find(
-      draft => draft.courseId === newDraft.courseId
+      draft => draft.courseId === updatedUser.drafts[0].courseId
     )
 
     draftInDb.should.containSubset(mockCourseData)
