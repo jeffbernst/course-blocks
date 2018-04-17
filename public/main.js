@@ -482,7 +482,7 @@ function closeModal() {
 }
 
 async function showMemberNav() {
-  const userData = await getUserData()
+  // const userData = await getUserData()
   let createDropdownData = userData.drafts
     .map(
       course => `<a href="/create/${course.courseId}">${course.courseTitle}</a>`
