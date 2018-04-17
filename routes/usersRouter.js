@@ -12,6 +12,7 @@ const config = require('../config')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
+const md5 = require('md5')
 // const urlEncoded = bodyParser.jsonUrlEncoded()
 
 const { User } = require('../models/user')
@@ -140,7 +141,8 @@ router.post('/', jsonParser, async (req, res) => {
         return User.create({
           userName: name,
           userEmail: email,
-          password: hash
+          password: hash,
+          gravatarHash: md5(email.toLowerCase())
         })
       })
       .then(user => {
@@ -164,7 +166,10 @@ router.post('/', jsonParser, async (req, res) => {
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize())
   res.json({ authToken })
-  // res.json({ responseText: 'logged in' })
+  // for member nav need:
+  // 1. gravatar hash
+  // 2. list of drafts and draftIds
+  // 3. userId to retrieve all draft info
 })
 
 // router.post('/refresh', jwtAuth, (req, res) => {
@@ -181,7 +186,7 @@ async function getUser(userId) {
 }
 
 router.get('/:userId', jwtAuth, async (req, res) => {
-  // can i just use mongo id instead of creating one with uuid?
+  // TODO can i just use mongo id instead of creating one with uuid?
   try {
     const user = await getUser(req.params.userId)
     res.send(user)
