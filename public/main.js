@@ -513,6 +513,7 @@ async function showMemberNav () {
 			<button class="nav-button nav-create">Create</button>
 			<div class="dropdown-content">
 				<a href="/create" class="create-dropdown-new-course">New Course</a>
+				${createDropdownData ? '<hr>' : ''}
 				${createDropdownData}
 			</div>
 		</div>

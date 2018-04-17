@@ -990,7 +990,7 @@ a {
 }
 
 .create-dropdown-new-course {
-  border-bottom: 1px solid var(--dark-grey);
+  /*border-bottom: 1px solid var(--dark-grey);*/
 }
 
 .preview-button,
