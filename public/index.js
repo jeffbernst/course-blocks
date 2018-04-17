@@ -477,7 +477,7 @@ function mockSearch(searchTerm) {
 
 function startApp() {
   checkForJsonWebToken()
-  createAndAppendCourseTileHtml()
+  // createAndAppendCourseTileHtml()
   watchSearch()
   watchSearchClear()
   watchSignUpButton()
@@ -487,7 +487,7 @@ function startApp() {
   closeModal()
   watchFilters()
   watchExploreTitle()
-  createDropdown()
+  // createDropdown()
   // testApi()
 }
 

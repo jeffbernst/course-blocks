@@ -283,29 +283,47 @@
 // const url = window.location.href;
 // const courseId = (typeof url.match(/\/([^/]+)$/)[1] === 'undefined') ? 'not in url' : url.match(/\/([^/]+)$/)[1];
 
-function getCourse(courseId) {
+function getCourse (courseId) {
   return new Promise((resolve, reject) => {
     let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
     resolve(MOCK_COURSE_DATA.find(course => course.courseId == courseId))
   })
 }
 
-function getUserData() {
+function getUserData () {
   return new Promise((resolve, reject) => {
     // api call will go here
-    let MOCK_USER_DATA = JSON.parse(localStorage.getItem('MOCK_USER_DATA'))
-    resolve(MOCK_USER_DATA)
+    // let MOCK_USER_DATA = JSON.parse(localStorage.getItem('MOCK_USER_DATA'))
+    // resolve(MOCK_USER_DATA)
+
+    const jwt = JSON.parse(localStorage.getItem('JWT'))
+
+    $.ajax({
+      type: 'GET',
+      url: `api/users/${jwt.userId}`,
+      contentType: 'application/json',
+      dataType: 'json',
+      headers: {'Authorization': `Bearer ${jwt.authToken}`},
+      crossDomain: true,
+      error: function (error) {
+        console.log('there was an error: ', error)
+      },
+      success: function (data) {
+        console.log('it worked!')
+        resolve(data)
+      }
+    })
   })
 }
 
-function watchSignUpButton() {
+function watchSignUpButton () {
   $('.nav-signup-button').click(event => {
     $('.modal').show()
     $('.signup-modal-content').show()
   })
 }
 
-function checkSignupInfo(userData) {
+function checkSignupInfo (userData) {
   const requiredFields = ['name', 'email', 'password']
   const missingField = requiredFields.find(field => !(field in userData))
 
@@ -374,7 +392,7 @@ function checkSignupInfo(userData) {
   return userData
 }
 
-function watchSignUpForm() {
+function watchSignUpForm () {
   $('.signup-form').submit(event => {
     event.preventDefault()
 
@@ -412,14 +430,14 @@ function watchSignUpForm() {
           dataType: 'json',
           crossDomain: true,
           data: JSON.stringify(userData),
-          error: function(error) {
+          error: function (error) {
             $('.signup-message').html(
               `<p style="color:red">An error has occurred: ${
                 error.responseText
-              }</p>`
+                }</p>`
             )
           },
-          success: function(data) {
+          success: function (data) {
             $('.signup-message').html('<p style="color:Green">Signed up.</p>')
           }
         })
@@ -427,14 +445,14 @@ function watchSignUpForm() {
   })
 }
 
-function watchLogInButton() {
+function watchLogInButton () {
   $('.nav-login-button').click(event => {
     $('.modal').show()
     $('.login-modal-content').show()
   })
 }
 
-function watchLoginForm() {
+function watchLoginForm () {
   $('.login-form').submit(event => {
     event.preventDefault()
     const email = $(event.currentTarget)
@@ -456,24 +474,24 @@ function watchLoginForm() {
       dataType: 'json',
       crossDomain: true,
       data: JSON.stringify(userData),
-      error: function(error) {
+      error: function (error) {
         console.log(error)
         $('.login-message').html(
           `<p style="color:red">An error has occurred: ${
             error.responseText
-          }</p>`
+            }</p>`
         )
       },
-      success: function(data) {
+      success: function (data) {
         console.log('succeeded')
-        localStorage.setItem('JWT', JSON.stringify(data));
+        localStorage.setItem('JWT', JSON.stringify(data))
         $('.login-message').html('<p style="color:Green">Signed in.</p>')
       }
     })
   })
 }
 
-function closeModal() {
+function closeModal () {
   $('.modal, .close-modal').click(event => {
     $('.modal').hide()
     $('.signup-modal-content').hide()
@@ -481,8 +499,9 @@ function closeModal() {
   })
 }
 
-async function showMemberNav() {
-  // const userData = await getUserData()
+async function showMemberNav () {
+  const userData = await getUserData()
+
   let createDropdownData = userData.drafts
     .map(
       course => `<a href="/create/${course.courseId}">${course.courseTitle}</a>`
@@ -498,20 +517,21 @@ async function showMemberNav() {
 			</div>
 		</div>
   	<img src='https://www.gravatar.com/avatar/${
-      userData.gravatarHash
+    userData.gravatarHash
     }' alt='user profile' class="nav-user-profile-image">
   `)
 
   $('.nav-create').show()
+  createDropdown()
 }
 
-function createDropdown() {
+function createDropdown () {
   $('.nav-create').click(event => {
     $('.dropdown-content').toggle()
   })
 }
 
-function createTableOfContents(courseData) {
+function createTableOfContents (courseData) {
   let tableOfContentsString = ''
   let lessons = courseData.lessons
 
@@ -519,7 +539,7 @@ function createTableOfContents(courseData) {
     tableOfContentsString += `
 			<div class="sidebar-lesson">
 			<div class="sidebar-lesson-number" data-lesson-number="${i}">Lesson ${i +
-      1}</div>
+    1}</div>
 			<div class="sidebar-lesson-title">${lessons[i].lessonTitle}</div>
 			<div class="sidebar-part-group">
 		`
@@ -536,7 +556,7 @@ function createTableOfContents(courseData) {
   return tableOfContentsString
 }
 
-function closeAndOpenSidebar() {
+function closeAndOpenSidebar () {
   $('.close-sidebar-button').click(event => {
     $('.sidebar').hide()
     $('.close-sidebar-button').hide()
@@ -552,7 +572,7 @@ function closeAndOpenSidebar() {
   })
 }
 
-function moveToClickedLesson(courseData) {
+function moveToClickedLesson (courseData) {
   $('.sidebar-table-of-contents').on('click', '.sidebar-part', event => {
     let clickedPart = $(event.currentTarget).data('partNumber')
 
@@ -601,7 +621,7 @@ function moveToClickedLesson(courseData) {
   )
 }
 
-function nextButton(courseData) {
+function nextButton (courseData) {
   $('.next-button').click(event => {
     let currentLesson = Number($('.current-lesson').data('lesson'))
     let currentPart = Number($('.current-lesson').data('part'))
@@ -625,7 +645,7 @@ function nextButton(courseData) {
   })
 }
 
-function previousButton(courseData) {
+function previousButton (courseData) {
   $('.previous-button').click(event => {
     let currentLesson = Number($('.current-lesson').data('lesson'))
     let currentPart = Number($('.current-lesson').data('part'))
@@ -650,15 +670,15 @@ function previousButton(courseData) {
   })
 }
 
-function updateLessonLocationData(lesson, part) {
+function updateLessonLocationData (lesson, part) {
   $('.current-lesson')
     .html(`Lesson ${lesson + 1} / Part ${part + 1}`)
-    .data({ lesson: `${lesson}`, part: `${part}` })
+    .data({lesson: `${lesson}`, part: `${part}`})
 
   highlightCurrentPart(lesson, part)
 }
 
-function highlightCurrentPart(lesson, part) {
+function highlightCurrentPart (lesson, part) {
   // remove highlight from all parts
   $('.sidebar-part').removeClass('sidebar-part-highlighted')
 
@@ -669,7 +689,7 @@ function highlightCurrentPart(lesson, part) {
     .addClass('sidebar-part-highlighted')
 }
 
-function showOrHideNextAndPreviousButtons(courseData, lesson, part) {
+function showOrHideNextAndPreviousButtons (courseData, lesson, part) {
   $('.previous-next').css('justify-content', 'space-between')
 
   if (
