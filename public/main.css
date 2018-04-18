@@ -775,6 +775,7 @@ a {
 .sidebar-course-title {
   font-size: 22px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .sidebar-course-author {

@@ -74,9 +74,12 @@ async function loadCreatePage () {
   moveToClickedLesson(draftData)
   nextButton(draftData)
   previousButton(draftData)
+  clickToEditCourseName()
+  updatePartOnKeypress()
   // createDropdown()
   changeCourseColor()
   saveDraft()
+  clickToEditLessonName()
   // createNewDraft()
   watchSignUpForm()
 }
@@ -94,19 +97,19 @@ function loadCreateSideBar (draftData) {
     .html(createTableOfContents(draftData))
 
   // dragula([document.querySelector('.sidebar-part-group')]);
-  const drake = dragula([document.querySelector('.sidebar-part-group')])
-  drake.on('drop', (el, target, source, sibling) =>
-    console.log(
-      'el: ',
-      el,
-      'target: ',
-      target,
-      'source: ',
-      source,
-      'sibling: ',
-      sibling
-    )
-  )
+  // const drake = dragula([document.querySelector('.sidebar-part-group')])
+  // drake.on('drop', (el, target, source, sibling) =>
+  //   console.log(
+  //     'el: ',
+  //     el,
+  //     'target: ',
+  //     target,
+  //     'source: ',
+  //     source,
+  //     'sibling: ',
+  //     sibling
+  //   )
+  // )
 }
 
 function changeCourseColor () {
@@ -129,41 +132,31 @@ function changeCourseColor () {
 }
 
 function saveDraft () {
-  $('.edit-part').submit(async event => {
-    // i'm not going to use a form here
-    // on submit it will just access the global variable and send it to the database to update
-    // but I need listeners to update the global variable on change
-    // i.e. on keypress in the input fields
-    // i probably want to make the current lesson and part number global variables as well
-    // like const currentLesson = {lesson: 5, part: 1}
-    // and then update in place like with draftData
-    // then add prompts to change main title and lesson titles
-    //
-    // title and lesson names will be input prompts that update the draftData
-    // part titles and content will update on keypress in the input fields
-    // but i need a way to direct the content to the right place in the object
-    // so either grab from data like before, or make global variables
+  // check if draft has been created (if draftId is 'create' from url)
+  // if it hasn't create new draft for the user then redirect page to load page with that draftId
+  // it it has been created just make a put request to update the database
 
+  $('.save-draft-button').click(async event => {
+    // event.preventDefault()
+    // const partTitle = $(event.currentTarget)
+    //   .find('.part-title')
+    //   .val()
+    // const partContent = $(event.currentTarget)
+    //   .find('.part-content')
+    //   .val()
+    // const themeColor = $('.sidebar-create-color-picker-tile-selected').data('color')
 
-    event.preventDefault()
-    const partTitle = $(event.currentTarget)
-      .find('.part-title')
-      .val()
-    const partContent = $(event.currentTarget)
-      .find('.part-content')
-      .val()
-    const themeColor = $('.sidebar-create-color-picker-tile-selected').data('color')
+    // const currentLesson = Number($('.current-lesson').data('lesson'))
+    // const currentPart = Number($('.current-lesson').data('part'))
 
-    const currentLesson = Number($('.current-lesson').data('lesson'))
-    const currentPart = Number($('.current-lesson').data('part'))
-
-    const draftData = {
-      partTitle,
-      partContent,
-      currentLesson,
-      currentPart,
-      themeColor
-    }
+    // const draftData = {
+    //   partTitle,
+    //   partContent,
+    //   currentLesson,
+    //   currentPart,
+    //   themeColor
+    // }
+    console.log(draftData)
 
     const jwt = JSON.parse(localStorage.getItem('JWT'))
 
@@ -181,7 +174,7 @@ function saveDraft () {
           console.log('there was an error: ', error)
         },
         success: function (data) {
-          console.log('it worked!')
+          console.log('draft created')
         }
       })
 
@@ -189,7 +182,7 @@ function saveDraft () {
 
     } else {
       $.ajax({
-        type: 'POST',
+        type: 'PUT',
         url: 'api/drafts/',
         contentType: 'application/json',
         dataType: 'json',
@@ -200,11 +193,56 @@ function saveDraft () {
           console.log('there was an error: ', error)
         },
         success: function (data) {
-          console.log('it worked!')
+          console.log('draft updated')
         }
       })
     }
 //     console.log(updateMessage)
+  })
+}
+
+function clickToEditLessonName () {
+  $('.sidebar-table-of-contents').on(
+    'click',
+    '.sidebar-lesson-title',
+    event => {
+      let clickedLesson = $(event.currentTarget)
+        .prev()
+        .data('lessonNumber')
+
+      draftData.lessons[clickedLesson].lessonTitle =
+        prompt('Enter a new lesson name and hit OK 🙂', `${draftData.lessons[clickedLesson].lessonTitle}`)
+
+      loadCreateSideBar(draftData)
+    }
+  )
+}
+
+function clickToEditCourseName () {
+  $('.sidebar-course-title').on('click', event => {
+      draftData.courseTitle =
+        prompt('Enter a new course name and hit OK 👍', `${draftData.courseTitle}`)
+
+      loadCreateSideBar(draftData)
+    }
+  )
+}
+
+function updatePartOnKeypress() {
+  $('.part-title').on('input', () => {
+    let currentLesson = Number($('.current-lesson').data('lesson'))
+    let currentPart = Number($('.current-lesson').data('part'))
+
+    draftData.lessons[currentLesson].parts[currentPart].partTitle = $('.part-title').val()
+
+    loadCreateSideBar(draftData)
+  })
+
+  $('.part-content').on('input', () => {
+    let currentLesson = Number($('.current-lesson').data('lesson'))
+    let currentPart = Number($('.current-lesson').data('part'))
+
+    draftData.lessons[currentLesson].parts[currentPart].partContent = $('.part-content').val()
   })
 }
 

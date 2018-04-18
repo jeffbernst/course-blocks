@@ -19,11 +19,11 @@ passport.use(jwtStrategy)
 
 const jwtAuth = passport.authenticate('jwt', { session: false })
 
-async function createNewDraftAndUpdateUser(draft, userId) {
+async function createNewDraftAndUpdateUser(draft, userEmail) {
   const newDraft = { ...draft, courseId: uuidv4() }
 
   const updatedUser = await User.findOneAndUpdate(
-    { userId },
+    { userEmail },
     { $push: { drafts: newDraft } },
     { new: true }
   )
@@ -38,7 +38,7 @@ router.post('/', jwtAuth, async (req, res) => {
     // need to send userId with update
     // make sure user has access to do this
     // req.user should have jwt info
-    const newDraft = await createNewDraftAndUpdateUser(req.body, req.user._id)
+    const newDraft = await createNewDraftAndUpdateUser(req.body, req.user.userEmail)
     res.send(newDraft)
   } catch (err) {
     console.error(err)
