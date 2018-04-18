@@ -166,8 +166,7 @@ router.post('/', jsonParser, async (req, res) => {
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize())
   res.json({
-    authToken,
-    userId: req.user._id
+    authToken
   })
   // for member nav need:
   // 1. gravatar hash
@@ -184,14 +183,14 @@ router.post('/login', localAuth, (req, res) => {
 //   res.json({message: 'accessed properly'})
 // })
 
-async function getUser(userId) {
-  return await User.findById(userId)
+async function getUser(userEmail) {
+  return await User.findOne({userEmail})
 }
 
-router.get('/:userId', jwtAuth, async (req, res) => {
-  // TODO can i just use mongo id instead of creating one with uuid?
+router.get('/', jwtAuth, async (req, res) => {
+  console.log(req.user)
   try {
-    const user = await getUser(req.params.userId)
+    const user = await getUser(req.user.userEmail)
     res.send({
       userId: user._id,
       gravatarHash: user.gravatarHash,

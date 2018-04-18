@@ -14,34 +14,44 @@ function checkForJsonWebToken () {
   }
 }
 
+const draftData = {
+  courseTitle: 'Title',
+  themeColor: 'purple',
+  tags: [],
+  courseSummary: '',
+  lessons: []
+}
+
+// const updatedDraftData = {}
+
 async function loadCreatePage () {
   checkForJsonWebToken()
 
   // const courseData = await getCourse(draftId);
-  let draftData
-  let userData
 
-  if (draftId === 'create')
-    draftData = {
-      courseTitle: 'My Great Course',
-      themeColor: 'purple',
-      tags: [],
-      courseSummary: 'My great summary.',
-      lessons: [
-        {
-          lessonTitle: 'My Great Lesson',
-          parts: [
-            {
-              partTitle: 'My Great Part',
-              partContent: 'Text goes here.'
-            }
-          ]
-        }
-      ]
-    }
-  else {
-    userData = await getUserData()
-    draftData = userData.drafts.find(draft => draft.courseId == draftId)
+  if (draftId === 'create') {
+    draftData.courseTitle = 'My Great Course'
+    draftData.themeColor = 'purple'
+    draftData.courseSummary = 'My great summary.'
+    draftData.lessons = [
+      {
+        lessonTitle: 'My Great Lesson',
+        parts: [
+          {
+            partTitle: 'My Great Part',
+            partContent: 'Text goes here.'
+          }
+        ]
+      }
+    ]
+
+  } else {
+    const userData = await getUserData()
+    const draftDataFromDb = userData.drafts.find(draft => draft.courseId == draftId)
+    draftData.courseTitle = draftDataFromDb.courseTitle
+    draftData.themeColor = draftDataFromDb.themeColor
+    draftData.courseSummary = draftDataFromDb.courseSummary
+    draftData.lessons = draftDataFromDb.lessons
   }
 
   $('.expand-sidebar-desktop')
@@ -60,18 +70,18 @@ async function loadCreatePage () {
   $('.pick-to-edit').show()
 
   closeAndOpenSidebar()
-  loadCreateSideBar(draftData, userData)
+  loadCreateSideBar(draftData)
   moveToClickedLesson(draftData)
   nextButton(draftData)
   previousButton(draftData)
   // createDropdown()
   changeCourseColor()
-  saveDraft(draftData)
+  saveDraft()
   // createNewDraft()
   watchSignUpForm()
 }
 
-function loadCreateSideBar (draftData, userData) {
+function loadCreateSideBar (draftData) {
   $(`.sidebar-create-color-picker-tile.${draftData.themeColor}-tile`).addClass(
     'sidebar-create-color-picker-tile-selected'
   )
@@ -117,7 +127,7 @@ function changeCourseColor () {
   })
 }
 
-function saveDraft (draftData) {
+function saveDraft () {
   $('.edit-part').submit(async event => {
     event.preventDefault()
     const partTitle = $(event.currentTarget)
@@ -126,19 +136,59 @@ function saveDraft (draftData) {
     const partContent = $(event.currentTarget)
       .find('.part-content')
       .val()
+    const themeColor = $('.sidebar-create-color-picker-tile-selected').data('color')
 
     const currentLesson = Number($('.current-lesson').data('lesson'))
     const currentPart = Number($('.current-lesson').data('part'))
 
-    // api call here
-    let updateMessage = await updateDatabase(
-      draftData,
+    const draftData = {
       partTitle,
       partContent,
       currentLesson,
-      currentPart
-    )
-    console.log(updateMessage)
+      currentPart,
+      themeColor
+    }
+
+    const jwt = JSON.parse(localStorage.getItem('JWT'))
+
+    // if new course, create new course on database
+    if (draftId === 'create') {
+      $.ajax({
+        type: 'POST',
+        url: 'api/drafts/',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(draftData),
+        headers: {'Authorization': `Bearer ${jwt.authToken}`},
+        crossDomain: true,
+        error: function (error) {
+          console.log('there was an error: ', error)
+        },
+        success: function (data) {
+          console.log('it worked!')
+        }
+      })
+
+      // TODO make sure to update URL after creating course
+
+    } else {
+      $.ajax({
+        type: 'POST',
+        url: 'api/drafts/',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(draftData),
+        headers: {'Authorization': `Bearer ${jwt.authToken}`},
+        crossDomain: true,
+        error: function (error) {
+          console.log('there was an error: ', error)
+        },
+        success: function (data) {
+          console.log('it worked!')
+        }
+      })
+    }
+//     console.log(updateMessage)
   })
 }
 

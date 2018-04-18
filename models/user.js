@@ -10,6 +10,7 @@ const userSchema = new Schema({
   userEmail: String,
   password: String,
   gravatarHash: String,
+  tags: [String],
   enrolledIn: [
     {
       currentLesson: Number,

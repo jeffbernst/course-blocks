@@ -300,7 +300,7 @@ function getUserData () {
 
     $.ajax({
       type: 'GET',
-      url: `api/users/${jwt.userId}`,
+      url: `api/users/`,
       contentType: 'application/json',
       dataType: 'json',
       headers: {'Authorization': `Bearer ${jwt.authToken}`},
