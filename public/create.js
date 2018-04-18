@@ -123,12 +123,28 @@ function changeCourseColor () {
       .attr('class', 'sidebar-course-info')
       .addClass(`${clickedColor}-tile`)
 
-    // update mobile and desktop collapse buttons
+    draftData.themeColor = clickedColor
+    // TODO update mobile and desktop collapse buttons
   })
 }
 
 function saveDraft () {
   $('.edit-part').submit(async event => {
+    // i'm not going to use a form here
+    // on submit it will just access the global variable and send it to the database to update
+    // but I need listeners to update the global variable on change
+    // i.e. on keypress in the input fields
+    // i probably want to make the current lesson and part number global variables as well
+    // like const currentLesson = {lesson: 5, part: 1}
+    // and then update in place like with draftData
+    // then add prompts to change main title and lesson titles
+    //
+    // title and lesson names will be input prompts that update the draftData
+    // part titles and content will update on keypress in the input fields
+    // but i need a way to direct the content to the right place in the object
+    // so either grab from data like before, or make global variables
+
+
     event.preventDefault()
     const partTitle = $(event.currentTarget)
       .find('.part-title')
