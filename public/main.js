@@ -599,30 +599,6 @@ function moveToClickedLesson (courseData) {
     $('textarea.part-title').val(clickedPartData.partTitle)
     $('textarea.part-content').val(clickedPartData.partContent)
   })
-
-  // this was originally to move to first part in lesson
-  // when user clicks on less name
-  //
-  // $('.sidebar-table-of-contents').on(
-  //   'click',
-  //   '.sidebar-lesson-title',
-  //   event => {
-  //     let clickedLesson = $(event.currentTarget)
-  //       .prev()
-  //       .data('lessonNumber')
-  //
-  //     let clickedPartData = courseData.lessons[clickedLesson].parts[0]
-  //
-  //     showOrHideNextAndPreviousButtons(courseData, clickedLesson, 0)
-  //     updateLessonLocationData(clickedLesson, 0)
-  //
-  //     $('.part-title').html(clickedPartData.partTitle)
-  //     $('.part-content').html(marked(clickedPartData.partContent))
-  //
-  //     $('textarea.part-title').val(clickedPartData.partTitle)
-  //     $('textarea.part-content').val(clickedPartData.partContent)
-  //   }
-  // )
 }
 
 function nextButton (courseData) {
