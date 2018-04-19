@@ -16,6 +16,7 @@ const md5 = require('md5')
 // const urlEncoded = bodyParser.jsonUrlEncoded()
 
 const { User } = require('../models/user')
+const { Course } = require('../models/course')
 const { jwtStrategy, localStrategy } = require('../strategies')
 // const app = express()
 
@@ -144,6 +145,24 @@ router.post('/', jsonParser, async (req, res) => {
           password: hash,
           gravatarHash: md5(email.toLowerCase())
         })
+        // const user = new User({
+        //   _id: new mongoose.Types.ObjectId(),
+        //   userName: name,
+        //   userEmail: email,
+        //   password: hash,
+        //   gravatarHash: md5(email.toLowerCase())
+        // })
+        //
+        // user.save(err => {
+        //   if (err) return err;
+        //
+        //   const draft = new Course({});
+        //
+        //   return draft.save(err => {
+        //     if (err) return err;
+        //     // thats it!
+        //   })
+        // })
       })
       .then(user => {
         return res.status(201).json(user.serialize())
@@ -188,7 +207,6 @@ async function getUser(userEmail) {
 }
 
 router.get('/', jwtAuth, async (req, res) => {
-  console.log(req.user)
   try {
     const user = await getUser(req.user.userEmail)
     res.send({

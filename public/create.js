@@ -174,7 +174,7 @@ function saveDraft () {
           console.log('there was an error: ', error)
         },
         success: function (data) {
-          console.log('draft created')
+          console.log('draft created! heres the data: ', data)
         }
       })
 

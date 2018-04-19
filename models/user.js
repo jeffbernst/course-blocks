@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const bcrypt = require('bcryptjs')
-const { courseSchema } = require('./course')
+// const { courseSchema } = require('./course')
 
 const userSchema = new Schema({
   userId: String,
@@ -17,16 +17,17 @@ const userSchema = new Schema({
       currentPart: Number,
       completed: [[Number]],
       // TODO should courseData be linked from courses database?
-      courseData: courseSchema
+      // courseData: courseSchema
     }
   ],
-  drafts: [courseSchema]
+  drafts: [{ type: Schema.Types.ObjectId, ref: 'Course' }]
 })
 
 userSchema.methods.serialize = function() {
   return {
     userName: this.userName || '',
-    userEmail: this.userEmail || ''
+    userEmail: this.userEmail || '',
+    id: this._id
   }
 }
 

@@ -10,6 +10,7 @@ const passport = require('passport')
 const jwt = require('jsonwebtoken')
 
 const { User } = require('../models/user')
+const { Course } = require('../models/course')
 const { jwtStrategy } = require('../strategies')
 // const app = express()
 
@@ -19,16 +20,34 @@ passport.use(jwtStrategy)
 
 const jwtAuth = passport.authenticate('jwt', { session: false })
 
-async function createNewDraftAndUpdateUser(draft, userEmail) {
-  const newDraft = { ...draft, courseId: uuidv4() }
+async function createNewDraftAndUpdateUser(draft, userId) {
+  // const newDraft = { ...draft, courseId: uuidv4() }
+  // no longer going to use courseId from uuid
 
-  const updatedUser = await User.findOneAndUpdate(
-    { userEmail },
-    { $push: { drafts: newDraft } },
-    { new: true }
-  )
+  // const updatedUser = await User.findById(
+  //   { userEmail },
+  //   { $push: { drafts: newDraft } },
+  //   { new: true }
+  // )
 
-  return updatedUser
+  const user = await User.findById(userId).populate('drafts')
+
+  console.log(user.drafts)
+
+  const responseMessage = await user.save(function (err) {
+    if (err) return console.log(err);
+
+    const newDraft = new Course(draft);
+
+    newDraft.save(function (err) {
+      if (err) return console.log(err);
+      // thats it!
+    });
+  });
+
+  // const responseMessage = await user.save()
+
+  return responseMessage
 }
 
 router.post('/', jwtAuth, async (req, res) => {
@@ -38,7 +57,7 @@ router.post('/', jwtAuth, async (req, res) => {
     // need to send userId with update
     // make sure user has access to do this
     // req.user should have jwt info
-    const newDraft = await createNewDraftAndUpdateUser(req.body, req.user.userEmail)
+    const newDraft = await createNewDraftAndUpdateUser(req.body, req.user.id)
     res.send(newDraft)
   } catch (err) {
     console.error(err)
