@@ -165,7 +165,7 @@ function saveDraft () {
     if (draftId === 'create') {
       $.ajax({
         type: 'POST',
-        url: 'api/drafts/',
+        url: '/api/drafts/',
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify(draftData),
@@ -185,17 +185,17 @@ function saveDraft () {
     } else {
       $.ajax({
         type: 'PUT',
-        url: 'api/drafts/',
+        url: '/api/drafts/',
         contentType: 'application/json',
         dataType: 'json',
-        data: JSON.stringify(draftData),
+        data: JSON.stringify({...draftData, courseId: draftId}),
         headers: {'Authorization': `Bearer ${jwt.authToken}`},
         crossDomain: true,
         error: function (error) {
           console.log('there was an error: ', error)
         },
         success: function (data) {
-          console.log('draft updated')
+          console.log('draft updated: ', data)
         }
       })
     }

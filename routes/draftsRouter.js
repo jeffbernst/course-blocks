@@ -50,42 +50,36 @@ router.post('/', jwtAuth, async (req, res) => {
 })
 
 async function updateDraftInUserObject (updatedDraft, userId) {
-  const userToUpdate = await User.findOne({userId: userId})
+  const userToUpdate = await User.findById(userId)
 
-  const draftToUpdate = userToUpdate.drafts.find(
-    draft => draft.courseId === updatedDraft.courseId
-  )
+  const draftIndex = userToUpdate.drafts.findIndex(draft => draft.courseId === updatedDraft.courseId)
+  userToUpdate.drafts[draftIndex] = updatedDraft
 
-  if (draftToUpdate) {
-    draftToUpdate.remove()
-    userToUpdate.drafts.push(updatedDraft)
-  }
+  const updatedUser = await User.findByIdAndUpdate(userId, userToUpdate, {new: true})
 
-  await userToUpdate.save()
-
-  return updatedDraft
+  return updatedUser
 }
 
 router.put('/', jwtAuth, async (req, res) => {
   try {
-    await updateDraftInUserObject(req.body, req.user.id)
-    res.send(req.body)
+    const updatedUser = await updateDraftInUserObject(req.body, req.user.id)
+    res.send(updatedUser)
   } catch (err) {
     console.error(err)
   }
 })
 
 
-router.get('/:courseId', jwtAuth, async (req, res) => {
-  const user = User.findById(req.user.id)
-  console.log('user:', user)
-
-  const draft = user.drafts.find(draft => {
-    return draft.courseId === req.params.courseId
-  })
-
-  res.send(draft)
-})
+// router.get('/:courseId', jwtAuth, async (req, res) => {
+//   const user = User.findById(req.user.id)
+//   console.log('user:', user)
+//
+//   const draft = user.drafts.find(draft => {
+//     return draft.courseId === req.params.courseId
+//   })
+//
+//   res.send(draft)
+// })
 
 module.exports = {
   router,

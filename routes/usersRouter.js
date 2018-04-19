@@ -206,7 +206,6 @@ async function getUser(userId) {
 }
 
 router.get('/', jwtAuth, async (req, res) => {
-  console.log('user get req.body: ', req.body)
   try {
     const user = await getUser(req.user.id)
     res.send({

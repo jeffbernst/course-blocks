@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const courseSchema = new Schema({
   courseId: String,
   courseTitle: String,
-  published: { type: Boolean, default: false },
+  // published: { type: Boolean, default: false },
   // authorId: String,
   // author: { type: Schema.Types.ObjectId, ref: 'User' },
   themeColor: String,
