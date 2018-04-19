@@ -57,13 +57,13 @@ async function updateDraftInUserObject (updatedDraft, userId) {
 
   const updatedUser = await User.findByIdAndUpdate(userId, userToUpdate, {new: true})
 
-  return updatedUser
+  return updatedUser.drafts[draftIndex]
 }
 
 router.put('/', jwtAuth, async (req, res) => {
   try {
-    const updatedUser = await updateDraftInUserObject(req.body, req.user.id)
-    res.send(updatedUser)
+    const updatedDraft = await updateDraftInUserObject(req.body, req.user.id)
+    res.send(updatedDraft)
   } catch (err) {
     console.error(err)
   }

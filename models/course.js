@@ -9,7 +9,7 @@ const courseSchema = new Schema({
   // author: { type: Schema.Types.ObjectId, ref: 'User' },
   themeColor: String,
   tags: [String],
-  courseSummary: String,
+  // courseSummary: String,
   lessons: [
     {
       lessonTitle: String,

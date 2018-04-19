@@ -84,6 +84,7 @@ async function loadCreatePage () {
   clickToEditLessonName()
   // createNewDraft()
   watchSignUpForm()
+  addMenu()
 }
 
 function loadCreateSideBar (draftData) {
@@ -245,6 +246,46 @@ function updatePartOnKeypress() {
     let currentPart = Number($('.current-lesson').data('part'))
 
     draftData.lessons[currentLesson].parts[currentPart].partContent = $('.part-content').val()
+  })
+}
+
+function addMenu() {
+  $('.add-button').click(() => {
+    $('.add-menu').toggle()
+  })
+
+  $('.add-lesson').click(() => {
+    const newLesson = prompt('What would you like to name your new lesson?')
+
+    draftData.lessons.push({
+      lessonTitle: newLesson,
+      parts: [
+        {
+          partTitle: 'My Great Part',
+          partContent: 'Text goes here.'
+        }
+      ]
+    })
+
+    loadCreateSideBar(draftData)
+  })
+
+  $('.add-part').click(() => {
+    let newPartLocation = prompt('Which lesson should the part be added to?')
+
+    if (newPartLocation > draftData.lessons.length) {
+      alert('Please pick a lesson that exists.')
+
+    } else {
+      const newPartTitle = prompt('What would you like to name your new part?')
+
+      draftData.lessons[newPartLocation - 1].parts.push({
+        partTitle: newPartTitle,
+        partContent: 'Text goes here.'
+      })
+
+      loadCreateSideBar(draftData)
+    }
   })
 }
 
