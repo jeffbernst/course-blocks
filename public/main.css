@@ -898,6 +898,29 @@ a {
   border: 3px solid var(--dark-grey);
 }
 
+.add-menu {
+  position: absolute;
+  bottom: 50px;
+  left: 5px;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  display: none;
+}
+
+.add-lesson,
+.add-part {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.add-lesson:hover,
+.add-part:hover {
+  border-radius: 5px;
+  background-color: var(--very-light-grey)
+}
+
 .add-button {
   position: absolute;
   bottom: 5px;
