@@ -85,6 +85,7 @@ async function loadCreatePage () {
   // createNewDraft()
   watchSignUpForm()
   addMenu()
+  publishCourse()
 }
 
 function loadCreateSideBar (draftData) {
@@ -286,6 +287,28 @@ function addMenu() {
 
       loadCreateSideBar(draftData)
     }
+  })
+}
+
+function publishCourse() {
+  const jwt = JSON.parse(localStorage.getItem('JWT'))
+
+  $('.publish-button').click(() => {
+    $.ajax({
+      type: 'POST',
+      url: '/api/courses/',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify({...draftData, courseId: draftId}),
+      headers: {'Authorization': `Bearer ${jwt.authToken}`},
+      crossDomain: true,
+      error: function (error) {
+        console.log('there was an error: ', error)
+      },
+      success: function (data) {
+        console.log('course published: ', data)
+      }
+    })
   })
 }
 
