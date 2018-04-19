@@ -1,5 +1,6 @@
 const url = window.location.href
-const draftId = url.match(/(create)\/(.*)\/?$/)[2]
+const test = url.match(/(create)\/(.*)\/?$/)
+const draftId = test === null ? 'create' : test[2]
   // typeof url.match(/\/([^/]+)$/)[1] === 'undefined'
   //   ? 'not in url'
   //   : url.match(/\/([^/]+)$/)[1]
@@ -247,32 +248,32 @@ function updatePartOnKeypress() {
   })
 }
 
-function updateDatabase (draftData, title, content, lesson, part) {
-  return new Promise((resolve, reject) => {
-    let currentUserData = JSON.parse(localStorage.getItem('MOCK_USER_DATA'))
-    let draftIndex = currentUserData.drafts.findIndex(
-      draft => draft.courseId == draftId
-    )
-
-    currentUserData.drafts[draftIndex].lessons[lesson].parts[
-      part
-      ].partTitle = title
-    currentUserData.drafts[draftIndex].lessons[lesson].parts[
-      part
-      ].partContent = content
-
-    let updatedUserData = Object.assign({}, currentUserData)
-
-    localStorage.setItem('MOCK_USER_DATA', JSON.stringify(updatedUserData))
-
-    location.reload()
-
-    // need to update sidebar and course data that is in the dom
-    // moveToClickedLesson is currently using the course data from initial page load
-
-    resolve('updated!')
-  })
-}
+// function updateDatabase (draftData, title, content, lesson, part) {
+//   return new Promise((resolve, reject) => {
+//     let currentUserData = JSON.parse(localStorage.getItem('MOCK_USER_DATA'))
+//     let draftIndex = currentUserData.drafts.findIndex(
+//       draft => draft.courseId == draftId
+//     )
+//
+//     currentUserData.drafts[draftIndex].lessons[lesson].parts[
+//       part
+//       ].partTitle = title
+//     currentUserData.drafts[draftIndex].lessons[lesson].parts[
+//       part
+//       ].partContent = content
+//
+//     let updatedUserData = Object.assign({}, currentUserData)
+//
+//     localStorage.setItem('MOCK_USER_DATA', JSON.stringify(updatedUserData))
+//
+//     location.reload()
+//
+//     // need to update sidebar and course data that is in the dom
+//     // moveToClickedLesson is currently using the course data from initial page load
+//
+//     resolve('updated!')
+//   })
+// }
 
 // function createNewDraft() {
 //   // initialize course with basic course data and 0 courseIndex
