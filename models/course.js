@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const courseSchema = new Schema({
-  // courseId: String,
+  courseId: String,
   courseTitle: String,
   published: { type: Boolean, default: false },
   // authorId: String,

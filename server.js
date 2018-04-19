@@ -16,6 +16,8 @@ const { router: coursesRouter } = require('./routes/coursesRouter')
 const { router: draftsRouter } = require('./routes/draftsRouter')
 const { router: usersRouter } = require('./routes/usersRouter')
 
+app.use(bodyparser.json())
+
 app.use('/api/courses', coursesRouter)
 app.use('/api/drafts', draftsRouter)
 app.use('/api/users', usersRouter)
@@ -24,7 +26,6 @@ mongoose.Promise = global.Promise
 
 app.use(express.static('public', { extensions: ['html', 'htm'] }))
 app.use('/node_modules', express.static('node_modules'))
-app.use(bodyparser.json())
 
 // passport.use(jwtStrategy)
 

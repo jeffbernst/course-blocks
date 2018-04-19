@@ -16,7 +16,6 @@ const md5 = require('md5')
 // const urlEncoded = bodyParser.jsonUrlEncoded()
 
 const { User } = require('../models/user')
-const { Course } = require('../models/course')
 const { jwtStrategy, localStrategy } = require('../strategies')
 // const app = express()
 
@@ -51,7 +50,7 @@ async function createNewUser(userData) {
 }
 
 // TODO return promise out of function and resolve or reject into my try catch
-router.post('/', jsonParser, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const requiredFields = ['name', 'email', 'password']
     const missingField = requiredFields.find(field => !(field in req.body))

@@ -9,45 +9,53 @@ const uuidv4 = require('uuid/v4')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 
-const { User } = require('../models/user')
-const { Course } = require('../models/course')
-const { jwtStrategy } = require('../strategies')
+const {User} = require('../models/user')
+const {Course} = require('../models/course')
+const {jwtStrategy} = require('../strategies')
 // const app = express()
 
 mongoose.Promise = global.Promise
 
 passport.use(jwtStrategy)
 
-const jwtAuth = passport.authenticate('jwt', { session: false })
+const jwtAuth = passport.authenticate('jwt', {session: false})
 
-async function createNewDraftAndUpdateUser(draft, userId) {
-  // const newDraft = { ...draft, courseId: uuidv4() }
-  // no longer going to use courseId from uuid
+async function createNewDraftAndUpdateUser (draft, userId) {
+  console.log('draft: ', draft)
+  const newDraft = {...draft, courseId: uuidv4()}
 
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {$push: {drafts: newDraft}},
+    {new: true}
+  )
+  console.log('user: ', user)
+
+  // user.drafts.push(newDraft)
   // const updatedUser = await User.findById(
-  //   { userEmail },
+  //   userId,
   //   { $push: { drafts: newDraft } },
   //   { new: true }
   // )
 
-  const user = await User.findById(userId).populate('drafts')
-
-  console.log(user.drafts)
-
-  const responseMessage = await user.save(function (err) {
-    if (err) return console.log(err);
-
-    const newDraft = new Course(draft);
-
-    newDraft.save(function (err) {
-      if (err) return console.log(err);
-      // thats it!
-    });
-  });
+  // const user = await User.findById(userId).populate('drafts')
+  //
+  // console.log(user.drafts)
+  //
+  // const responseMessage = await user.save(function (err) {
+  //   if (err) return console.log(err);
+  //
+  //   const createDraft = new Course(newDraft);
+  //
+  //   newDraft.save(function (err) {
+  //     if (err) return console.log(err);
+  //     // thats it!
+  //   });
+  // });
 
   // const responseMessage = await user.save()
 
-  return responseMessage
+  return user
 }
 
 router.post('/', jwtAuth, async (req, res) => {
@@ -57,6 +65,7 @@ router.post('/', jwtAuth, async (req, res) => {
     // need to send userId with update
     // make sure user has access to do this
     // req.user should have jwt info
+    console.log('req.body: ', req.body)
     const newDraft = await createNewDraftAndUpdateUser(req.body, req.user.id)
     res.send(newDraft)
   } catch (err) {
@@ -64,8 +73,8 @@ router.post('/', jwtAuth, async (req, res) => {
   }
 })
 
-async function updateDraftInUserObject(updatedDraft, userId) {
-  const userToUpdate = await User.findOne({ userId: userId })
+async function updateDraftInUserObject (updatedDraft, userId) {
+  const userToUpdate = await User.findOne({userId: userId})
 
   const draftToUpdate = userToUpdate.drafts.find(
     draft => draft.courseId === updatedDraft.courseId
