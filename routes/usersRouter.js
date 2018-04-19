@@ -12,6 +12,7 @@ const config = require('../config')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
+const md5 = require('md5')
 // const urlEncoded = bodyParser.jsonUrlEncoded()
 
 const { User } = require('../models/user')
@@ -49,7 +50,7 @@ async function createNewUser(userData) {
 }
 
 // TODO return promise out of function and resolve or reject into my try catch
-router.post('/', jsonParser, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const requiredFields = ['name', 'email', 'password']
     const missingField = requiredFields.find(field => !(field in req.body))
@@ -140,8 +141,27 @@ router.post('/', jsonParser, async (req, res) => {
         return User.create({
           userName: name,
           userEmail: email,
-          password: hash
+          password: hash,
+          gravatarHash: md5(email.toLowerCase())
         })
+        // const user = new User({
+        //   _id: new mongoose.Types.ObjectId(),
+        //   userName: name,
+        //   userEmail: email,
+        //   password: hash,
+        //   gravatarHash: md5(email.toLowerCase())
+        // })
+        //
+        // user.save(err => {
+        //   if (err) return err;
+        //
+        //   const draft = new Course({});
+        //
+        //   return draft.save(err => {
+        //     if (err) return err;
+        //     // thats it!
+        //   })
+        // })
       })
       .then(user => {
         return res.status(201).json(user.serialize())
@@ -163,8 +183,13 @@ router.post('/', jsonParser, async (req, res) => {
 
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize())
-  res.json({ authToken })
-  // res.json({ responseText: 'logged in' })
+  res.json({
+    authToken
+  })
+  // for member nav need:
+  // 1. gravatar hash
+  // 2. list of drafts and draftIds
+  // 3. userId to retrieve all draft info
 })
 
 // router.post('/refresh', jwtAuth, (req, res) => {
@@ -177,14 +202,18 @@ router.post('/login', localAuth, (req, res) => {
 // })
 
 async function getUser(userId) {
-  return await User.findOne({ userId: userId })
+  return await User.findById(userId)
 }
 
-router.get('/:userId', jwtAuth, async (req, res) => {
-  // can i just use mongo id instead of creating one with uuid?
+router.get('/', jwtAuth, async (req, res) => {
   try {
-    const user = await getUser(req.params.userId)
-    res.send(user)
+    const user = await getUser(req.user.id)
+    res.send({
+      userId: user._id,
+      gravatarHash: user.gravatarHash,
+      enrolledIn: user.enrolledIn,
+      drafts: user.drafts
+    })
   } catch (err) {
     console.error(err)
   }

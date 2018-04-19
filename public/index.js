@@ -284,8 +284,25 @@ function checkForJsonWebToken() {
 function getCoursesForIndexPage() {
   return new Promise((resolve, reject) => {
     // api call will go here
-    let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
-    resolve(MOCK_COURSE_DATA)
+    // let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
+    // resolve(MOCK_COURSE_DATA)
+
+    $.ajax({
+      type: 'GET',
+      url: '/api/courses/',
+      contentType: 'application/json',
+      dataType: 'json',
+      // data: JSON.stringify({...draftData, courseId: draftId}),
+      // headers: {'Authorization': `Bearer ${jwt.authToken}`},
+      crossDomain: true,
+      error: function (error) {
+        console.log('there was an error: ', error)
+      },
+      success: function (data) {
+        console.log('got some courses: ', data)
+        resolve(data)
+      }
+    })
   })
 }
 
@@ -302,35 +319,38 @@ async function showMemberScreen() {
   $('.nav-create').show()
   $('.my-courses').show()
 
-  userData.enrolledIn.forEach(userCourseData => {
-    $('.my-course-list').append(`
+  if (userData.enrolledIn.length === 0) $('.my-course-list').text('Not enrolled in any courses yet!')
+  else {
+    userData.enrolledIn.forEach(userCourseData => {
+      $('.my-course-list').append(`
 			<div class="course-progress-tile ${userCourseData.themeColor}-tile">
 				<div class="course-progress-title-and-author">
 					<div class="course-progress-title"><a href="/course/${
-            userCourseData.courseId
-          }">${userCourseData.courseTitle}</a></div>
+        userCourseData.courseId
+        }">${userCourseData.courseTitle}</a></div>
 					<div class="course-progress-author">by ${userCourseData.courseAuthor}</div>
 				</div>
 				<div class="course-progress-bar-and-buttons">
 					<div class="course-progress-bar course-progress-bar-index">
 						<div class="course-progress-bar-shader" style="background-color: var(--dark-${
-              userCourseData.themeColor
-            }); width: ${calculatePercentComplete(userCourseData)}%;">
+        userCourseData.themeColor
+        }); width: ${calculatePercentComplete(userCourseData)}%;">
 							<span class="percent-complete">${calculatePercentComplete(
-                userCourseData
-              )}% complete</span>
+        userCourseData
+      )}% complete</span>
 						</div>
 					</div>
 					<div class="course-progress-buttons">
 						<a href="/course/${
-              userCourseData.courseId
-            }"><button class="resume-button"><span>Resume &#x1F4D8</span></button></a>
+        userCourseData.courseId
+        }"><button class="resume-button"><span>Resume &#x1F4D8</span></button></a>
 						<button class="share-button"><span>Share &#x1F4E3;</span></button>
 					</div>
 				</div>
 			</div>
 		`)
-  })
+    })
+  }
 }
 
 function calculatePercentComplete(userCourseData) {
@@ -367,9 +387,7 @@ function renderCourseTile(courseInfo) {
 						<br>
 						<div class="course-grid-enroll-container">
 							<button class="course-grid-enroll-button"><span>Enroll &#x1F680;</span></button>&nbsp;&nbsp;
-							<span class="course-grid-students-count">${
-                courseInfo.studentCount
-              } students</span>
+              <!--<span class="course-grid-students-count">${ courseInfo.studentCount } students</span>-->
 						</div>
 					</div>`
 }
@@ -458,23 +476,6 @@ function mockSearch(searchTerm) {
   })
 }
 
-// function testApi() {
-//   $.ajax({
-//     type: 'POST',
-//     url: 'api/users/testthisroute',
-//     contentType: 'application/json',
-//     dataType: 'json',
-//     headers: {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJOYW1lIjoiSmVmZiIsInVzZXJFbWFpbCI6ImVtYWlsQGplZmYuY29tIn0sImlhdCI6MTUyMzQ2OTg4NCwiZXhwIjoxNTI0MDc0Njg0LCJzdWIiOiJlbWFpbEBqZWZmLmNvbSJ9.UNnDf_Qaw7mDZMc9Jr3HnuwNgNF_qxE9_L5hS1EJofk"},
-//     crossDomain: true,
-//     error: function(error) {
-//       console.log('there was an error: ', error)
-//     },
-//     success: function(data) {
-//       console.log('it worked!')
-//     }
-//   })
-// }
-
 function startApp() {
   checkForJsonWebToken()
   createAndAppendCourseTileHtml()
@@ -487,8 +488,7 @@ function startApp() {
   closeModal()
   watchFilters()
   watchExploreTitle()
-  createDropdown()
-  // testApi()
+  // createDropdown()
 }
 
 $(startApp)

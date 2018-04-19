@@ -10,13 +10,14 @@ const userSchema = new Schema({
   userEmail: String,
   password: String,
   gravatarHash: String,
+  tags: [String],
   enrolledIn: [
     {
       currentLesson: Number,
       currentPart: Number,
       completed: [[Number]],
       // TODO should courseData be linked from courses database?
-      courseData: courseSchema
+      // courseData: courseSchema
     }
   ],
   drafts: [courseSchema]
@@ -25,7 +26,9 @@ const userSchema = new Schema({
 userSchema.methods.serialize = function() {
   return {
     userName: this.userName || '',
-    userEmail: this.userEmail || ''
+    userEmail: this.userEmail || '',
+    id: this._id,
+    userName: this.userName
   }
 }
 

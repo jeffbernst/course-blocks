@@ -4,11 +4,13 @@ const Schema = mongoose.Schema
 const courseSchema = new Schema({
   courseId: String,
   courseTitle: String,
-  authorId: String,
-  author: { type: Schema.Types.ObjectId, ref: 'User' },
+  // published: { type: Boolean, default: false },
+  // authorId: String,
+  // author: { type: Schema.Types.ObjectId, ref: 'User' },
+  courseAuthor: String,
   themeColor: String,
   tags: [String],
-  courseSummary: String,
+  // courseSummary: String,
   lessons: [
     {
       lessonTitle: String,

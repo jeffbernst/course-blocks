@@ -775,6 +775,7 @@ a {
 .sidebar-course-title {
   font-size: 22px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .sidebar-course-author {
@@ -889,6 +890,65 @@ a {
   display: none;
 }
 
+.save-draft-button {
+  position: absolute;
+  /* need to set this top property with jquery e.g. $(".flight_no, .price").css("height", $(".legs").height());*/
+  bottom: 5px;
+  right: 5px;
+  border: 3px solid var(--dark-grey);
+  font-size: 15px;
+}
+
+.add-menu {
+  position: absolute;
+  bottom: 50px;
+  left: 5px;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  display: none;
+}
+
+.add-lesson,
+.add-part {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.add-lesson:hover,
+.add-part:hover {
+  border-radius: 5px;
+  background-color: var(--very-light-grey)
+}
+
+.add-button {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  border: 3px solid var(--dark-grey);
+  border-radius: 50%;
+  padding: 2px 2px 1px 2px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  background-color: white;
+}
+
+.publish-button {
+  position: absolute;
+  bottom: 5px;
+  left: 58px;
+  width: 84px;
+  height: 32px !important;
+  font-size: 15px !important;
+  font-weight: bold !important ;
+}
+
 @media only screen and (min-width: 1000px) {
   .expand-sidebar-mobile-wrapper {
    display: none;
@@ -979,6 +1039,10 @@ a {
   background-color: white;
 }
 
+.dropdown-content hr {
+  margin: 0;
+}
+
 .dropdown-content a {
   text-decoration: none;
   display: block;
@@ -990,7 +1054,7 @@ a {
 }
 
 .create-dropdown-new-course {
-  border-bottom: 1px solid var(--dark-grey);
+  /*border-bottom: 1px solid var(--dark-grey);*/
 }
 
 .preview-button,

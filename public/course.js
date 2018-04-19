@@ -36,6 +36,7 @@ async function loadPage() {
   moveToClickedLesson(courseData)
   nextButton(courseData)
   previousButton(courseData)
+  clickLessonNameListener(courseData)
   createDropdown()
   watchSignUpButton()
   watchSignUpForm()
@@ -106,6 +107,29 @@ function calculatePercentComplete(courseData, userData) {
       : userData.completed.reduce((acc, cur) => acc + cur.length, 0)
 
   return Math.floor(completedByUser / courseSize * 100)
+}
+
+function clickLessonNameListener(courseData) {
+  $('.sidebar-table-of-contents').on(
+    'click',
+    '.sidebar-lesson-title',
+    event => {
+      let clickedLesson = $(event.currentTarget)
+        .prev()
+        .data('lessonNumber')
+
+      let clickedPartData = courseData.lessons[clickedLesson].parts[0]
+
+      showOrHideNextAndPreviousButtons(courseData, clickedLesson, 0)
+      updateLessonLocationData(clickedLesson, 0)
+
+      $('.part-title').html(clickedPartData.partTitle)
+      $('.part-content').html(marked(clickedPartData.partContent))
+
+      $('textarea.part-title').val(clickedPartData.partTitle)
+      $('textarea.part-content').val(clickedPartData.partContent)
+    }
+  )
 }
 
 $(loadPage)
