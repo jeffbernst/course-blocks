@@ -201,13 +201,14 @@ router.post('/login', localAuth, (req, res) => {
 //   res.json({message: 'accessed properly'})
 // })
 
-async function getUser(userEmail) {
-  return await User.findOne({userEmail})
+async function getUser(userId) {
+  return await User.findById(userId)
 }
 
 router.get('/', jwtAuth, async (req, res) => {
+  console.log('user get req.body: ', req.body)
   try {
-    const user = await getUser(req.user.userEmail)
+    const user = await getUser(req.user.id)
     res.send({
       userId: user._id,
       gravatarHash: user.gravatarHash,

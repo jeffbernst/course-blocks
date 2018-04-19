@@ -300,16 +300,16 @@ function getUserData () {
 
     $.ajax({
       type: 'GET',
-      url: `api/users/`,
+      url: `/api/users/`,
       contentType: 'application/json',
       dataType: 'json',
       headers: {'Authorization': `Bearer ${jwt.authToken}`},
       crossDomain: true,
       error: function (error) {
-        console.log('there was an error: ', error)
+        console.log('there was an error getting user: ', error)
       },
       success: function (data) {
-        console.log('it worked!')
+        console.log('got user')
         resolve(data)
       }
     })

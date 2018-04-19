@@ -21,7 +21,6 @@ passport.use(jwtStrategy)
 const jwtAuth = passport.authenticate('jwt', {session: false})
 
 async function createNewDraftAndUpdateUser (draft, userId) {
-  console.log('draft: ', draft)
   const newDraft = {...draft, courseId: uuidv4()}
 
   const user = await User.findByIdAndUpdate(
@@ -43,7 +42,6 @@ router.post('/', jwtAuth, async (req, res) => {
     // need to send userId with update
     // make sure user has access to do this
     // req.user should have jwt info
-    console.log('req.body: ', req.body)
     const newDraft = await createNewDraftAndUpdateUser(req.body, req.user.id)
     res.send(newDraft)
   } catch (err) {
@@ -70,7 +68,7 @@ async function updateDraftInUserObject (updatedDraft, userId) {
 
 router.put('/', jwtAuth, async (req, res) => {
   try {
-    await updateDraftInUserObject(req.body, req.user._id)
+    await updateDraftInUserObject(req.body, req.user.id)
     res.send(req.body)
   } catch (err) {
     console.error(err)
@@ -80,6 +78,7 @@ router.put('/', jwtAuth, async (req, res) => {
 
 router.get('/:courseId', jwtAuth, async (req, res) => {
   const user = User.findById(req.user.id)
+  console.log('user:', user)
 
   const draft = user.drafts.find(draft => {
     return draft.courseId === req.params.courseId

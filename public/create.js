@@ -1,8 +1,9 @@
 const url = window.location.href
-const draftId =
-  typeof url.match(/\/([^/]+)$/)[1] === 'undefined'
-    ? 'not in url'
-    : url.match(/\/([^/]+)$/)[1]
+const draftId = url.match(/(create)\/(.*)\/?$/)[2]
+  // typeof url.match(/\/([^/]+)$/)[1] === 'undefined'
+  //   ? 'not in url'
+  //   : url.match(/\/([^/]+)$/)[1]
+console.log(draftId)
 
 function checkForJsonWebToken () {
   if (localStorage.getItem('JWT') !== null) showMemberNav()
@@ -47,7 +48,7 @@ async function loadCreatePage () {
 
   } else {
     const userData = await getUserData()
-    const draftDataFromDb = userData.drafts.find(draft => draft.courseId == draftId)
+    const draftDataFromDb = userData.drafts.find(draft => draft.courseId === draftId)
     draftData.courseTitle = draftDataFromDb.courseTitle
     draftData.themeColor = draftDataFromDb.themeColor
     draftData.courseSummary = draftDataFromDb.courseSummary
@@ -174,7 +175,7 @@ function saveDraft () {
         },
         success: function (data) {
           console.log('draft created! heres the data: ', data)
-          window.location.href = `http://courseblocks.com/create/${data.newDraft.courseId}`;
+          window.location.href = `/create/${data.newDraft.courseId}`;
         }
       })
 
