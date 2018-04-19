@@ -28,11 +28,18 @@ async function publishCourse(course) {
 
 router.post('/', jwtAuth, async (req, res) => {
   try {
-    const newCourse = await publishCourse(req.body)
+    const courseToPublish = {...req.body, courseAuthor: req.user.userName}
+    const newCourse = await publishCourse(courseToPublish)
     res.send(newCourse)
   } catch (err) {
     console.error(err)
   }
+})
+
+router.get('/', async (req, res) => {
+  const courses = await Course.find().limit(12)
+
+  res.send(courses)
 })
 
 module.exports = {

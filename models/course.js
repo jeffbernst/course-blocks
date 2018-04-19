@@ -7,6 +7,7 @@ const courseSchema = new Schema({
   // published: { type: Boolean, default: false },
   // authorId: String,
   // author: { type: Schema.Types.ObjectId, ref: 'User' },
+  courseAuthor: String,
   themeColor: String,
   tags: [String],
   // courseSummary: String,
