@@ -29,33 +29,11 @@ async function createNewDraftAndUpdateUser (draft, userId) {
     {$push: {drafts: newDraft}},
     {new: true}
   )
-  console.log('user: ', user)
 
-  // user.drafts.push(newDraft)
-  // const updatedUser = await User.findById(
-  //   userId,
-  //   { $push: { drafts: newDraft } },
-  //   { new: true }
-  // )
-
-  // const user = await User.findById(userId).populate('drafts')
-  //
-  // console.log(user.drafts)
-  //
-  // const responseMessage = await user.save(function (err) {
-  //   if (err) return console.log(err);
-  //
-  //   const createDraft = new Course(newDraft);
-  //
-  //   newDraft.save(function (err) {
-  //     if (err) return console.log(err);
-  //     // thats it!
-  //   });
-  // });
-
-  // const responseMessage = await user.save()
-
-  return user
+  return {
+    user,
+    newDraft
+  }
 }
 
 router.post('/', jwtAuth, async (req, res) => {
@@ -97,6 +75,17 @@ router.put('/', jwtAuth, async (req, res) => {
   } catch (err) {
     console.error(err)
   }
+})
+
+
+router.get('/:courseId', jwtAuth, async (req, res) => {
+  const user = User.findById(req.user.id)
+
+  const draft = user.drafts.find(draft => {
+    return draft.courseId === req.params.courseId
+  })
+
+  res.send(draft)
 })
 
 module.exports = {

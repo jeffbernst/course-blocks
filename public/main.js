@@ -438,7 +438,7 @@ function watchSignUpForm () {
             )
           },
           success: function (data) {
-            $('.signup-message').html('<p style="color:Green">Signed up.</p>')
+            $('.signup-message').html('<p style="color:Green">Signed up! Please log in by clicking the button above.</p>')
           }
         })
     }
@@ -486,6 +486,7 @@ function watchLoginForm () {
         console.log('succeeded')
         localStorage.setItem('JWT', JSON.stringify(data))
         $('.login-message').html('<p style="color:Green">Signed in.</p>')
+        location.reload()
       }
     })
   })

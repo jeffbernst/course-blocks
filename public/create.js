@@ -156,7 +156,6 @@ function saveDraft () {
     //   currentPart,
     //   themeColor
     // }
-    console.log(draftData)
 
     const jwt = JSON.parse(localStorage.getItem('JWT'))
 
@@ -175,6 +174,7 @@ function saveDraft () {
         },
         success: function (data) {
           console.log('draft created! heres the data: ', data)
+          window.location.href = `http://courseblocks.com/create/${data.newDraft.courseId}`;
         }
       })
 
