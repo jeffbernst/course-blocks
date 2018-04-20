@@ -34,11 +34,6 @@ async function createNewDraftAndUpdateUser (draft, userId) {
 
 router.post('/', jwtAuth, async (req, res) => {
   try {
-    // don't have userId in URL, get it from JWT
-
-    // need to send userId with update
-    // make sure user has access to do this
-    // req.user should have jwt info
     const newDraft = await createNewDraftAndUpdateUser(req.body, req.user.id)
     res.send(newDraft)
   } catch (err) {

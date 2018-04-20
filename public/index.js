@@ -321,28 +321,30 @@ async function showMemberScreen() {
 
   if (userData.enrolledIn.length === 0) $('.my-course-list').text('Not enrolled in any courses yet!')
   else {
-    userData.enrolledIn.forEach(userCourseData => {
+    userData.enrolledIn.forEach(async userCourseData => {
+      const courseData = await getCourse(userCourseData.courseId)
+
       $('.my-course-list').append(`
-			<div class="course-progress-tile ${userCourseData.themeColor}-tile">
+			<div class="course-progress-tile ${courseData.themeColor}-tile">
 				<div class="course-progress-title-and-author">
 					<div class="course-progress-title"><a href="/course/${
-        userCourseData.courseId
-        }">${userCourseData.courseTitle}</a></div>
-					<div class="course-progress-author">by ${userCourseData.courseAuthor}</div>
+        courseData.courseId
+        }">${courseData.courseTitle}</a></div>
+					<div class="course-progress-author">by ${courseData.courseAuthor}</div>
 				</div>
 				<div class="course-progress-bar-and-buttons">
 					<div class="course-progress-bar course-progress-bar-index">
 						<div class="course-progress-bar-shader" style="background-color: var(--dark-${
-        userCourseData.themeColor
-        }); width: ${calculatePercentComplete(userCourseData)}%;">
+        courseData.themeColor
+        }); width: ${calculatePercentComplete(courseData, userData)}%;">
 							<span class="percent-complete">${calculatePercentComplete(
-        userCourseData
+        courseData, userData
       )}% complete</span>
 						</div>
 					</div>
 					<div class="course-progress-buttons">
 						<a href="/course/${
-        userCourseData.courseId
+        courseData.courseId
         }"><button class="resume-button"><span>Resume &#x1F4D8</span></button></a>
 						<button class="share-button"><span>Share &#x1F4E3;</span></button>
 					</div>
@@ -353,18 +355,18 @@ async function showMemberScreen() {
   }
 }
 
-function calculatePercentComplete(userCourseData) {
-  let courseSize = userCourseData.lessons.reduce(
-    (acc, cur) => acc + cur.parts.length,
-    0
-  )
-  let completedByUser = userCourseData.completed.reduce(
-    (acc, cur) => acc + cur.length,
-    0
-  )
-
-  return Math.floor(completedByUser / courseSize * 100)
-}
+// function calculatePercentComplete(userCourseData) {
+//   let courseSize = userCourseData.lessons.reduce(
+//     (acc, cur) => acc + cur.parts.length,
+//     0
+//   )
+//   let completedByUser = userCourseData.completed.reduce(
+//     (acc, cur) => acc + cur.length,
+//     0
+//   )
+//
+//   return Math.floor(completedByUser / courseSize * 100)
+// }
 
 function createAndAppendCourseTileHtml() {
   $('.course-grid').html('')
