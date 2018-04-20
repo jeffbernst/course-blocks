@@ -290,7 +290,7 @@ function getCourse (courseId) {
     // })
     $.ajax({
       type: 'GET',
-      url: `/api/course/${courseId}`,
+      url: `/api/courses/${courseId}`,
       contentType: 'application/json',
       dataType: 'json',
       // headers: {'Authorization': `Bearer ${jwt.authToken}`},
@@ -300,7 +300,7 @@ function getCourse (courseId) {
         reject(error)
       },
       success: function (data) {
-        console.log('got course')
+        console.log('got course: ', data)
         resolve(data)
       }
     })

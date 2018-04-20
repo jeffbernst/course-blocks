@@ -30,7 +30,7 @@ async function loadPage() {
   checkForJsonWebTokenOnCourse()
 
   const courseData = await getCourse(courseId)
-  const userData = await getUserData(courseId)
+  const userData = await getUserData()
 
   $(".expand-sidebar-desktop")
     .hide()
@@ -55,10 +55,10 @@ async function loadPage() {
 }
 
 function loadSideBar(courseData, userData) {
-  const userCourseData = userData.enrolledIn.find(
-    course => course.courseId == courseId
-  )
-  let percentComplete = calculatePercentComplete(courseData, userCourseData)
+  // const userCourseData = userData.enrolledIn.find(
+  //   course => course.courseId == courseId
+  // )
+  let percentComplete = calculatePercentComplete(courseData, userData)
 
   $(".sidebar-course-info").addClass(`${courseData.themeColor}-tile`)
   $(".sidebar-course-title").html(courseData.courseTitle)
@@ -79,9 +79,23 @@ function loadCurrentLocation(courseData, userData) {
   const userCourseData = userData.enrolledIn.find(
     course => course.courseId == courseId
   )
-  let currentLesson = userCourseData.currentLesson || 0
-  let currentPart = userCourseData.currentLesson || 0
-  let currentPartData = courseData.lessons[currentLesson].parts[currentPart]
+
+  let currentLesson
+  let currentPart
+  let currentPartData
+
+  if (typeof userCourseData === 'undefined') {
+    currentLesson = 0
+    currentPart = 0
+    currentPartData = courseData.lessons[currentLesson].parts[currentPart]
+  } else {
+    currentLesson = userCourseData.currentLesson
+    currentPart = userCourseData.currentPart
+    currentPartData = courseData.lessons[currentLesson].parts[currentPart]
+  }
+  // let currentLesson = userCourseData.currentLesson || 0
+  // let currentPart = userCourseData.currentLesson || 0
+  // let currentPartData = courseData.lessons[currentLesson].parts[currentPart]
 
   if (
     courseData.lessons[currentLesson].parts[currentPart + 1] === undefined &&
@@ -111,8 +125,13 @@ function calculatePercentComplete(courseData, userData) {
     (acc, cur) => acc + cur.parts.length,
     0
   )
+
+  console.log({userData})
+  const enrolledUserData = userData.enrolledIn.find(course => courseData.courseId === course.courseId)
+  console.log({enrolledUserData})
+
   let completedByUser =
-    typeof userData.completed === "undefined"
+    typeof enrolledUserData === 'undefined'
       ? 0
       : userData.completed.reduce((acc, cur) => acc + cur.length, 0)
 
