@@ -326,7 +326,7 @@ function getUserData () {
         console.log('there was an error getting user: ', error)
       },
       success: function (data) {
-        console.log('got user')
+        console.log('got user: ', data)
         resolve(data)
       }
     })
@@ -710,3 +710,22 @@ function showOrHideNextAndPreviousButtons (courseData, lesson, part) {
     $('.previous-container').show()
   }
 }
+
+function calculatePercentComplete(courseData, userData) {
+  let courseSize = courseData.lessons.reduce(
+    (acc, cur) => acc + cur.parts.length,
+    0
+  )
+
+  const enrolledUserData = userData.enrolledIn.find(course => courseData.courseId === course.courseId)
+  if (typeof enrolledUserData === 'undefined') $(".sidebar-button-container-wrapper").show()
+
+  let completedByUser =
+    typeof enrolledUserData === 'undefined'
+      ? 0
+      : enrolledUserData.completed.reduce((acc, cur) => acc + cur.length, 0)
+
+  return Math.floor(completedByUser / courseSize * 100)
+}
+
+

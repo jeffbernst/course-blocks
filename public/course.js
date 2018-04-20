@@ -6,8 +6,10 @@ const courseId = test === null ? 'course' : test[2]
 //   : url.match(/\/([^/]+)$/)[1]
 console.log(courseId)
 
+const jwt = JSON.parse(localStorage.getItem('JWT'))
+
 function checkForJsonWebTokenOnCourse() {
-  if (localStorage.getItem("JWT") !== null) {
+  if (jwt !== null) {
     showMemberNav()
     // load standard sidebar and default to course summary
   } else {
@@ -26,11 +28,23 @@ function checkForJsonWebTokenOnCourse() {
 //   lessons: []
 // }
 
+const userData = {
+  userId: '',
+  gravatarHash: '',
+  enrolledIn: [],
+  drafts: []
+}
+
 async function loadPage() {
   checkForJsonWebTokenOnCourse()
 
   const courseData = await getCourse(courseId)
-  const userData = await getUserData()
+  const retrievedUserData = await getUserData()
+
+  userData.userId = retrievedUserData.userId
+  userData.gravatarHash = retrievedUserData.gravatarHash
+  userData.enrolledIn = retrievedUserData.enrolledIn
+  userData.drafts = retrievedUserData.drafts
 
   $(".expand-sidebar-desktop")
     .hide()
@@ -52,6 +66,32 @@ async function loadPage() {
   watchSignUpForm()
   watchLogInButton()
   closeModal()
+  enrollButtonListener(courseData)
+}
+
+function enrollButtonListener(courseData) {
+  $('.course-grid-enroll-button').click(() => {
+    // TODO test if user is already enrolled
+
+    $.ajax({
+      type: 'POST',
+      url: `/api/courses/${courseData.courseId}`,
+      contentType: 'application/json',
+      dataType: 'json',
+      headers: {'Authorization': `Bearer ${jwt.authToken}`},
+      crossDomain: true,
+      error: function (error) {
+        console.log('there was an error enrolling: ', error)
+      },
+      success: function (data) {
+        console.log('enrolled successfully: ', data)
+
+        userData.enrolledIn = data.enrolledIn
+
+        loadSideBar(courseData, userData)
+      }
+    })
+  })
 }
 
 function loadSideBar(courseData, userData) {
@@ -63,11 +103,26 @@ function loadSideBar(courseData, userData) {
   $(".sidebar-course-info").addClass(`${courseData.themeColor}-tile`)
   $(".sidebar-course-title").html(courseData.courseTitle)
   $(".sidebar-course-author").html(`by ${courseData.courseAuthor}`)
-  $(".course-progress-bar-shader").css({
-    width: `${percentComplete}%`,
-    "background-color": `var(--dark-${courseData.themeColor})`
-  })
-  $(".percent-complete").html(`${percentComplete}% complete`)
+
+  // test if user is enrolled
+  const userCourseData = userData.enrolledIn.find(
+    course => course.courseId === courseId
+  )
+
+  console.log({userCourseData})
+
+  if (typeof userCourseData === 'undefined') {
+    $('.course-progress-bar').hide()
+    $('.course-grid-enroll-button').show()
+  } else {
+    $('.course-grid-enroll-button').hide()
+    $('.course-progress-bar').show()
+    $(".course-progress-bar-shader").css({
+      width: `${percentComplete}%`,
+      "background-color": `var(--dark-${courseData.themeColor})`
+    })
+    $(".percent-complete").html(`${percentComplete}% complete`)
+  }
 
   let sidebarCourseInfoHeight = $(".sidebar-course-info").height()
   $(".sidebar-table-of-contents")
@@ -77,7 +132,7 @@ function loadSideBar(courseData, userData) {
 
 function loadCurrentLocation(courseData, userData) {
   const userCourseData = userData.enrolledIn.find(
-    course => course.courseId == courseId
+    course => course.courseId === courseId
   )
 
   let currentLesson
@@ -120,23 +175,7 @@ function loadCurrentLocation(courseData, userData) {
   $(".part-content").html(marked(currentPartData.partContent))
 }
 
-function calculatePercentComplete(courseData, userData) {
-  let courseSize = courseData.lessons.reduce(
-    (acc, cur) => acc + cur.parts.length,
-    0
-  )
 
-  console.log({userData})
-  const enrolledUserData = userData.enrolledIn.find(course => courseData.courseId === course.courseId)
-  console.log({enrolledUserData})
-
-  let completedByUser =
-    typeof enrolledUserData === 'undefined'
-      ? 0
-      : userData.completed.reduce((acc, cur) => acc + cur.length, 0)
-
-  return Math.floor(completedByUser / courseSize * 100)
-}
 
 function clickLessonNameListener(courseData) {
   $('.sidebar-table-of-contents').on(

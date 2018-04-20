@@ -29,10 +29,7 @@ async function createNewDraftAndUpdateUser (draft, userId) {
     {new: true}
   )
 
-  return {
-    user,
-    newDraft
-  }
+  return newDraft
 }
 
 router.post('/', jwtAuth, async (req, res) => {

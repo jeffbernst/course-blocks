@@ -8,21 +8,22 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 
-const { Course } = require('../models/course')
-const { jwtStrategy } = require('../strategies')
+const {Course} = require('../models/course')
+const {User} = require('../models/user')
+const {jwtStrategy} = require('../strategies')
 
 mongoose.Promise = global.Promise
 
 passport.use(jwtStrategy)
 
-const jwtAuth = passport.authenticate('jwt', { session: false })
+const jwtAuth = passport.authenticate('jwt', {session: false})
 
 // get request for all courses for index
 
 // get request for specific course
 
-async function publishCourse(course) {
-  await Course.findOne({ courseId: course.courseId }).remove()
+async function publishCourse (course) {
+  await Course.findOne({courseId: course.courseId}).remove()
   return await Course.create(course)
 }
 
@@ -48,8 +49,34 @@ router.get('/:courseId', async (req, res) => {
   res.send(course)
 })
 
+async function enrollInCourseAndUpdateUser (userId, courseId) {
+  const enrolledInCourse = {
+    courseId,
+    currentLesson: 0,
+    currentPart: 0,
+    completed: [],
+  }
+
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {$push: {enrolledIn: enrolledInCourse}},
+    {new: true}
+  )
+
+  return user
+}
+
 // enroll in course
-router.post('/:courseId')
+router.post('/:courseId', jwtAuth, async (req, res) => {
+  try {
+    const updatedUser = await enrollInCourseAndUpdateUser(req.user.id, req.params.courseId)
+    res.send({
+      enrolledIn: updatedUser.enrolledIn
+    })
+  } catch (err) {
+    console.error(err)
+  }
+})
 
 module.exports = {
   router,

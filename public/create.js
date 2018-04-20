@@ -181,7 +181,7 @@ function saveDraft () {
         },
         success: function (data) {
           console.log('draft created! heres the data: ', data)
-          window.location.href = `/create/${data.newDraft.courseId}`
+          window.location.href = `/create/${data.courseId}`
         }
       })
 
