@@ -77,13 +77,19 @@ router.post('/:courseId', jwtAuth, async (req, res) => {
   }
 })
 
-async function markPartCompleted(userId, courseId, completed) {
+async function markPartCompleted(userId, userData) {
+  const user = await User.findByIdAndUpdate(
+    userId,
+    userData,
+    {new: true}
+  )
 
+  return user
 }
 
 router.put('/:courseId', jwtAuth, async(req, res) => {
   try {
-    const updatedUser = await markPartCompleted(req.user.id, req.params.courseId, req.body)
+    const updatedUser = await markPartCompleted(req.user.id, req.body)
     res.send({
       enrolledIn: updatedUser.enrolledIn
     })

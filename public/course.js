@@ -61,7 +61,7 @@ async function loadPage() {
   nextButton(courseData)
   previousButton(courseData)
   clickLessonNameListener(courseData)
-  createDropdown()
+  // createDropdown()
   watchSignUpButton()
   watchSignUpForm()
   watchLogInButton()
@@ -90,6 +90,7 @@ function enrollButtonListener(courseData) {
         userData.enrolledIn = data.enrolledIn
 
         loadSideBar(courseData, userData)
+        loadCurrentLocation(courseData, userData)
       }
     })
   })
@@ -109,8 +110,6 @@ function loadSideBar(courseData, userData) {
   const userCourseData = userData.enrolledIn.find(
     course => course.courseId === courseId
   )
-
-  console.log({userCourseData})
 
   if (typeof userCourseData === 'undefined') {
     $('.course-progress-bar').hide()
@@ -204,40 +203,49 @@ function clickLessonNameListener(courseData) {
 function markPartCompleted(courseData) {
   $('.mark-as-completed-button').click(() => {
     const percentComplete = calculatePercentComplete(courseData, userData)
+
     const currentLesson = Number($('.current-lesson').data('lesson'))
     const currentPart = Number($('.current-lesson').data('part'))
-
-    let completedArray = []
+    console.log({currentLesson, currentPart})
+    // find location of enrolled data for current course
+    let enrolledInLocation = userData.enrolledIn.map(course => course.courseId).indexOf(courseId)
+    console.log({enrolledInLocation})
 
     if (percentComplete === 0) {
+      let completedArray = []
       // first make array structure to hold completed lessons
-      courseData.lessons.forEach(lesson => completedArray.push([]))
-
-      // then push completed part into empty array for that lesson
+      courseData.lessons.forEach(() => completedArray.push([]))
       completedArray[currentLesson].push(currentPart)
+      userData.enrolledIn[enrolledInLocation].completed = completedArray
+    } else {
+      let userDataEnrolledIn = userData.enrolledIn
+      userDataEnrolledIn[enrolledInLocation].completed[currentLesson].push(currentPart)
+      // userData.enrolledIn[enrolledInLocation].completed[currentLesson].push(currentPart)
+      userData.enrolledIn = userDataEnrolledIn
     }
 
-    console.log(completedArray)
+    console.log('user data before ajax: ', userData)
 
-    // $.ajax({
-    //   type: 'PUT',
-    //   url: `/api/courses/${courseData.courseId}`,
-    //   contentType: 'application/json',
-    //   dataType: 'json',
-    //   headers: {'Authorization': `Bearer ${jwt.authToken}`},
-    //   data: JSON.stringify(userData),
-    //   crossDomain: true,
-    //   error: function (error) {
-    //     console.log('there was an error marking complete: ', error)
-    //   },
-    //   success: function (data) {
-    //     console.log('marked complete successfully: ', data)
-    //
-    //     userData.enrolledIn = data.enrolledIn
-    //
-    //     loadSideBar(courseData, userData)
-    //   }
-    // })
+    $.ajax({
+      type: 'PUT',
+      url: `/api/courses/${courseData.courseId}`,
+      contentType: 'application/json',
+      dataType: 'json',
+      headers: {'Authorization': `Bearer ${jwt.authToken}`},
+      data: JSON.stringify(userData),
+      crossDomain: true,
+      error: function (error) {
+        console.log('there was an error marking complete: ', error)
+      },
+      success: function (data) {
+        console.log('marked complete successfully: ', data)
+
+        userData.enrolledIn = data.enrolledIn
+
+        loadSideBar(courseData, userData)
+        loadCurrentLocation(courseData, userData)
+      }
+    })
   })
 }
 
