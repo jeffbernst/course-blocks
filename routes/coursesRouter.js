@@ -66,10 +66,24 @@ async function enrollInCourseAndUpdateUser (userId, courseId) {
   return user
 }
 
-// enroll in course
 router.post('/:courseId', jwtAuth, async (req, res) => {
   try {
     const updatedUser = await enrollInCourseAndUpdateUser(req.user.id, req.params.courseId)
+    res.send({
+      enrolledIn: updatedUser.enrolledIn
+    })
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+async function markPartCompleted(userId, courseId, completed) {
+
+}
+
+router.put('/:courseId', jwtAuth, async(req, res) => {
+  try {
+    const updatedUser = await markPartCompleted(req.user.id, req.params.courseId, req.body)
     res.send({
       enrolledIn: updatedUser.enrolledIn
     })

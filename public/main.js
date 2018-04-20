@@ -712,8 +712,6 @@ function showOrHideNextAndPreviousButtons (courseData, lesson, part) {
 }
 
 function calculatePercentComplete(courseData, userData) {
-  console.log({courseData})
-
   let courseSize = courseData.lessons.reduce(
     (acc, cur) => acc + cur.parts.length,
     0

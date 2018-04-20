@@ -67,6 +67,7 @@ async function loadPage() {
   watchLogInButton()
   closeModal()
   enrollButtonListener(courseData)
+  markPartCompleted(courseData)
 }
 
 function enrollButtonListener(courseData) {
@@ -198,6 +199,46 @@ function clickLessonNameListener(courseData) {
       $('textarea.part-content').val(clickedPartData.partContent)
     }
   )
+}
+
+function markPartCompleted(courseData) {
+  $('.mark-as-completed-button').click(() => {
+    const percentComplete = calculatePercentComplete(courseData, userData)
+    const currentLesson = Number($('.current-lesson').data('lesson'))
+    const currentPart = Number($('.current-lesson').data('part'))
+
+    let completedArray = []
+
+    if (percentComplete === 0) {
+      // first make array structure to hold completed lessons
+      courseData.lessons.forEach(lesson => completedArray.push([]))
+
+      // then push completed part into empty array for that lesson
+      completedArray[currentLesson].push(currentPart)
+    }
+
+    console.log(completedArray)
+
+    // $.ajax({
+    //   type: 'PUT',
+    //   url: `/api/courses/${courseData.courseId}`,
+    //   contentType: 'application/json',
+    //   dataType: 'json',
+    //   headers: {'Authorization': `Bearer ${jwt.authToken}`},
+    //   data: JSON.stringify(userData),
+    //   crossDomain: true,
+    //   error: function (error) {
+    //     console.log('there was an error marking complete: ', error)
+    //   },
+    //   success: function (data) {
+    //     console.log('marked complete successfully: ', data)
+    //
+    //     userData.enrolledIn = data.enrolledIn
+    //
+    //     loadSideBar(courseData, userData)
+    //   }
+    // })
+  })
 }
 
 $(loadPage)
