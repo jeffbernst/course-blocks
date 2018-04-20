@@ -285,8 +285,25 @@
 
 function getCourse (courseId) {
   return new Promise((resolve, reject) => {
-    let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
-    resolve(MOCK_COURSE_DATA.find(course => course.courseId == courseId))
+    //   let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
+    //   resolve(MOCK_COURSE_DATA.find(course => course.courseId == courseId))
+    // })
+    $.ajax({
+      type: 'GET',
+      url: `/api/course/${courseId}`,
+      contentType: 'application/json',
+      dataType: 'json',
+      // headers: {'Authorization': `Bearer ${jwt.authToken}`},
+      crossDomain: true,
+      error: function (error) {
+        console.log('there was an error getting the course: ', error)
+        reject(error)
+      },
+      success: function (data) {
+        console.log('got course')
+        resolve(data)
+      }
+    })
   })
 }
 

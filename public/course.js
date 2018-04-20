@@ -1,8 +1,10 @@
 const url = window.location.href
-const courseId =
-  typeof url.match(/\/([^/]+)$/)[1] === "undefined"
-    ? "not in url"
-    : url.match(/\/([^/]+)$/)[1]
+const test = url.match(/(course)\/(.*)\/?$/)
+const courseId = test === null ? 'course' : test[2]
+// typeof url.match(/\/([^/]+)$/)[1] === 'undefined'
+//   ? 'not in url'
+//   : url.match(/\/([^/]+)$/)[1]
+console.log(courseId)
 
 function checkForJsonWebTokenOnCourse() {
   if (localStorage.getItem("JWT") !== null) {
@@ -15,6 +17,14 @@ function checkForJsonWebTokenOnCourse() {
     $(".sidebar-button-container-wrapper").show()
   }
 }
+//
+// const courseData = {
+//   courseTitle: 'Title',
+//   themeColor: 'purple',
+//   tags: [],
+//   courseSummary: '',
+//   lessons: []
+// }
 
 async function loadPage() {
   checkForJsonWebTokenOnCourse()
