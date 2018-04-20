@@ -1,9 +1,9 @@
 const url = window.location.href
 const test = url.match(/(create)\/(.*)\/?$/)
 const draftId = test === null ? 'create' : test[2]
-  // typeof url.match(/\/([^/]+)$/)[1] === 'undefined'
-  //   ? 'not in url'
-  //   : url.match(/\/([^/]+)$/)[1]
+// typeof url.match(/\/([^/]+)$/)[1] === 'undefined'
+//   ? 'not in url'
+//   : url.match(/\/([^/]+)$/)[1]
 console.log(draftId)
 
 function checkForJsonWebToken () {
@@ -46,10 +46,11 @@ async function loadCreatePage () {
         ]
       }
     ]
-
   } else {
     const userData = await getUserData()
-    const draftDataFromDb = userData.drafts.find(draft => draft.courseId === draftId)
+    const draftDataFromDb = userData.drafts.find(
+      draft => draft.courseId === draftId
+    )
     draftData.courseTitle = draftDataFromDb.courseTitle
     draftData.themeColor = draftDataFromDb.themeColor
     draftData.courseSummary = draftDataFromDb.courseSummary
@@ -125,7 +126,9 @@ function changeCourseColor () {
     $('.sidebar-create-color-picker-tile').removeClass(
       'sidebar-create-color-picker-tile-selected'
     )
-    $(event.currentTarget).addClass('sidebar-create-color-picker-tile-selected')
+    $(event.currentTarget).addClass(
+      'sidebar-create-color-picker-tile-selected'
+    )
     $('.sidebar-course-info')
       .attr('class', 'sidebar-course-info')
       .addClass(`${clickedColor}-tile`)
@@ -171,19 +174,18 @@ function saveDraft () {
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify(draftData),
-        headers: {'Authorization': `Bearer ${jwt.authToken}`},
+        headers: {Authorization: `Bearer ${jwt.authToken}`},
         crossDomain: true,
         error: function (error) {
           console.log('there was an error: ', error)
         },
         success: function (data) {
           console.log('draft created! heres the data: ', data)
-          window.location.href = `/create/${data.newDraft.courseId}`;
+          window.location.href = `/create/${data.newDraft.courseId}`
         }
       })
 
       // TODO make sure to update URL after creating course
-
     } else {
       $.ajax({
         type: 'PUT',
@@ -191,7 +193,7 @@ function saveDraft () {
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify({...draftData, courseId: draftId}),
-        headers: {'Authorization': `Bearer ${jwt.authToken}`},
+        headers: {Authorization: `Bearer ${jwt.authToken}`},
         crossDomain: true,
         error: function (error) {
           console.log('there was an error: ', error)
@@ -201,7 +203,7 @@ function saveDraft () {
         }
       })
     }
-//     console.log(updateMessage)
+    //     console.log(updateMessage)
   })
 }
 
@@ -214,8 +216,10 @@ function clickToEditLessonName () {
         .prev()
         .data('lessonNumber')
 
-      draftData.lessons[clickedLesson].lessonTitle =
-        prompt('Enter a new lesson name and hit OK 🙂', `${draftData.lessons[clickedLesson].lessonTitle}`)
+      draftData.lessons[clickedLesson].lessonTitle = prompt(
+        'Enter a new lesson name and hit OK 🙂',
+        `${draftData.lessons[clickedLesson].lessonTitle}`
+      )
 
       loadCreateSideBar(draftData)
     }
@@ -224,20 +228,23 @@ function clickToEditLessonName () {
 
 function clickToEditCourseName () {
   $('.sidebar-course-title').on('click', event => {
-      draftData.courseTitle =
-        prompt('Enter a new course name and hit OK 👍', `${draftData.courseTitle}`)
+    draftData.courseTitle = prompt(
+      'Enter a new course name and hit OK 👍',
+      `${draftData.courseTitle}`
+    )
 
-      loadCreateSideBar(draftData)
-    }
-  )
+    loadCreateSideBar(draftData)
+  })
 }
 
-function updatePartOnKeypress() {
+function updatePartOnKeypress () {
   $('.part-title').on('input', () => {
     let currentLesson = Number($('.current-lesson').data('lesson'))
     let currentPart = Number($('.current-lesson').data('part'))
 
-    draftData.lessons[currentLesson].parts[currentPart].partTitle = $('.part-title').val()
+    draftData.lessons[currentLesson].parts[currentPart].partTitle = $(
+      '.part-title'
+    ).val()
 
     loadCreateSideBar(draftData)
   })
@@ -246,11 +253,13 @@ function updatePartOnKeypress() {
     let currentLesson = Number($('.current-lesson').data('lesson'))
     let currentPart = Number($('.current-lesson').data('part'))
 
-    draftData.lessons[currentLesson].parts[currentPart].partContent = $('.part-content').val()
+    draftData.lessons[currentLesson].parts[currentPart].partContent = $(
+      '.part-content'
+    ).val()
   })
 }
 
-function addMenu() {
+function addMenu () {
   $('.add-button').click(() => {
     $('.add-menu').toggle()
   })
@@ -276,7 +285,6 @@ function addMenu() {
 
     if (newPartLocation > draftData.lessons.length) {
       alert('Please pick a lesson that exists.')
-
     } else {
       const newPartTitle = prompt('What would you like to name your new part?')
 
@@ -290,7 +298,7 @@ function addMenu() {
   })
 }
 
-function publishCourse() {
+function publishCourse () {
   const jwt = JSON.parse(localStorage.getItem('JWT'))
 
   $('.publish-button').click(() => {
@@ -300,7 +308,7 @@ function publishCourse() {
       contentType: 'application/json',
       dataType: 'json',
       data: JSON.stringify({...draftData, courseId: draftId}),
-      headers: {'Authorization': `Bearer ${jwt.authToken}`},
+      headers: {Authorization: `Bearer ${jwt.authToken}`},
       crossDomain: true,
       error: function (error) {
         console.log('there was an error: ', error)

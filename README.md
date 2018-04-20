@@ -3,6 +3,7 @@ This is an open source site for building and enrolling in courses. It is built i
 If you'd like to copy or fork this repo, there are only a few changes you'll have to make to get it up and running. 
 
 - First run `npm install` to get all of the node modules installed. 
+- The project uses a `.env` file to import the `JWT_SECRET`. Add a default secret in the `config.js` file or create your own `.env` file.
 - After that it's just a matter of updating the branding and styling however you like!
 
 It is currently in development -- more details to come soon!

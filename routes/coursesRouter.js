@@ -42,6 +42,15 @@ router.get('/', async (req, res) => {
   res.send(courses)
 })
 
+router.get('/:courseId', async (req, res) => {
+  const course = await Course.findOne({courseId: req.params.courseId})
+
+  res.send(course)
+})
+
+// enroll in course
+router.post('/:courseId')
+
 module.exports = {
   router,
   publishCourse

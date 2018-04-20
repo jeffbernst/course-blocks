@@ -144,24 +144,6 @@ router.post('/', async (req, res) => {
           password: hash,
           gravatarHash: md5(email.toLowerCase())
         })
-        // const user = new User({
-        //   _id: new mongoose.Types.ObjectId(),
-        //   userName: name,
-        //   userEmail: email,
-        //   password: hash,
-        //   gravatarHash: md5(email.toLowerCase())
-        // })
-        //
-        // user.save(err => {
-        //   if (err) return err;
-        //
-        //   const draft = new Course({});
-        //
-        //   return draft.save(err => {
-        //     if (err) return err;
-        //     // thats it!
-        //   })
-        // })
       })
       .then(user => {
         return res.status(201).json(user.serialize())
@@ -186,20 +168,7 @@ router.post('/login', localAuth, (req, res) => {
   res.json({
     authToken
   })
-  // for member nav need:
-  // 1. gravatar hash
-  // 2. list of drafts and draftIds
-  // 3. userId to retrieve all draft info
 })
-
-// router.post('/refresh', jwtAuth, (req, res) => {
-//   const authToken = createAuthToken(req.user);
-//   res.json({authToken});
-// });
-
-// router.post('/testthisroute', jwtAuth, (req, res) => {
-//   res.json({message: 'accessed properly'})
-// })
 
 async function getUser(userId) {
   return await User.findById(userId)
