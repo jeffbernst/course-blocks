@@ -9,10 +9,11 @@ module.exports = function(wallaby) {
       'config.js',
       'public/**/*',
       'routes/**/*',
-      'models/**/*'
+      'models/**/*',
+      'test/**/*'
     ],
 
-    tests: ['test/**/test-*.js'],
+    tests: ['test/test-server.js'],
 
     testFramework: 'mocha',
 

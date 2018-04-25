@@ -346,7 +346,7 @@ async function showMemberScreen() {
 						<a href="/course/${
         courseData.courseId
         }"><button class="resume-button"><span>Resume &#x1F4D8</span></button></a>
-						<button class="share-button"><span>Share &#x1F4E3;</span></button>
+						<!--<button class="share-button"><span>Share &#x1F4E3;</span></button>-->
 					</div>
 				</div>
 			</div>
@@ -354,19 +354,6 @@ async function showMemberScreen() {
     })
   }
 }
-
-// function calculatePercentComplete(userCourseData) {
-//   let courseSize = userCourseData.lessons.reduce(
-//     (acc, cur) => acc + cur.parts.length,
-//     0
-//   )
-//   let completedByUser = userCourseData.completed.reduce(
-//     (acc, cur) => acc + cur.length,
-//     0
-//   )
-//
-//   return Math.floor(completedByUser / courseSize * 100)
-// }
 
 function createAndAppendCourseTileHtml() {
   $('.course-grid').html('')
