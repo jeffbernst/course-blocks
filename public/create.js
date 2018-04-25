@@ -144,26 +144,6 @@ function saveDraft () {
   // it it has been created just make a put request to update the database
 
   $('.save-draft-button').click(async event => {
-    // event.preventDefault()
-    // const partTitle = $(event.currentTarget)
-    //   .find('.part-title')
-    //   .val()
-    // const partContent = $(event.currentTarget)
-    //   .find('.part-content')
-    //   .val()
-    // const themeColor = $('.sidebar-create-color-picker-tile-selected').data('color')
-
-    // const currentLesson = Number($('.current-lesson').data('lesson'))
-    // const currentPart = Number($('.current-lesson').data('part'))
-
-    // const draftData = {
-    //   partTitle,
-    //   partContent,
-    //   currentLesson,
-    //   currentPart,
-    //   themeColor
-    // }
-
     const jwt = JSON.parse(localStorage.getItem('JWT'))
 
     // if new course, create new course on database
@@ -185,7 +165,7 @@ function saveDraft () {
         }
       })
 
-      // TODO make sure to update URL after creating course
+      // otherwise update existing draft
     } else {
       $.ajax({
         type: 'PUT',
@@ -203,7 +183,6 @@ function saveDraft () {
         }
       })
     }
-    //     console.log(updateMessage)
   })
 }
 
@@ -259,6 +238,7 @@ function updatePartOnKeypress () {
   })
 }
 
+// menu for adding lessons and parts
 function addMenu () {
   $('.add-button').click(() => {
     $('.add-menu').toggle()
@@ -319,55 +299,5 @@ function publishCourse () {
     })
   })
 }
-
-// function updateDatabase (draftData, title, content, lesson, part) {
-//   return new Promise((resolve, reject) => {
-//     let currentUserData = JSON.parse(localStorage.getItem('MOCK_USER_DATA'))
-//     let draftIndex = currentUserData.drafts.findIndex(
-//       draft => draft.courseId == draftId
-//     )
-//
-//     currentUserData.drafts[draftIndex].lessons[lesson].parts[
-//       part
-//       ].partTitle = title
-//     currentUserData.drafts[draftIndex].lessons[lesson].parts[
-//       part
-//       ].partContent = content
-//
-//     let updatedUserData = Object.assign({}, currentUserData)
-//
-//     localStorage.setItem('MOCK_USER_DATA', JSON.stringify(updatedUserData))
-//
-//     location.reload()
-//
-//     // need to update sidebar and course data that is in the dom
-//     // moveToClickedLesson is currently using the course data from initial page load
-//
-//     resolve('updated!')
-//   })
-// }
-
-// function createNewDraft() {
-//   // initialize course with basic course data and 0 courseIndex
-//   // change courseIndex to proper number when published and copied to course database
-//   const newDraftData = {
-//     courseId: 6,
-//     courseTitle: "My Great Course",
-//     themeColor: "purple",
-//     tags: [],
-//     courseSummary: "My great summary.",
-//     lessons: [
-//       {
-//         lessonTitle: "My Great Lesson",
-//         parts: [
-//           {
-//             partTitle: "My Great Part",
-//             partContent: "Text goes here."
-//           }
-//         ]
-//       }
-//     ]
-//   }
-// }
 
 $(loadCreatePage)
