@@ -49,6 +49,12 @@ router.get('/:courseId', async (req, res) => {
   res.send(course)
 })
 
+router.get('/search/:query', async (req, res) => {
+  const courses = await Course.find({courseTitle: { "$regex": req.params.query, "$options": "i" }}).limit(9)
+
+  res.send(courses)
+})
+
 async function enrollInCourseAndUpdateUser (userId, courseId) {
   const enrolledInCourse = {
     courseId,

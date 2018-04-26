@@ -6,9 +6,11 @@ async function checkForJsonWebToken () {
     showMemberScreen(userData)
     showMemberNav()
     createAndAppendCourseTileHtml(userData)
+    watchSearchClear(userData)
   } else {
     $('.sign-in-log-in').show()
     $('.welcome-message').show()
+    watchSearchClear()
   }
 }
 
@@ -145,19 +147,19 @@ function watchFilters () {
 //   })
 // }
 
-function getFilteredCourses (filter) {
-  return new Promise((resolve, reject) => {
-    // api call will go here
-    resolve(mockFilterCourses(filter))
-  })
-}
+// function getFilteredCourses (filter) {
+//   return new Promise((resolve, reject) => {
+//     // api call will go here
+//     resolve(mockFilterCourses(filter))
+//   })
+// }
 
-function mockFilterCourses (filter) {
-  let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
-  return MOCK_COURSE_DATA.filter(course => {
-    return course.tags.indexOf(filter) > -1
-  })
-}
+// function mockFilterCourses (filter) {
+//   let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
+//   return MOCK_COURSE_DATA.filter(course => {
+//     return course.tags.indexOf(filter) > -1
+//   })
+// }
 
 function watchSearch () {
   $('.search-form').submit(event => {
@@ -179,30 +181,43 @@ function watchSearch () {
   })
 }
 
-function watchSearchClear () {
+function watchSearchClear (userData) {
   $('.clear-search-results').click(event => {
     event.preventDefault()
 
     $('.search-input').val('')
-    createAndAppendCourseTileHtml()
+    createAndAppendCourseTileHtml(userData)
   })
 }
 
 function searchCourses (searchTerm) {
   return new Promise((resolve, reject) => {
-    // api call will go here
-    resolve(mockSearch(searchTerm))
+    $.ajax({
+      type: 'GET',
+      url: `/api/courses/search/${searchTerm}`,
+      contentType: 'application/json',
+      dataType: 'json',
+      crossDomain: true,
+      error: function (error) {
+        console.log('there was an error: ', error)
+        reject(error)
+      },
+      success: function (data) {
+        console.log('got some courses: ', data)
+        resolve(data)
+      }
+    })
   })
 }
 
-function mockSearch (searchTerm) {
-  let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
-  return MOCK_COURSE_DATA.filter(course => {
-    return (
-      course.courseTitle.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-    )
-  })
-}
+// function mockSearch (searchTerm) {
+//   let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
+//   return MOCK_COURSE_DATA.filter(course => {
+//     return (
+//       course.courseTitle.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+//     )
+//   })
+// }
 
 function indexPageEnrollButtonListener () {
   $('.course-grid').on('click', '.course-grid-enroll-button', async event => {
@@ -223,7 +238,6 @@ function indexPageEnrollButtonListener () {
 function startApp () {
   checkForJsonWebToken()
   watchSearch()
-  watchSearchClear()
   watchSignUpButton()
   watchSignUpForm()
   watchLogInButton()
