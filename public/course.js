@@ -68,35 +68,22 @@ async function loadPage () {
   watchSignUpForm()
   watchLogInButton()
   closeModal()
-  enrollButtonListener(courseData)
+  coursePageEnrollButtonListener(courseData)
   markPartCompleted(courseData)
 }
 
-function enrollButtonListener (courseData) {
-  $('.course-grid-enroll-button').click(() => {
+function coursePageEnrollButtonListener (courseData) {
+  $('.course-grid-enroll-button').click(async () => {
     if (jwt === null) {
       alert('Please log in or create an account first! :D')
     } else {
-      $.ajax({
-        type: 'POST',
-        url: `/api/courses/${courseData.courseId}`,
-        contentType: 'application/json',
-        dataType: 'json',
-        headers: {'Authorization': `Bearer ${jwt.authToken}`},
-        crossDomain: true,
-        error: function (error) {
-          console.log('there was an error enrolling: ', error)
-        },
-        success: function (data) {
-          console.log('enrolled successfully: ', data)
+      const response = await enrollInCourse(courseData.courseId)
 
-          userData.enrolledIn = data.enrolledIn
+      userData.enrolledIn = response.enrolledIn
 
-          loadSideBar(courseData, userData)
-          loadCurrentLocation(courseData, userData)
-          $('.mark-as-completed-button').show()
-        }
-      })
+      loadSideBar(courseData, userData)
+      loadCurrentLocation(courseData, userData)
+      $('.mark-as-completed-button').show()
     }
   })
 }

@@ -455,4 +455,24 @@ function calculatePercentComplete(courseData, userData) {
   return Math.floor(completedByUser / courseSize * 100)
 }
 
+function enrollInCourse(courseId) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: 'POST',
+      url: `/api/courses/${courseId}`,
+      contentType: 'application/json',
+      dataType: 'json',
+      headers: {'Authorization': `Bearer ${jwt.authToken}`},
+      crossDomain: true,
+      error: function (error) {
+        console.log('there was an error enrolling: ', error)
+        reject(error)
+      },
+      success: function (data) {
+        console.log('enrolled successfully: ', data)
+        resolve(data)
+      }
+    })
+  })
+}
 

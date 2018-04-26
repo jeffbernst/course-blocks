@@ -1,3 +1,5 @@
+const jwt = JSON.parse(localStorage.getItem('JWT'))
+
 async function checkForJsonWebToken () {
   if (localStorage.getItem('JWT') !== null) {
     const userData = await getUserData()
@@ -43,7 +45,8 @@ async function showMemberScreen (userData) {
   $('.nav-create').show()
   $('.my-courses').show()
 
-  if (userData.enrolledIn.length === 0) $('.my-course-list').text('Not enrolled in any courses yet!')
+  if (userData.enrolledIn.length === 0)
+    $('.my-course-list').text('Not enrolled in any courses yet!')
   else {
     userData.enrolledIn.forEach(async userCourseData => {
       const courseData = await getCourse(userCourseData.courseId)
@@ -111,7 +114,7 @@ function renderCourseTile (courseInfo) {
 						</div>	
 						<br>
 						<div class="course-grid-enroll-container">
-							<button class="course-grid-enroll-button"><span>Enroll &#x1F680;</span></button>&nbsp;&nbsp;
+							<button class="course-grid-enroll-button" data-course-id=${courseInfo.courseId}><span>Enroll &#x1F680;</span></button>&nbsp;&nbsp;
               <!--<span class="course-grid-students-count">${ courseInfo.studentCount } students</span>-->
 						</div>
 					</div>`
@@ -201,6 +204,20 @@ function mockSearch (searchTerm) {
   })
 }
 
+function indexPageEnrollButtonListener () {
+  $('.course-grid').click('.course-grid-enroll-button', async event => {
+    const clickedCourseId = $(event.currentTarget).find('.course-grid-enroll-button').data('courseId')
+
+    if (jwt === null) {
+      alert('Please log in or create an account first! :D')
+    } else {
+      await enrollInCourse(clickedCourseId)
+      console.log('enrolled!')
+      window.location.href = `/course/${clickedCourseId}`
+    }
+  })
+}
+
 function startApp () {
   checkForJsonWebToken()
   watchSearch()
@@ -211,6 +228,7 @@ function startApp () {
   watchLoginForm()
   closeModal()
   watchFilters()
+  indexPageEnrollButtonListener()
   // watchExploreTitle()
   // createDropdown()
 }
