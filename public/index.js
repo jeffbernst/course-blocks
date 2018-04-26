@@ -205,8 +205,10 @@ function mockSearch (searchTerm) {
 }
 
 function indexPageEnrollButtonListener () {
-  $('.course-grid').click('.course-grid-enroll-button', async event => {
-    const clickedCourseId = $(event.currentTarget).find('.course-grid-enroll-button').data('courseId')
+  $('.course-grid').on('click', '.course-grid-enroll-button', async event => {
+    const clickedCourseId = $(event.currentTarget).data('courseId')
+    console.log({clickedCourseId})
+    console.log('hello world')
 
     if (jwt === null) {
       alert('Please log in or create an account first! :D')

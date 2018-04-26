@@ -131,7 +131,6 @@ function saveDraftListener () {
 }
 
 function saveDraft () {
-
   const jwt = JSON.parse(localStorage.getItem('JWT'))
 
   return new Promise((resolve, reject) => {
@@ -184,14 +183,16 @@ function publishCourse () {
   const jwt = JSON.parse(localStorage.getItem('JWT'))
 
   $('.publish-button').click(async () => {
-    await saveDraft()
+    const savedData = await saveDraft()
+    console.log(savedData)
 
     $.ajax({
       type: 'POST',
       url: '/api/courses/',
       contentType: 'application/json',
       dataType: 'json',
-      data: JSON.stringify({...draftData, courseId: draftId}),
+      // data: JSON.stringify({...draftData, courseId: draftId}),
+      data: JSON.stringify({...draftData, courseId: savedData.courseId}),
       headers: {Authorization: `Bearer ${jwt.authToken}`},
       crossDomain: true,
       error: function (error) {
