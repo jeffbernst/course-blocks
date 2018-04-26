@@ -903,6 +903,33 @@ a {
   font-size: 15px;
 }
 
+.draft-saved,
+.draft-published {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  background-color: white;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.draft-saved {
+  width: 200px;
+}
+
+.draft-published {
+  width: 300px;
+}
+
 .add-menu {
   position: absolute;
   bottom: 50px;

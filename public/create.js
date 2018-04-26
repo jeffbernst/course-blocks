@@ -126,6 +126,7 @@ function changeCourseColor () {
 function saveDraftListener () {
   $('.save-draft-button').click(async () => {
     await saveDraft()
+    $('.draft-saved').css('display', 'flex').fadeIn(1000).fadeOut(1000)
   })
 }
 
@@ -198,6 +199,7 @@ function publishCourse () {
       },
       success: function (data) {
         console.log('course published: ', data)
+        $('.draft-published').css('display', 'flex').fadeIn(1000).fadeOut(1000)
       }
     })
   })
