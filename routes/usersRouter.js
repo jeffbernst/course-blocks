@@ -38,16 +38,16 @@ const createAuthToken = function(user) {
 const jwtAuth = passport.authenticate('jwt', { session: false })
 const localAuth = passport.authenticate('local', { session: false, failureFlash: true })
 
-async function createNewUser(userData) {
-  // my original code
-  const newUser = await User.create(userData)
-
-  // const token = jwt.sign({ user: { _id: newUser._id } }, process.env.JWT_SECRET)
-  return {
-    // jwt: token,
-    userData: newUser
-  }
-}
+// async function createNewUser(userData) {
+//   // my original code
+//   const newUser = await User.create(userData)
+//
+//   // const token = jwt.sign({ user: { _id: newUser._id } }, process.env.JWT_SECRET)
+//   return {
+//     // jwt: token,
+//     userData: newUser
+//   }
+// }
 
 // TODO return promise out of function and resolve or reject into my try catch
 router.post('/', async (req, res) => {
@@ -146,7 +146,9 @@ router.post('/', async (req, res) => {
         })
       })
       .then(user => {
-        return res.status(201).json(user.serialize())
+        // return res.status(201).json(user.serialize())
+        const authToken = createAuthToken(user.serialize())
+        return res.status(201).json({authToken})
       })
       .catch(err => {
         if (err.reason === 'ValidationError') {
@@ -155,9 +157,6 @@ router.post('/', async (req, res) => {
         res.status(500).json({ code: 500, message: 'Internal server error' })
       })
 
-    // my original code
-    // const newUser = await createNewUser(req.body)
-    // res.send(newUser)
   } catch (err) {
     console.error(err)
   }
@@ -190,6 +189,6 @@ router.get('/', jwtAuth, async (req, res) => {
 
 module.exports = {
   router,
-  createNewUser,
+  // createNewUser,
   getUser
 }

@@ -10,7 +10,7 @@ module.exports = function(wallaby) {
       'public/**/*',
       'routes/**/*',
       'models/**/*',
-      'test/**/*'
+      'test/mock-data.js'
     ],
 
     tests: ['test/test-server.js'],

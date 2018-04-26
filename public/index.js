@@ -1,299 +1,23 @@
-// const MOCK_COURSE_TILE_DATA = [
-// 	{
-// 		courseId: 1,
-// 		courseTitle: 'Learn to Program Apps on STEEM',
-// 		courseAuthor: 'Jeff Bernstein',
-// 		studentCount: 234,
-// 		themeColor: 'purple',
-// 		tags: ['programming', 'crypto'],
-// 		courseSummary: `A summary here to display when course is loaded.`,
-// 		lessons: [{
-// 			lessonTitle: 'First Lesson Title Here & Some Other Stuff',
-// 			parts: [
-// 				{
-// 					partTitle: 'How does this look if I make it much longer like this?',
-// 					partContent: `
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// ## Here's a markdown title
-//
-// _And here's some italic text._ **Here's some bold text.**
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 				},
-// 				{
-// 					partTitle: 'Here\'s a part Title',
-// 					partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 				}
-// 			]
-// 		},
-// 			{
-// 				lessonTitle: 'Here\'s a Second Lesson!',
-// 				parts: [
-// 					{
-// 						partTitle: 'Here\'s a part Title',
-// 						partContent: `This is great! **I can even write in bold!**`},
-// 					{
-// 						partTitle: 'Here\'s a part Title',
-// 						partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus. consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 					}
-// 				]
-// 			},
-// 			{
-// 				lessonTitle: 'And Here is My Third & Final Lesson!',
-// 				parts: [
-// 					{
-// 						partTitle: 'Here\'s a part Title',
-// 						partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 					},
-// 					{
-// 						partTitle: 'Here\'s a part Title',
-// 						partContent: `I don't really know what to write anymore`
-// 					}
-// 				]
-// 			}]
-// 	},
-// 	{
-// 		courseId: 2,
-// 		courseTitle: 'Learn CSS Grid',
-// 		courseAuthor: 'Gary Gridington',
-// 		studentCount: 2,
-// 		themeColor: 'blue',
-// 		tags: ['programming'],
-// 		courseSummary: `A summary here to display when course is loaded.`,
-// 		lessons: [{
-// 			lessonTitle: 'First Lesson Title Here & Some Other Stuff',
-// 			parts: [
-// 				{
-// 					partTitle: 'Here\'s a part Title',
-// 					partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 				},
-// 				{
-// 					partTitle: 'Here\'s a part Title',
-// 					partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 				}
-// 			]
-// 		}]
-// 	},
-// 	{
-// 		courseId: 3,
-// 		courseTitle: 'Learn to Program Apps on STEEM',
-// 		courseAuthor: 'Jeff Bernstein',
-// 		studentCount: 234,
-// 		themeColor: 'green',
-// 		tags: ['language'],
-// 		courseSummary: `A summary here to display when course is loaded.`,
-// 		lessons: [{
-// 			lessonTitle: 'First Lesson Title Here & Some Other Stuff',
-// 			parts: [
-// 				{
-// 					partTitle: 'Here\'s a part Title',
-// 					partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 				},
-// 				{
-// 					partTitle: 'Here\'s a part Title',
-// 					partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 				}
-// 			]
-// 		}]
-// 	}
-// ];
-
-// const MOCK_USER_DATA = {
-// 	userId: 1,
-// 	userName: 'jeffbernst',
-// 	gravatarHash: '75ad827dc5ac6baa1df806dfe15b394e',
-// 	enrolledIn: [
-// 		{
-// 			courseId: 1,
-// 			courseTitle: 'Learn to Program Apps on STEEM',
-// 			courseAuthor: 'Jeff B',
-// 			themeColor: 'purple',
-// 			tags: ['programming', 'crypto'],
-// 			currentLesson: 0, // maybe this can be the lesson after the last lesson marked as completed
-// 			currentPart: 0, // add percent complete calculation on back end
-// 			completed: [
-// 				[1]
-// 			],
-// 			lessons: [{
-// 				lessonTitle: 'First Lesson Title Here & Some Other Stuff',
-// 				parts: [
-// 					{
-// 						partTitle: 'How does this look if I make it much longer like this?',
-// 						partContent: `
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// ## Here's a markdown title
-//
-// _And here's some italic text._ **Here's some bold text.**
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 					},
-// 					{
-// 						partTitle: 'Here\'s a part Title',
-// 						partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 					}
-// 				]
-// 			},
-// 				{
-// 					lessonTitle: 'Here\'s a Second Lesson!',
-// 					parts: [
-// 						{
-// 							partTitle: 'Here\'s a part Title',
-// 							partContent: `This is great! **I can even write in bold!**`},
-// 						{
-// 							partTitle: 'Here\'s a part Title',
-// 							partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus. consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 						}
-// 					]
-// 				},
-// 				{
-// 					lessonTitle: 'And Here is My Third & Final Lesson!',
-// 					parts: [
-// 						{
-// 							partTitle: 'Here\'s a part Title',
-// 							partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 						},
-// 						{
-// 							partTitle: 'Here\'s a part Title',
-// 							partContent: `I don't really know what to write anymore`
-// 						}
-// 					]
-// 				}]
-// 		},
-// 		{
-// 			courseId: 2,
-// 			courseTitle: 'Learn CSS Grid',
-// 			courseAuthor: 'Gary Gridington',
-// 			themeColor: 'blue',
-// 			tags: ['programming'],
-// 			currentLesson: 0,
-// 			currentPart: 1,
-// 			completed: [
-// 				[0]
-// 			],
-// 			lessons: [{
-// 				lessonTitle: 'First Lesson Title Here & Some Other Stuff',
-// 				parts: [
-// 					{
-// 						partTitle: 'Here\'s a part Title',
-// 						partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 					},
-// 					{
-// 						partTitle: 'Here\'s a part Title',
-// 						partContent: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.
-//
-// Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vel ducimus accusantium facere laborum, ipsum natus molestias inventore nostrum, cupiditate autem delectus nobis ipsam iure, earum a laudantium deleniti repellendus.`
-// 					}
-// 				]
-// 			}]
-// 		}
-// 	],
-// 	created: [
-// 		{
-// 			courseId: 5,
-// 			published: false,
-// 			courseTitle: "This is a Draft",
-// 			themeColor: 'purple',
-// 			tags: ['language', 'crypto'],
-// 			courseSummary: 'Here is my really great summary.',
-// 			lessons: [
-// 				{
-// 					lessonTitle: 'A Great Lesson',
-// 					parts: [
-// 						{
-// 							partTitle: ' Here is My part Title',
-// 							partContent: 'lorem lorem lorem'
-// 						},
-// 						{
-// 							partTitle: 'Here is My Second part Title',
-// 							partContent: 'lorem again!'
-// 						}
-// 					]
-// 				}
-// 			]
-// 			// how to handle when a course is published vs a draft
-// 		}
-// 	]
-// };
-
-function checkForJsonWebToken() {
+async function checkForJsonWebToken () {
   if (localStorage.getItem('JWT') !== null) {
-    showMemberScreen()
+    const userData = await getUserData()
+    showMemberScreen(userData)
     showMemberNav()
+    createAndAppendCourseTileHtml(userData)
   } else {
     $('.sign-in-log-in').show()
     $('.welcome-message').show()
   }
 }
 
-function getCoursesForIndexPage() {
+function getCoursesForIndexPage () {
   return new Promise((resolve, reject) => {
-    // api call will go here
-    // let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
-    // resolve(MOCK_COURSE_DATA)
 
     $.ajax({
       type: 'GET',
       url: '/api/courses/',
       contentType: 'application/json',
       dataType: 'json',
-      // data: JSON.stringify({...draftData, courseId: draftId}),
-      // headers: {'Authorization': `Bearer ${jwt.authToken}`},
       crossDomain: true,
       error: function (error) {
         console.log('there was an error: ', error)
@@ -306,8 +30,8 @@ function getCoursesForIndexPage() {
   })
 }
 
-async function showMemberScreen() {
-  const userData = await getUserData()
+async function showMemberScreen (userData) {
+  // const userData = await getUserData()
 
   // <button class="nav-button nav-profile-button">${userData.userName}</button>
 
@@ -355,22 +79,34 @@ async function showMemberScreen() {
   }
 }
 
-function createAndAppendCourseTileHtml() {
+function createAndAppendCourseTileHtml (userData) {
   $('.course-grid').html('')
   $('.clear-search-results').hide()
-  getCoursesForIndexPage().then(data => {
-    data.forEach(courseInfo => {
-      $('.course-grid').append(renderCourseTile(courseInfo))
-    })
+  getCoursesForIndexPage().then(courseData => {
+    if (userData) {
+      const coursesToRender = courseData.filter(course => {
+        return !userData.enrolledIn.some(enrolledCourse => {
+          return course.courseId === enrolledCourse.courseId
+        })
+      })
+
+      coursesToRender.forEach(course => {
+        $('.course-grid').append(renderCourseTile(course))
+      })
+    } else {
+      courseData.forEach(course => {
+        $('.course-grid').append(renderCourseTile(course))
+      })
+    }
   })
 }
 
-function renderCourseTile(courseInfo) {
+function renderCourseTile (courseInfo) {
   return `<div class="course-grid-tile ${courseInfo.themeColor}-tile">
 						<div class="course-grid-info-container">
 							<a href="/course/${courseInfo.courseId}"><div class="course-grid-tile-title">${
     courseInfo.courseTitle
-  }</div></a>
+    }</div></a>
 							<div class="course-grid-tile-author">by ${courseInfo.courseAuthor}</div>
 						</div>	
 						<br>
@@ -381,7 +117,7 @@ function renderCourseTile(courseInfo) {
 					</div>`
 }
 
-function watchFilters() {
+function watchFilters () {
   $('.explore-filter').click(event => {
     let filter = $(event.currentTarget)
       .text()
@@ -399,28 +135,28 @@ function watchFilters() {
   })
 }
 
-function watchExploreTitle() {
-  $('.explore-title').click(event => {
-    $('.explore-filters span').removeClass('explore-filter-active')
-    createAndAppendCourseTileHtml()
-  })
-}
+// function watchExploreTitle() {
+//   $('.explore-title').click(event => {
+//     $('.explore-filters span').removeClass('explore-filter-active')
+//     createAndAppendCourseTileHtml()
+//   })
+// }
 
-function getFilteredCourses(filter) {
+function getFilteredCourses (filter) {
   return new Promise((resolve, reject) => {
     // api call will go here
     resolve(mockFilterCourses(filter))
   })
 }
 
-function mockFilterCourses(filter) {
+function mockFilterCourses (filter) {
   let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
   return MOCK_COURSE_DATA.filter(course => {
     return course.tags.indexOf(filter) > -1
   })
 }
 
-function watchSearch() {
+function watchSearch () {
   $('.search-form').submit(event => {
     event.preventDefault()
 
@@ -440,7 +176,7 @@ function watchSearch() {
   })
 }
 
-function watchSearchClear() {
+function watchSearchClear () {
   $('.clear-search-results').click(event => {
     event.preventDefault()
 
@@ -449,14 +185,14 @@ function watchSearchClear() {
   })
 }
 
-function searchCourses(searchTerm) {
+function searchCourses (searchTerm) {
   return new Promise((resolve, reject) => {
     // api call will go here
     resolve(mockSearch(searchTerm))
   })
 }
 
-function mockSearch(searchTerm) {
+function mockSearch (searchTerm) {
   let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
   return MOCK_COURSE_DATA.filter(course => {
     return (
@@ -465,9 +201,8 @@ function mockSearch(searchTerm) {
   })
 }
 
-function startApp() {
+function startApp () {
   checkForJsonWebToken()
-  createAndAppendCourseTileHtml()
   watchSearch()
   watchSearchClear()
   watchSignUpButton()
@@ -476,7 +211,7 @@ function startApp() {
   watchLoginForm()
   closeModal()
   watchFilters()
-  watchExploreTitle()
+  // watchExploreTitle()
   // createDropdown()
 }
 

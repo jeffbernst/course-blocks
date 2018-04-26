@@ -8,17 +8,25 @@ console.log(courseId)
 
 const jwt = JSON.parse(localStorage.getItem('JWT'))
 
-function checkForJsonWebTokenOnCourse() {
+async function checkForJsonWebTokenOnCourse () {
   if (jwt !== null) {
+    const retrievedUserData = await getUserData()
+
+    userData.userId = retrievedUserData.userId
+    userData.gravatarHash = retrievedUserData.gravatarHash
+    userData.enrolledIn = retrievedUserData.enrolledIn
+    userData.drafts = retrievedUserData.drafts
+
     showMemberNav()
-    // load standard sidebar and default to course summary
+
   } else {
-    $(".sign-in-log-in").show()
-    $(".welcome-message").show()
-    $(".course-progress-bar").hide()
-    $(".sidebar-button-container-wrapper").show()
+    $('.sign-in-log-in').show()
+    $('.welcome-message').show()
+    $('.course-progress-bar').hide()
+    $('.sidebar-button-container-wrapper').show()
   }
 }
+
 //
 // const courseData = {
 //   courseTitle: 'Title',
@@ -35,26 +43,20 @@ const userData = {
   drafts: []
 }
 
-async function loadPage() {
+async function loadPage () {
   checkForJsonWebTokenOnCourse()
 
   const courseData = await getCourse(courseId)
-  const retrievedUserData = await getUserData()
 
-  userData.userId = retrievedUserData.userId
-  userData.gravatarHash = retrievedUserData.gravatarHash
-  userData.enrolledIn = retrievedUserData.enrolledIn
-  userData.drafts = retrievedUserData.drafts
-
-  $(".expand-sidebar-desktop")
+  $('.expand-sidebar-desktop')
     .hide()
-    .css("background-color", `var(--${courseData.themeColor})`)
-  $(".expand-sidebar-mobile")
+    .css('background-color', `var(--${courseData.themeColor})`)
+  $('.expand-sidebar-mobile')
     .hide()
-    .css("background-color", `var(--${courseData.themeColor})`)
+    .css('background-color', `var(--${courseData.themeColor})`)
+  $('.mark-as-completed-button').hide()
 
   closeAndOpenSidebar()
-
   loadSideBar(courseData, userData)
   loadCurrentLocation(courseData, userData)
   moveToClickedLesson(courseData)
@@ -70,41 +72,44 @@ async function loadPage() {
   markPartCompleted(courseData)
 }
 
-function enrollButtonListener(courseData) {
+function enrollButtonListener (courseData) {
   $('.course-grid-enroll-button').click(() => {
-    // TODO test if user is already enrolled
+    if (jwt === null) {
+      alert('Please log in or create an account first! :D')
+    } else {
+      $.ajax({
+        type: 'POST',
+        url: `/api/courses/${courseData.courseId}`,
+        contentType: 'application/json',
+        dataType: 'json',
+        headers: {'Authorization': `Bearer ${jwt.authToken}`},
+        crossDomain: true,
+        error: function (error) {
+          console.log('there was an error enrolling: ', error)
+        },
+        success: function (data) {
+          console.log('enrolled successfully: ', data)
 
-    $.ajax({
-      type: 'POST',
-      url: `/api/courses/${courseData.courseId}`,
-      contentType: 'application/json',
-      dataType: 'json',
-      headers: {'Authorization': `Bearer ${jwt.authToken}`},
-      crossDomain: true,
-      error: function (error) {
-        console.log('there was an error enrolling: ', error)
-      },
-      success: function (data) {
-        console.log('enrolled successfully: ', data)
+          userData.enrolledIn = data.enrolledIn
 
-        userData.enrolledIn = data.enrolledIn
-
-        loadSideBar(courseData, userData)
-        loadCurrentLocation(courseData, userData)
-      }
-    })
+          loadSideBar(courseData, userData)
+          loadCurrentLocation(courseData, userData)
+          $('.mark-as-completed-button').show()
+        }
+      })
+    }
   })
 }
 
-function loadSideBar(courseData, userData) {
+function loadSideBar (courseData, userData) {
   // const userCourseData = userData.enrolledIn.find(
   //   course => course.courseId == courseId
   // )
   let percentComplete = calculatePercentComplete(courseData, userData)
 
-  $(".sidebar-course-info").addClass(`${courseData.themeColor}-tile`)
-  $(".sidebar-course-title").html(courseData.courseTitle)
-  $(".sidebar-course-author").html(`by ${courseData.courseAuthor}`)
+  $('.sidebar-course-info').addClass(`${courseData.themeColor}-tile`)
+  $('.sidebar-course-title').html(courseData.courseTitle)
+  $('.sidebar-course-author').html(`by ${courseData.courseAuthor}`)
 
   // test if user is enrolled
   const userCourseData = userData.enrolledIn.find(
@@ -117,20 +122,20 @@ function loadSideBar(courseData, userData) {
   } else {
     $('.course-grid-enroll-button').hide()
     $('.course-progress-bar').show()
-    $(".course-progress-bar-shader").css({
+    $('.course-progress-bar-shader').css({
       width: `${percentComplete}%`,
-      "background-color": `var(--dark-${courseData.themeColor})`
+      'background-color': `var(--dark-${courseData.themeColor})`
     })
-    $(".percent-complete").html(`${percentComplete}% complete`)
+    $('.percent-complete').html(`${percentComplete}% complete`)
   }
 
-  let sidebarCourseInfoHeight = $(".sidebar-course-info").height()
-  $(".sidebar-table-of-contents")
-    .css("top", () => sidebarCourseInfoHeight + 10)
+  let sidebarCourseInfoHeight = $('.sidebar-course-info').height()
+  $('.sidebar-table-of-contents')
+    .css('top', () => sidebarCourseInfoHeight + 10)
     .html(createTableOfContents(courseData))
 }
 
-function loadCurrentLocation(courseData, userData) {
+function loadCurrentLocation (courseData, userData) {
   const userCourseData = userData.enrolledIn.find(
     course => course.courseId === courseId
   )
@@ -144,6 +149,7 @@ function loadCurrentLocation(courseData, userData) {
     currentPart = 0
     currentPartData = courseData.lessons[currentLesson].parts[currentPart]
   } else {
+    $('.mark-as-completed-button').show()
     currentLesson = userCourseData.currentLesson
     currentPart = userCourseData.currentPart
     currentPartData = courseData.lessons[currentLesson].parts[currentPart]
@@ -156,28 +162,26 @@ function loadCurrentLocation(courseData, userData) {
     courseData.lessons[currentLesson].parts[currentPart + 1] === undefined &&
     courseData.lessons[currentLesson + 1] === undefined
   ) {
-    $(".next-container").hide()
+    $('.next-container').hide()
   }
 
   if (
     courseData.lessons[currentLesson].parts[currentPart - 1] === undefined &&
     courseData.lessons[currentLesson - 1] === undefined
   ) {
-    $(".previous-container").hide()
-    $(".previous-next").css("justify-content", "flex-end")
+    $('.previous-container').hide()
+    $('.previous-next').css('justify-content', 'flex-end')
   } else {
-    $(".previous-container").show()
+    $('.previous-container').show()
   }
 
   updateLessonLocationData(currentLesson, currentPart)
 
-  $(".part-title").html(currentPartData.partTitle)
-  $(".part-content").html(marked(currentPartData.partContent))
+  $('.part-title').html(currentPartData.partTitle)
+  $('.part-content').html(marked(currentPartData.partContent))
 }
 
-
-
-function clickLessonNameListener(courseData) {
+function clickLessonNameListener (courseData) {
   $('.sidebar-table-of-contents').on(
     'click',
     '.sidebar-lesson-title',
@@ -200,16 +204,14 @@ function clickLessonNameListener(courseData) {
   )
 }
 
-function markPartCompleted(courseData) {
+function markPartCompleted (courseData) {
   $('.mark-as-completed-button').click(() => {
     const percentComplete = calculatePercentComplete(courseData, userData)
 
     const currentLesson = Number($('.current-lesson').data('lesson'))
     const currentPart = Number($('.current-lesson').data('part'))
-    console.log({currentLesson, currentPart})
     // find location of enrolled data for current course
     let enrolledInLocation = userData.enrolledIn.map(course => course.courseId).indexOf(courseId)
-    console.log({enrolledInLocation})
 
     if (percentComplete === 0) {
       let completedArray = []
@@ -224,8 +226,6 @@ function markPartCompleted(courseData) {
       userData.enrolledIn = userDataEnrolledIn
     }
 
-    console.log('user data before ajax: ', userData)
-
     $.ajax({
       type: 'PUT',
       url: `/api/courses/${courseData.courseId}`,
@@ -238,7 +238,7 @@ function markPartCompleted(courseData) {
         console.log('there was an error marking complete: ', error)
       },
       success: function (data) {
-        console.log('marked complete successfully: ', data)
+        console.log('marked complete successfully')
 
         userData.enrolledIn = data.enrolledIn
 

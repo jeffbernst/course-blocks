@@ -205,6 +205,10 @@ a {
   /*padding-top: 5px;*/
 }
 
+.nav-logout {
+  margin-left: 5px;
+}
+
 .nav-user-profile-image {
   height: 40px;
   width: 40px;

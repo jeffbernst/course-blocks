@@ -81,7 +81,7 @@ async function loadCreatePage () {
   updatePartOnKeypress()
   // createDropdown()
   changeCourseColor()
-  saveDraft()
+  saveDraftListener()
   clickToEditLessonName()
   // createNewDraft()
   watchSignUpForm()
@@ -100,21 +100,6 @@ function loadCreateSideBar (draftData) {
   $('.sidebar-table-of-contents')
     .css('top', () => sidebarCourseInfoHeight + 10)
     .html(createTableOfContents(draftData))
-
-  // dragula([document.querySelector('.sidebar-part-group')]);
-  // const drake = dragula([document.querySelector('.sidebar-part-group')])
-  // drake.on('drop', (el, target, source, sibling) =>
-  //   console.log(
-  //     'el: ',
-  //     el,
-  //     'target: ',
-  //     target,
-  //     'source: ',
-  //     source,
-  //     'sibling: ',
-  //     sibling
-  //   )
-  // )
 }
 
 function changeCourseColor () {
@@ -138,14 +123,17 @@ function changeCourseColor () {
   })
 }
 
+function saveDraftListener () {
+  $('.save-draft-button').click(async () => {
+    await saveDraft()
+  })
+}
+
 function saveDraft () {
-  // check if draft has been created (if draftId is 'create' from url)
-  // if it hasn't create new draft for the user then redirect page to load page with that draftId
-  // it it has been created just make a put request to update the database
 
-  $('.save-draft-button').click(async event => {
-    const jwt = JSON.parse(localStorage.getItem('JWT'))
+  const jwt = JSON.parse(localStorage.getItem('JWT'))
 
+  return new Promise((resolve, reject) => {
     // if new course, create new course on database
     if (draftId === 'create') {
       $.ajax({
@@ -157,9 +145,11 @@ function saveDraft () {
         headers: {Authorization: `Bearer ${jwt.authToken}`},
         crossDomain: true,
         error: function (error) {
+          reject(error)
           console.log('there was an error: ', error)
         },
         success: function (data) {
+          resolve(data)
           console.log('draft created! heres the data: ', data)
           window.location.href = `/create/${data.courseId}`
         }
@@ -176,13 +166,40 @@ function saveDraft () {
         headers: {Authorization: `Bearer ${jwt.authToken}`},
         crossDomain: true,
         error: function (error) {
+          reject(error)
           console.log('there was an error: ', error)
         },
         success: function (data) {
+          resolve(data)
           console.log('draft updated: ', data)
         }
       })
     }
+  })
+  // if new course, create new course on database
+}
+
+function publishCourse () {
+  const jwt = JSON.parse(localStorage.getItem('JWT'))
+
+  $('.publish-button').click(async () => {
+    await saveDraft()
+
+    $.ajax({
+      type: 'POST',
+      url: '/api/courses/',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify({...draftData, courseId: draftId}),
+      headers: {Authorization: `Bearer ${jwt.authToken}`},
+      crossDomain: true,
+      error: function (error) {
+        console.log('there was an error: ', error)
+      },
+      success: function (data) {
+        console.log('course published: ', data)
+      }
+    })
   })
 }
 
@@ -275,28 +292,6 @@ function addMenu () {
 
       loadCreateSideBar(draftData)
     }
-  })
-}
-
-function publishCourse () {
-  const jwt = JSON.parse(localStorage.getItem('JWT'))
-
-  $('.publish-button').click(() => {
-    $.ajax({
-      type: 'POST',
-      url: '/api/courses/',
-      contentType: 'application/json',
-      dataType: 'json',
-      data: JSON.stringify({...draftData, courseId: draftId}),
-      headers: {Authorization: `Bearer ${jwt.authToken}`},
-      crossDomain: true,
-      error: function (error) {
-        console.log('there was an error: ', error)
-      },
-      success: function (data) {
-        console.log('course published: ', data)
-      }
-    })
   })
 }
 

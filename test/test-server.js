@@ -47,7 +47,7 @@ describe('login, signup, and check authentication', () => {
     chai.request(TEST_DATABASE_URL)
       .post('/api/users/')
       .send(mockSignupData)
-      .end((error, response) => {
+      .then(response => {
         response.should.have.status(201)
       })
   })
@@ -59,7 +59,7 @@ describe('login, signup, and check authentication', () => {
         email: mockSignupData.email,
         password: mockSignupData.password
       })
-      .end((error, response) => {
+      .then(response => {
         response.should.have.status(200)
         response.body.should.have.property('authToken')
         token = response.body.authToken
@@ -70,7 +70,7 @@ describe('login, signup, and check authentication', () => {
     chai.request(TEST_DATABASE_URL)
       .get('/api/users/')
       .set('authorization', `Bearer ${token.authToken}`)
-      .end((error, response) => {
+      .then(response => {
         response.should.have.status(200)
       })
   })
