@@ -40,7 +40,8 @@ const userData = {
   userId: '',
   gravatarHash: '',
   enrolledIn: [],
-  drafts: []
+  drafts: [],
+  completed: []
 }
 
 async function loadPage () {
@@ -119,7 +120,7 @@ function loadSideBar (courseData, userData) {
   let sidebarCourseInfoHeight = $('.sidebar-course-info').height()
   $('.sidebar-table-of-contents')
     .css('top', () => sidebarCourseInfoHeight + 10)
-    .html(createTableOfContents(courseData))
+    .html(createTableOfContents(courseData, userCourseData))
 }
 
 function loadCurrentLocation (courseData, userData) {
@@ -166,6 +167,14 @@ function loadCurrentLocation (courseData, userData) {
 
   $('.part-title').html(currentPartData.partTitle)
   $('.part-content').html(marked(currentPartData.partContent))
+
+  // console.log({userCourseData})
+  //
+  // if (userCourseData.completed.length !== 0) {
+  //   const completedThisPart = userCourseData.completed[currentLesson].includes(currentPart)
+  //   console.log({completedThisPart})
+  //   if (completedThisPart) $('.mark-as-completed-button').hide()
+  // }
 }
 
 function clickLessonNameListener (courseData) {
@@ -230,7 +239,10 @@ function markPartCompleted (courseData) {
         userData.enrolledIn = data.enrolledIn
 
         loadSideBar(courseData, userData)
-        loadCurrentLocation(courseData, userData)
+        // loadCurrentLocation(courseData, userData)
+        console.log('userData enrolledIn: ', userData.enrolledIn)
+        console.log(enrolledInLocation)
+        updateLessonLocationData(currentLesson, currentPart)
       }
     })
   })

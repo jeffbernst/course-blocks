@@ -277,7 +277,7 @@ function logoutListener() {
   })
 }
 
-function createTableOfContents (courseData) {
+function createTableOfContents (courseData, userCourseData) {
   let tableOfContentsString = ''
   let lessons = courseData.lessons
 
@@ -290,12 +290,35 @@ function createTableOfContents (courseData) {
 			<div class="sidebar-part-group">
 		`
     for (let j = 0; j < lessons[i].parts.length; j++) {
-      tableOfContentsString += `
+      // check if user has completed any of the parts, then append checks if so
+      const isEmpty = a => Array.isArray(a) && a.every(isEmpty);
+    // && isEmpty(userCourseData.completed) === false
+
+      if (typeof userCourseData === 'undefined') {
+        tableOfContentsString += `
 				<div class="sidebar-part" data-part-number="${j}">
 					<span class="sidebar-part-number">- ${j + 1}: </span>
 					${lessons[i].parts[j].partTitle}
 				</div>
 			`
+      } else if (isEmpty(userCourseData.completed) === false) {
+        const completedThisPart = userCourseData.completed[i].includes(j)
+
+        tableOfContentsString += `
+        <div class="sidebar-part" data-part-number="${j}">
+					<span class="sidebar-part-number">- ${j + 1}: </span>
+					${lessons[i].parts[j].partTitle}
+					${completedThisPart ? '&#10004;' : ''}
+        </div>
+        `
+      } else {
+        tableOfContentsString += `
+				<div class="sidebar-part" data-part-number="${j}">
+					<span class="sidebar-part-number">- ${j + 1}: </span>
+					${lessons[i].parts[j].partTitle}
+				</div>
+			`
+      }
     }
     tableOfContentsString += `</div></div>`
   }
@@ -332,7 +355,7 @@ function moveToClickedLesson (courseData) {
     // show for create page
     $('.previous-next').show()
     $('.edit-part').show()
-    $('.mark-as-completed-container').show()
+    // $('.mark-as-completed-container').show()
     $('.pick-to-edit').hide()
 
     showOrHideNextAndPreviousButtons(courseData, clickedLesson, clickedPart)
@@ -400,10 +423,17 @@ function updateLessonLocationData (lesson, part) {
     .html(`Lesson ${lesson + 1} / Part ${part + 1}`)
     .data({lesson: `${lesson}`, part: `${part}`})
 
-  highlightCurrentPart(lesson, part)
+  if (typeof userData !== 'undefined') {
+    const userCourseData = userData.enrolledIn.find(
+      course => course.courseId === courseId
+    )
+    highlightCurrentPart(lesson, part, userCourseData)
+  } else {
+    highlightCurrentPart(lesson, part)
+  }
 }
 
-function highlightCurrentPart (lesson, part) {
+function highlightCurrentPart (lesson, part, userCourseData) {
   // remove highlight from all parts
   $('.sidebar-part').removeClass('sidebar-part-highlighted')
 
@@ -412,6 +442,14 @@ function highlightCurrentPart (lesson, part) {
     .parent()
     .find(`.sidebar-part[data-part-number=${part}]`)
     .addClass('sidebar-part-highlighted')
+
+  $('.mark-as-completed-button').show()
+
+  console.log({userCourseData})
+  if (typeof userCourseData !== 'undefined' && userCourseData.completed.length !== 0) {
+    const completedThisPart = userCourseData.completed[lesson].includes(part)
+    if (completedThisPart) $('.mark-as-completed-button').hide()
+  }
 }
 
 function showOrHideNextAndPreviousButtons (courseData, lesson, part) {
