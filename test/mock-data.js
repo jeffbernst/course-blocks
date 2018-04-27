@@ -143,5 +143,5 @@ module.exports = {
   mockCourseDataUpdated,
   mockUserData,
   mockUserDataUpdated,
-  mockSignupData
+  mockSignupData,
 }

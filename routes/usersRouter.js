@@ -3,7 +3,7 @@ if (require.main === module) {
 }
 
 const express = require('express')
-const flash = require('connect-flash');
+// const flash = require('connect-flash');
 const router = express.Router()
 const mongoose = require('mongoose')
 const passport = require('passport')
@@ -36,7 +36,7 @@ const createAuthToken = function(user) {
 }
 
 const jwtAuth = passport.authenticate('jwt', { session: false })
-const localAuth = passport.authenticate('local', { session: false, failureFlash: true })
+const localAuth = passport.authenticate('local', { session: false })
 
 // async function createNewUser(userData) {
 //   // my original code
