@@ -1,9 +1,9 @@
 const url = window.location.href
 const test = url.match(/(create)\/(.*)\/?$/)
 const draftId = test === null ? 'create' : test[2]
-  // typeof url.match(/\/([^/]+)$/)[1] === 'undefined'
-  //   ? 'not in url'
-  //   : url.match(/\/([^/]+)$/)[1]
+// typeof url.match(/\/([^/]+)$/)[1] === 'undefined'
+//   ? 'not in url'
+//   : url.match(/\/([^/]+)$/)[1]
 console.log(draftId)
 
 function checkForJsonWebToken () {
@@ -46,10 +46,11 @@ async function loadCreatePage () {
         ]
       }
     ]
-
   } else {
     const userData = await getUserData()
-    const draftDataFromDb = userData.drafts.find(draft => draft.courseId === draftId)
+    const draftDataFromDb = userData.drafts.find(
+      draft => draft.courseId === draftId
+    )
     draftData.courseTitle = draftDataFromDb.courseTitle
     draftData.themeColor = draftDataFromDb.themeColor
     draftData.courseSummary = draftDataFromDb.courseSummary
@@ -80,7 +81,7 @@ async function loadCreatePage () {
   updatePartOnKeypress()
   // createDropdown()
   changeCourseColor()
-  saveDraft()
+  saveDraftListener()
   clickToEditLessonName()
   // createNewDraft()
   watchSignUpForm()
@@ -99,21 +100,6 @@ function loadCreateSideBar (draftData) {
   $('.sidebar-table-of-contents')
     .css('top', () => sidebarCourseInfoHeight + 10)
     .html(createTableOfContents(draftData))
-
-  // dragula([document.querySelector('.sidebar-part-group')]);
-  // const drake = dragula([document.querySelector('.sidebar-part-group')])
-  // drake.on('drop', (el, target, source, sibling) =>
-  //   console.log(
-  //     'el: ',
-  //     el,
-  //     'target: ',
-  //     target,
-  //     'source: ',
-  //     source,
-  //     'sibling: ',
-  //     sibling
-  //   )
-  // )
 }
 
 function changeCourseColor () {
@@ -125,7 +111,9 @@ function changeCourseColor () {
     $('.sidebar-create-color-picker-tile').removeClass(
       'sidebar-create-color-picker-tile-selected'
     )
-    $(event.currentTarget).addClass('sidebar-create-color-picker-tile-selected')
+    $(event.currentTarget).addClass(
+      'sidebar-create-color-picker-tile-selected'
+    )
     $('.sidebar-course-info')
       .attr('class', 'sidebar-course-info')
       .addClass(`${clickedColor}-tile`)
@@ -135,34 +123,17 @@ function changeCourseColor () {
   })
 }
 
+function saveDraftListener () {
+  $('.save-draft-button').click(async () => {
+    await saveDraft()
+    $('.draft-saved').css('display', 'flex').fadeIn(1000).fadeOut(1000)
+  })
+}
+
 function saveDraft () {
-  // check if draft has been created (if draftId is 'create' from url)
-  // if it hasn't create new draft for the user then redirect page to load page with that draftId
-  // it it has been created just make a put request to update the database
+  const jwt = JSON.parse(localStorage.getItem('JWT'))
 
-  $('.save-draft-button').click(async event => {
-    // event.preventDefault()
-    // const partTitle = $(event.currentTarget)
-    //   .find('.part-title')
-    //   .val()
-    // const partContent = $(event.currentTarget)
-    //   .find('.part-content')
-    //   .val()
-    // const themeColor = $('.sidebar-create-color-picker-tile-selected').data('color')
-
-    // const currentLesson = Number($('.current-lesson').data('lesson'))
-    // const currentPart = Number($('.current-lesson').data('part'))
-
-    // const draftData = {
-    //   partTitle,
-    //   partContent,
-    //   currentLesson,
-    //   currentPart,
-    //   themeColor
-    // }
-
-    const jwt = JSON.parse(localStorage.getItem('JWT'))
-
+  return new Promise((resolve, reject) => {
     // if new course, create new course on database
     if (draftId === 'create') {
       $.ajax({
@@ -171,19 +142,20 @@ function saveDraft () {
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify(draftData),
-        headers: {'Authorization': `Bearer ${jwt.authToken}`},
+        headers: {Authorization: `Bearer ${jwt.authToken}`},
         crossDomain: true,
         error: function (error) {
+          reject(error)
           console.log('there was an error: ', error)
         },
         success: function (data) {
+          resolve(data)
           console.log('draft created! heres the data: ', data)
-          window.location.href = `/create/${data.newDraft.courseId}`;
+          window.location.href = `/create/${data.courseId}`
         }
       })
 
-      // TODO make sure to update URL after creating course
-
+      // otherwise update existing draft
     } else {
       $.ajax({
         type: 'PUT',
@@ -191,17 +163,46 @@ function saveDraft () {
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify({...draftData, courseId: draftId}),
-        headers: {'Authorization': `Bearer ${jwt.authToken}`},
+        headers: {Authorization: `Bearer ${jwt.authToken}`},
         crossDomain: true,
         error: function (error) {
+          reject(error)
           console.log('there was an error: ', error)
         },
         success: function (data) {
+          resolve(data)
           console.log('draft updated: ', data)
         }
       })
     }
-//     console.log(updateMessage)
+  })
+  // if new course, create new course on database
+}
+
+function publishCourse () {
+  const jwt = JSON.parse(localStorage.getItem('JWT'))
+
+  $('.publish-button').click(async () => {
+    const savedData = await saveDraft()
+    console.log(savedData)
+
+    $.ajax({
+      type: 'POST',
+      url: '/api/courses/',
+      contentType: 'application/json',
+      dataType: 'json',
+      // data: JSON.stringify({...draftData, courseId: draftId}),
+      data: JSON.stringify({...draftData, courseId: savedData.courseId}),
+      headers: {Authorization: `Bearer ${jwt.authToken}`},
+      crossDomain: true,
+      error: function (error) {
+        console.log('there was an error: ', error)
+      },
+      success: function (data) {
+        console.log('course published: ', data)
+        $('.draft-published').css('display', 'flex').fadeIn(1000).fadeOut(1000)
+      }
+    })
   })
 }
 
@@ -214,8 +215,10 @@ function clickToEditLessonName () {
         .prev()
         .data('lessonNumber')
 
-      draftData.lessons[clickedLesson].lessonTitle =
-        prompt('Enter a new lesson name and hit OK 🙂', `${draftData.lessons[clickedLesson].lessonTitle}`)
+      draftData.lessons[clickedLesson].lessonTitle = prompt(
+        'Enter a new lesson name and hit OK 🙂',
+        `${draftData.lessons[clickedLesson].lessonTitle}`
+      )
 
       loadCreateSideBar(draftData)
     }
@@ -224,20 +227,23 @@ function clickToEditLessonName () {
 
 function clickToEditCourseName () {
   $('.sidebar-course-title').on('click', event => {
-      draftData.courseTitle =
-        prompt('Enter a new course name and hit OK 👍', `${draftData.courseTitle}`)
+    draftData.courseTitle = prompt(
+      'Enter a new course name and hit OK 👍',
+      `${draftData.courseTitle}`
+    )
 
-      loadCreateSideBar(draftData)
-    }
-  )
+    loadCreateSideBar(draftData)
+  })
 }
 
-function updatePartOnKeypress() {
+function updatePartOnKeypress () {
   $('.part-title').on('input', () => {
     let currentLesson = Number($('.current-lesson').data('lesson'))
     let currentPart = Number($('.current-lesson').data('part'))
 
-    draftData.lessons[currentLesson].parts[currentPart].partTitle = $('.part-title').val()
+    draftData.lessons[currentLesson].parts[currentPart].partTitle = $(
+      '.part-title'
+    ).val()
 
     loadCreateSideBar(draftData)
   })
@@ -246,11 +252,14 @@ function updatePartOnKeypress() {
     let currentLesson = Number($('.current-lesson').data('lesson'))
     let currentPart = Number($('.current-lesson').data('part'))
 
-    draftData.lessons[currentLesson].parts[currentPart].partContent = $('.part-content').val()
+    draftData.lessons[currentLesson].parts[currentPart].partContent = $(
+      '.part-content'
+    ).val()
   })
 }
 
-function addMenu() {
+// menu for adding lessons and parts
+function addMenu () {
   $('.add-button').click(() => {
     $('.add-menu').toggle()
   })
@@ -276,7 +285,6 @@ function addMenu() {
 
     if (newPartLocation > draftData.lessons.length) {
       alert('Please pick a lesson that exists.')
-
     } else {
       const newPartTitle = prompt('What would you like to name your new part?')
 
@@ -289,77 +297,5 @@ function addMenu() {
     }
   })
 }
-
-function publishCourse() {
-  const jwt = JSON.parse(localStorage.getItem('JWT'))
-
-  $('.publish-button').click(() => {
-    $.ajax({
-      type: 'POST',
-      url: '/api/courses/',
-      contentType: 'application/json',
-      dataType: 'json',
-      data: JSON.stringify({...draftData, courseId: draftId}),
-      headers: {'Authorization': `Bearer ${jwt.authToken}`},
-      crossDomain: true,
-      error: function (error) {
-        console.log('there was an error: ', error)
-      },
-      success: function (data) {
-        console.log('course published: ', data)
-      }
-    })
-  })
-}
-
-// function updateDatabase (draftData, title, content, lesson, part) {
-//   return new Promise((resolve, reject) => {
-//     let currentUserData = JSON.parse(localStorage.getItem('MOCK_USER_DATA'))
-//     let draftIndex = currentUserData.drafts.findIndex(
-//       draft => draft.courseId == draftId
-//     )
-//
-//     currentUserData.drafts[draftIndex].lessons[lesson].parts[
-//       part
-//       ].partTitle = title
-//     currentUserData.drafts[draftIndex].lessons[lesson].parts[
-//       part
-//       ].partContent = content
-//
-//     let updatedUserData = Object.assign({}, currentUserData)
-//
-//     localStorage.setItem('MOCK_USER_DATA', JSON.stringify(updatedUserData))
-//
-//     location.reload()
-//
-//     // need to update sidebar and course data that is in the dom
-//     // moveToClickedLesson is currently using the course data from initial page load
-//
-//     resolve('updated!')
-//   })
-// }
-
-// function createNewDraft() {
-//   // initialize course with basic course data and 0 courseIndex
-//   // change courseIndex to proper number when published and copied to course database
-//   const newDraftData = {
-//     courseId: 6,
-//     courseTitle: "My Great Course",
-//     themeColor: "purple",
-//     tags: [],
-//     courseSummary: "My great summary.",
-//     lessons: [
-//       {
-//         lessonTitle: "My Great Lesson",
-//         parts: [
-//           {
-//             partTitle: "My Great Part",
-//             partContent: "Text goes here."
-//           }
-//         ]
-//       }
-//     ]
-//   }
-// }
 
 $(loadCreatePage)

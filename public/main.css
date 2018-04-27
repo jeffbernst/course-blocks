@@ -205,6 +205,10 @@ a {
   /*padding-top: 5px;*/
 }
 
+.nav-logout {
+  margin-left: 5px;
+}
+
 .nav-user-profile-image {
   height: 40px;
   width: 40px;
@@ -897,6 +901,33 @@ a {
   right: 5px;
   border: 3px solid var(--dark-grey);
   font-size: 15px;
+}
+
+.draft-saved,
+.draft-published {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  border: 3px solid var(--dark-grey);
+  border-radius: 8px;
+  background-color: white;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.draft-saved {
+  width: 200px;
+}
+
+.draft-published {
+  width: 300px;
 }
 
 .add-menu {
