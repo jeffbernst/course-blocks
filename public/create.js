@@ -7,12 +7,16 @@ const draftId = test === null ? 'create' : test[2]
 console.log(draftId)
 
 function checkForJsonWebToken () {
-  if (localStorage.getItem('JWT') !== null) showMemberNav()
+  if (localStorage.getItem('JWT') !== null) {
+    showMemberNav()
+    return true
+  }
   else {
     $('.sign-in-log-in').show()
     $('.welcome-message').show()
     $('.course-progress-bar').hide()
     $('.sidebar-button-container-wrapper').show()
+    return false
   }
 }
 
@@ -27,9 +31,15 @@ const draftData = {
 // const updatedDraftData = {}
 
 async function loadCreatePage () {
-  checkForJsonWebToken()
+  const jwtExists = checkForJsonWebToken()
 
-  // const courseData = await getCourse(draftId);
+  if (!jwtExists) {
+    console.log('no access allowed')
+    $('.main-container').html(`
+      <div class='no-access'>Sorry! You aren't allowed to access this page :(</div>
+    `)
+    return
+  }
 
   if (draftId === 'create') {
     draftData.courseTitle = 'My Great Course'

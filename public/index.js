@@ -11,6 +11,7 @@ async function checkForJsonWebToken () {
     $('.sign-in-log-in').show()
     $('.welcome-message').show()
     watchSearchClear()
+    createAndAppendCourseTileHtml()
   }
 }
 

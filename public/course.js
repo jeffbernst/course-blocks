@@ -20,6 +20,7 @@ async function checkForJsonWebTokenOnCourse () {
     showMemberNav()
 
   } else {
+    $('.mark-as-completed-button').hide()
     $('.sign-in-log-in').show()
     $('.welcome-message').show()
     $('.course-progress-bar').hide()

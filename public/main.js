@@ -443,12 +443,11 @@ function highlightCurrentPart (lesson, part, userCourseData) {
     .find(`.sidebar-part[data-part-number=${part}]`)
     .addClass('sidebar-part-highlighted')
 
-  $('.mark-as-completed-button').show()
-
   console.log({userCourseData})
   if (typeof userCourseData !== 'undefined' && userCourseData.completed.length !== 0) {
     const completedThisPart = userCourseData.completed[lesson].includes(part)
     if (completedThisPart) $('.mark-as-completed-button').hide()
+    else $('.mark-as-completed-button').show()
   }
 }
 
