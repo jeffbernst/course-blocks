@@ -38,18 +38,7 @@ const createAuthToken = function(user) {
 const jwtAuth = passport.authenticate('jwt', { session: false })
 const localAuth = passport.authenticate('local', { session: false })
 
-// async function createNewUser(userData) {
-//   // my original code
-//   const newUser = await User.create(userData)
-//
-//   // const token = jwt.sign({ user: { _id: newUser._id } }, process.env.JWT_SECRET)
-//   return {
-//     // jwt: token,
-//     userData: newUser
-//   }
-// }
-
-// TODO return promise out of function and resolve or reject into my try catch
+// create new user and return auth token
 router.post('/', async (req, res) => {
   try {
     const requiredFields = ['name', 'email', 'password']
@@ -146,7 +135,6 @@ router.post('/', async (req, res) => {
         })
       })
       .then(user => {
-        // return res.status(201).json(user.serialize())
         const authToken = createAuthToken(user.serialize())
         return res.status(201).json({authToken})
       })

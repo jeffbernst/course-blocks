@@ -11,12 +11,10 @@ const {Course} = require('../models/course')
 const {User} = require('../models/user')
 const chaiSubset = require('chai-subset')
 const {TEST_DATABASE_URL, PORT} = require('../config')
-const {mockSignupData} = require('./mock-data')
+const {mockSignupData, mockCourseData} = require('./mock-data')
 
 chai.use(chaiSubset)
 chai.use(require('chai-things'))
-
-// require('dotenv').config()
 
 chai.should()
 
@@ -39,11 +37,6 @@ describe('login, signup, and check authentication', () => {
   })
 
   let token
-  let testUser
-
-  beforeEach(async () => {
-    tearDownDb()
-  })
 
   it('should sign up a user', () => {
     return chai.request(app)
@@ -57,33 +50,44 @@ describe('login, signup, and check authentication', () => {
 
   it('should login and return a token', async () => {
     const hashedPassword = await User.hashPassword(mockSignupData.password)
-    return User.create({
+    await User.create({
       userName: mockSignupData.name,
       userEmail: mockSignupData.email,
       password: hashedPassword
+    })
+
+    return chai.request(app)
+      .post('/api/users/login')
+      .send({
+        userEmail: mockSignupData.email,
+        password: mockSignupData.password
       })
-      .then(user => {
-        chai.request(app)
-          .post('/api/users/login')
-          .send({
-            userEmail: mockSignupData.email,
-            password: mockSignupData.password
-          })
-          .then(response => {
-            console.log('checking')
-            response.should.have.status(200)
-            response.body.should.have.property('authToken')
-            // token = response.body.authToken
-          })
+      .then(response => {
+        response.should.have.status(200)
+        response.body.should.have.property('authToken')
+
+        token = response.body.authToken
       })
   })
 
-  // it('should access a protected end point', () => {
-  //   chai.request(`http://localhost:${PORT}`)
-  //     .get('/api/users/')
-  //     .set('authorization', `Bearer ${token.authToken}`)
-  //     .then(response => {
-  //       response.should.have.status(200)
-  //     })
-  // })
+  it('should get existing user', async () => {
+    // user created in above test
+    return chai.request(app)
+      .get('/api/users/')
+      .set('authorization', `Bearer ${token}`)
+      .then(response => {
+        response.should.have.status(200)
+      })
+  })
+
+  it('should create new draft', async () => {
+    return chai.request(app)
+      .post('/api/drafts/')
+      .set('authorization', `Bearer ${token}`)
+      .send(mockCourseData)
+      .then(response => {
+        response.should.have.status(200)
+        // response.body.should.have.property('authToken')
+      })
+  })
 })

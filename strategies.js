@@ -18,7 +18,6 @@ const localStrategy = new LocalStrategy(
   { usernameField: 'userEmail', passwordField: 'password' },
   (userEmail, password, callback) => {
     let user
-
     User.findOne({ userEmail })
       .then(_user => {
         user = _user

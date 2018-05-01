@@ -1,8 +1,6 @@
 const mockCourseData = {
   courseTitle: 'My Great Course',
   themeColor: 'purple',
-  tags: [],
-  courseSummary: 'My great summary.',
   lessons: [
     {
       lessonTitle: 'My Great Lesson',
@@ -19,8 +17,6 @@ const mockCourseData = {
 const mockCourseDataUpdated = {
   courseTitle: 'My Great Course UPDATED!!!',
   themeColor: 'purple',
-  tags: [],
-  courseSummary: '>.<',
   lessons: [
     {
       lessonTitle: 'My Great Lesson',
