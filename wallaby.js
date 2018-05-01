@@ -13,7 +13,7 @@ module.exports = function(wallaby) {
       'test/mock-data.js'
     ],
 
-    tests: ['test/test-server.js'],
+    tests: ['test/test-*.js'],
 
     testFramework: 'mocha',
 

@@ -61,18 +61,6 @@ router.put('/', jwtAuth, async (req, res) => {
   }
 })
 
-
-// router.get('/:courseId', jwtAuth, async (req, res) => {
-//   const user = User.findById(req.user.id)
-//   console.log('user:', user)
-//
-//   const draft = user.drafts.find(draft => {
-//     return draft.courseId === req.params.courseId
-//   })
-//
-//   res.send(draft)
-// })
-
 module.exports = {
   router,
   createNewDraftAndUpdateUser,

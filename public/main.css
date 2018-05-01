@@ -226,6 +226,22 @@ a {
   .nav-profile-button {
     display: none;
   }
+
+  .nav-logout {
+    font-size: 10px;
+    width: 50px;
+    padding-left: 2px;
+  }
+
+  .nav-create {
+    width: 45px;
+    overflow: hidden;
+    padding-top: 3px;
+  }
+
+  .nav-create:before {
+    content: '\1F4DD';
+  }
 }
 
 /* ~~~~~ MAIN ~~~~~ */
@@ -655,6 +671,12 @@ a {
 
 .share-button:hover:after {
   content: 'Share \1F49B';
+}
+
+@media only screen and (max-width: 400px) {
+  .smiley {
+    font-size: 10px;
+  }
 }
 
 /* ~~~~~ PREVIOUS NEXT ~~~~~~ */

@@ -18,10 +18,6 @@ passport.use(jwtStrategy)
 
 const jwtAuth = passport.authenticate('jwt', {session: false})
 
-// get request for all courses for index
-
-// get request for specific course
-
 async function publishCourse (course) {
   await Course.findOne({courseId: course.courseId}).remove()
   return await Course.create(course)
@@ -37,6 +33,7 @@ router.post('/', jwtAuth, async (req, res) => {
   }
 })
 
+// get 12 courses to display on index page
 router.get('/', async (req, res) => {
   const courses = await Course.find().limit(12)
 

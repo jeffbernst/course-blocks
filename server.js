@@ -72,7 +72,8 @@ function closeServer() {
       console.log('Closing server')
       server.close(err => {
         if (err) {
-          return reject(err)
+          reject(err)
+          return
         }
         resolve()
       })
