@@ -1,20 +1,10 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const {app, runServer, closeServer} = require('../server')
-const {publishCourse} = require('../routes/coursesRouter')
-const {
-  createNewDraftAndUpdateUser,
-  updateDraftInUserObject
-} = require('../routes/draftsRouter')
-const {createNewUser, getUser} = require('../routes/usersRouter')
 const {Course} = require('../models/course')
 const {User} = require('../models/user')
-const chaiSubset = require('chai-subset')
-const {TEST_DATABASE_URL, PORT} = require('../config')
+const {TEST_DATABASE_URL} = require('../config')
 const {mockSignupData, mockCourseData, mockCourseDataUpdated, mockUserData} = require('./mock-data')
-
-chai.use(chaiSubset)
-chai.use(require('chai-things'))
 
 chai.should()
 
