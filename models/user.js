@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const bcrypt = require('bcryptjs')
-const { courseSchema } = require('./course')
+const {courseSchema} = require('./course')
 
 const userSchema = new Schema({
   userName: String,
@@ -19,7 +19,7 @@ const userSchema = new Schema({
   drafts: [courseSchema]
 })
 
-userSchema.methods.serialize = function() {
+userSchema.methods.serialize = function () {
   return {
     userName: this.userName || '',
     userEmail: this.userEmail || '',
@@ -27,14 +27,14 @@ userSchema.methods.serialize = function() {
   }
 }
 
-userSchema.methods.validatePassword = function(password) {
+userSchema.methods.validatePassword = function (password) {
   return bcrypt.compare(password, this.password)
 }
 
-userSchema.statics.hashPassword = function(password) {
+userSchema.statics.hashPassword = function (password) {
   return bcrypt.hash(password, 10)
 }
 
 const User = mongoose.model('user', userSchema)
 
-module.exports = { User }
+module.exports = {User}

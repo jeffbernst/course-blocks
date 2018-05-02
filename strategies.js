@@ -1,7 +1,7 @@
-const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt')
-const { Strategy: LocalStrategy } = require('passport-local')
-const { JWT_SECRET } = require('./config')
-const { User } = require('./models/user')
+const {Strategy: JwtStrategy, ExtractJwt} = require('passport-jwt')
+const {Strategy: LocalStrategy} = require('passport-local')
+const {JWT_SECRET} = require('./config')
+const {User} = require('./models/user')
 
 const jwtStrategy = new JwtStrategy(
   {
@@ -15,10 +15,10 @@ const jwtStrategy = new JwtStrategy(
 )
 
 const localStrategy = new LocalStrategy(
-  { usernameField: 'userEmail', passwordField: 'password' },
+  {usernameField: 'userEmail', passwordField: 'password'},
   (userEmail, password, callback) => {
     let user
-    User.findOne({ userEmail })
+    User.findOne({userEmail})
       .then(_user => {
         user = _user
         if (!user)
@@ -38,7 +38,7 @@ const localStrategy = new LocalStrategy(
       })
       .catch(error => {
         if (error.reason === 'Login error.') {
-          return callback(null, false, { message: error.message })
+          return callback(null, false, {message: error.message})
         } else {
           return callback(error, false)
         }
@@ -46,4 +46,4 @@ const localStrategy = new LocalStrategy(
   }
 )
 
-module.exports = { jwtStrategy, localStrategy }
+module.exports = {jwtStrategy, localStrategy}

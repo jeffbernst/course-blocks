@@ -262,7 +262,7 @@ function createDropdown () {
   })
 }
 
-function logoutListener() {
+function logoutListener () {
   $('.nav-logout').click(() => {
     localStorage.removeItem('JWT')
     location.reload()
@@ -283,7 +283,7 @@ function createTableOfContents (courseData, userCourseData) {
 		`
     for (let j = 0; j < lessons[i].parts.length; j++) {
       // check if user has completed any of the parts, then append checks if so
-      const isEmpty = a => Array.isArray(a) && a.every(isEmpty);
+      const isEmpty = a => Array.isArray(a) && a.every(isEmpty)
 
       if (typeof userCourseData === 'undefined') {
         tableOfContentsString += `
@@ -465,14 +465,14 @@ function showOrHideNextAndPreviousButtons (courseData, lesson, part) {
   }
 }
 
-function calculatePercentComplete(courseData, userData) {
+function calculatePercentComplete (courseData, userData) {
   let courseSize = courseData.lessons.reduce(
     (acc, cur) => acc + cur.parts.length,
     0
   )
 
   const enrolledUserData = userData.enrolledIn.find(course => courseData.courseId === course.courseId)
-  if (typeof enrolledUserData === 'undefined') $(".sidebar-button-container-wrapper").show()
+  if (typeof enrolledUserData === 'undefined') $('.sidebar-button-container-wrapper').show()
 
   let completedByUser =
     typeof enrolledUserData === 'undefined'
@@ -482,7 +482,7 @@ function calculatePercentComplete(courseData, userData) {
   return Math.floor(completedByUser / courseSize * 100)
 }
 
-function enrollInCourse(courseId) {
+function enrollInCourse (courseId) {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: 'POST',
