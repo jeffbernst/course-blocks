@@ -10,9 +10,7 @@ const passport = require('passport')
 const jwt = require('jsonwebtoken')
 
 const {User} = require('../models/user')
-const {Course} = require('../models/course')
 const {jwtStrategy} = require('../strategies')
-// const app = express()
 
 mongoose.Promise = global.Promise
 
@@ -62,7 +60,5 @@ router.put('/', jwtAuth, async (req, res) => {
 })
 
 module.exports = {
-  router,
-  createNewDraftAndUpdateUser,
-  updateDraftInUserObject
+  router
 }

@@ -36,15 +36,6 @@ function getCoursesForIndexPage () {
 }
 
 async function showMemberScreen (userData) {
-  // const userData = await getUserData()
-
-  // <button class="nav-button nav-profile-button">${userData.userName}</button>
-
-  // $('.nav-user-profile').html(`
-  // 	<button class="nav-button nav-create">Create</button>
-  // <img src='https://www.gravatar.com/avatar/${userData.gravatarHash}' alt='user profile' class="nav-user-profile-image">
-  // `);
-  //
   $('.nav-create').show()
   $('.my-courses').show()
 
@@ -76,7 +67,6 @@ async function showMemberScreen (userData) {
 						<a href="/course/${
         courseData.courseId
         }"><button class="resume-button"><span>Resume &#x1F4D8</span></button></a>
-						<!--<button class="share-button"><span>Share &#x1F4E3;</span></button>-->
 					</div>
 				</div>
 			</div>
@@ -118,7 +108,6 @@ function renderCourseTile (courseInfo) {
 						<br>
 						<div class="course-grid-enroll-container">
 							<button class="course-grid-enroll-button" data-course-id=${courseInfo.courseId}><span>Enroll &#x1F680;</span></button>&nbsp;&nbsp;
-              <!--<span class="course-grid-students-count">${ courseInfo.studentCount } students</span>-->
 						</div>
 					</div>`
 }
@@ -140,27 +129,6 @@ function watchFilters () {
     })
   })
 }
-
-// function watchExploreTitle() {
-//   $('.explore-title').click(event => {
-//     $('.explore-filters span').removeClass('explore-filter-active')
-//     createAndAppendCourseTileHtml()
-//   })
-// }
-
-// function getFilteredCourses (filter) {
-//   return new Promise((resolve, reject) => {
-//     // api call will go here
-//     resolve(mockFilterCourses(filter))
-//   })
-// }
-
-// function mockFilterCourses (filter) {
-//   let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
-//   return MOCK_COURSE_DATA.filter(course => {
-//     return course.tags.indexOf(filter) > -1
-//   })
-// }
 
 function watchSearch () {
   $('.search-form').submit(event => {
@@ -211,15 +179,6 @@ function searchCourses (searchTerm) {
   })
 }
 
-// function mockSearch (searchTerm) {
-//   let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
-//   return MOCK_COURSE_DATA.filter(course => {
-//     return (
-//       course.courseTitle.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-//     )
-//   })
-// }
-
 function indexPageEnrollButtonListener () {
   $('.course-grid').on('click', '.course-grid-enroll-button', async event => {
     const clickedCourseId = $(event.currentTarget).data('courseId')
@@ -246,8 +205,6 @@ function startApp () {
   closeModal()
   watchFilters()
   indexPageEnrollButtonListener()
-  // watchExploreTitle()
-  // createDropdown()
 }
 
 $(startApp)

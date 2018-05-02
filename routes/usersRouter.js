@@ -3,21 +3,17 @@ if (require.main === module) {
 }
 
 const express = require('express')
-// const flash = require('connect-flash');
 const router = express.Router()
 const mongoose = require('mongoose')
 const passport = require('passport')
-// const LocalStrategy = require('passport-local').Strategy
 const config = require('../config')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 const md5 = require('md5')
-// const urlEncoded = bodyParser.jsonUrlEncoded()
 
 const { User } = require('../models/user')
 const { jwtStrategy, localStrategy } = require('../strategies')
-// const app = express()
 
 mongoose.Promise = global.Promise
 
@@ -176,7 +172,5 @@ router.get('/', jwtAuth, async (req, res) => {
 })
 
 module.exports = {
-  router,
-  // createNewUser,
-  getUser
+  router
 }

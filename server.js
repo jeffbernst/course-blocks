@@ -1,14 +1,9 @@
-// if (require.main === module) {
 require('dotenv').config()
-// }
 
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyparser = require('body-parser')
-// const passport = require('passport')
-// const jwt = require('jsonwebtoken')
 
-// const { jwtStrategy } = require('./strategies')
 const { DATABASE_URL, PORT } = require('./config.js')
 const app = express()
 
@@ -26,8 +21,6 @@ mongoose.Promise = global.Promise
 
 app.use(express.static('public', { extensions: ['html', 'htm'] }))
 app.use('/node_modules', express.static('node_modules'))
-
-// passport.use(jwtStrategy)
 
 app.get('/course/:courseId', (req, res) => {
   const options = {

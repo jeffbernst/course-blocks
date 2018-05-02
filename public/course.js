@@ -1,10 +1,6 @@
 const url = window.location.href
 const test = url.match(/(course)\/(.*)\/?$/)
 const courseId = test === null ? 'course' : test[2]
-// typeof url.match(/\/([^/]+)$/)[1] === 'undefined'
-//   ? 'not in url'
-//   : url.match(/\/([^/]+)$/)[1]
-console.log(courseId)
 
 const jwt = JSON.parse(localStorage.getItem('JWT'))
 
@@ -27,15 +23,6 @@ async function checkForJsonWebTokenOnCourse () {
     $('.sidebar-button-container-wrapper').show()
   }
 }
-
-//
-// const courseData = {
-//   courseTitle: 'Title',
-//   themeColor: 'purple',
-//   tags: [],
-//   courseSummary: '',
-//   lessons: []
-// }
 
 const userData = {
   userId: '',
@@ -65,7 +52,6 @@ async function loadPage () {
   nextButton(courseData)
   previousButton(courseData)
   clickLessonNameListener(courseData)
-  // createDropdown()
   watchSignUpButton()
   watchSignUpForm()
   watchLogInButton()
@@ -91,16 +77,12 @@ function coursePageEnrollButtonListener (courseData) {
 }
 
 function loadSideBar (courseData, userData) {
-  // const userCourseData = userData.enrolledIn.find(
-  //   course => course.courseId == courseId
-  // )
   let percentComplete = calculatePercentComplete(courseData, userData)
 
   $('.sidebar-course-info').addClass(`${courseData.themeColor}-tile`)
   $('.sidebar-course-title').html(courseData.courseTitle)
   $('.sidebar-course-author').html(`by ${courseData.courseAuthor}`)
 
-  // test if user is enrolled
   const userCourseData = userData.enrolledIn.find(
     course => course.courseId === courseId
   )
@@ -143,9 +125,6 @@ function loadCurrentLocation (courseData, userData) {
     currentPart = userCourseData.currentPart
     currentPartData = courseData.lessons[currentLesson].parts[currentPart]
   }
-  // let currentLesson = userCourseData.currentLesson || 0
-  // let currentPart = userCourseData.currentLesson || 0
-  // let currentPartData = courseData.lessons[currentLesson].parts[currentPart]
 
   if (
     courseData.lessons[currentLesson].parts[currentPart + 1] === undefined &&
@@ -168,14 +147,6 @@ function loadCurrentLocation (courseData, userData) {
 
   $('.part-title').html(currentPartData.partTitle)
   $('.part-content').html(marked(currentPartData.partContent))
-
-  // console.log({userCourseData})
-  //
-  // if (userCourseData.completed.length !== 0) {
-  //   const completedThisPart = userCourseData.completed[currentLesson].includes(currentPart)
-  //   console.log({completedThisPart})
-  //   if (completedThisPart) $('.mark-as-completed-button').hide()
-  // }
 }
 
 function clickLessonNameListener (courseData) {
@@ -219,7 +190,6 @@ function markPartCompleted (courseData) {
     } else {
       let userDataEnrolledIn = userData.enrolledIn
       userDataEnrolledIn[enrolledInLocation].completed[currentLesson].push(currentPart)
-      // userData.enrolledIn[enrolledInLocation].completed[currentLesson].push(currentPart)
       userData.enrolledIn = userDataEnrolledIn
     }
 
@@ -235,14 +205,11 @@ function markPartCompleted (courseData) {
         console.log('there was an error marking complete: ', error)
       },
       success: function (data) {
-        console.log('marked complete successfully')
+        console.log('marked part complete: ', data)
 
         userData.enrolledIn = data.enrolledIn
 
         loadSideBar(courseData, userData)
-        // loadCurrentLocation(courseData, userData)
-        console.log('userData enrolledIn: ', userData.enrolledIn)
-        console.log(enrolledInLocation)
         updateLessonLocationData(currentLesson, currentPart)
       }
     })

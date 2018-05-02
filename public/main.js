@@ -1,14 +1,10 @@
 function getCourse (courseId) {
   return new Promise((resolve, reject) => {
-    //   let MOCK_COURSE_DATA = JSON.parse(localStorage.getItem('MOCK_COURSE_DATA'))
-    //   resolve(MOCK_COURSE_DATA.find(course => course.courseId == courseId))
-    // })
     $.ajax({
       type: 'GET',
       url: `/api/courses/${courseId}`,
       contentType: 'application/json',
       dataType: 'json',
-      // headers: {'Authorization': `Bearer ${jwt.authToken}`},
       crossDomain: true,
       error: function (error) {
         console.log('there was an error getting the course: ', error)
@@ -24,10 +20,6 @@ function getCourse (courseId) {
 
 function getUserData () {
   return new Promise((resolve, reject) => {
-    // api call will go here
-    // let MOCK_USER_DATA = JSON.parse(localStorage.getItem('MOCK_USER_DATA'))
-    // resolve(MOCK_USER_DATA)
-
     const jwt = JSON.parse(localStorage.getItem('JWT'))
 
     $.ajax({
@@ -292,7 +284,6 @@ function createTableOfContents (courseData, userCourseData) {
     for (let j = 0; j < lessons[i].parts.length; j++) {
       // check if user has completed any of the parts, then append checks if so
       const isEmpty = a => Array.isArray(a) && a.every(isEmpty);
-    // && isEmpty(userCourseData.completed) === false
 
       if (typeof userCourseData === 'undefined') {
         tableOfContentsString += `
@@ -355,7 +346,6 @@ function moveToClickedLesson (courseData) {
     // show for create page
     $('.previous-next').show()
     $('.edit-part').show()
-    // $('.mark-as-completed-container').show()
     $('.pick-to-edit').hide()
 
     showOrHideNextAndPreviousButtons(courseData, clickedLesson, clickedPart)

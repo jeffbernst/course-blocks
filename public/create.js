@@ -1,10 +1,6 @@
 const url = window.location.href
 const test = url.match(/(create)\/(.*)\/?$/)
 const draftId = test === null ? 'create' : test[2]
-// typeof url.match(/\/([^/]+)$/)[1] === 'undefined'
-//   ? 'not in url'
-//   : url.match(/\/([^/]+)$/)[1]
-console.log(draftId)
 
 function checkForJsonWebToken () {
   if (localStorage.getItem('JWT') !== null) {
@@ -27,8 +23,6 @@ const draftData = {
   courseSummary: '',
   lessons: []
 }
-
-// const updatedDraftData = {}
 
 async function loadCreatePage () {
   const jwtExists = checkForJsonWebToken()
@@ -89,11 +83,9 @@ async function loadCreatePage () {
   previousButton(draftData)
   clickToEditCourseName()
   updatePartOnKeypress()
-  // createDropdown()
   changeCourseColor()
   saveDraftListener()
   clickToEditLessonName()
-  // createNewDraft()
   watchSignUpForm()
   addMenu()
   publishCourse()
@@ -160,7 +152,7 @@ function saveDraft () {
         },
         success: function (data) {
           resolve(data)
-          console.log('draft created! heres the data: ', data)
+          console.log('created draft: ', data)
           window.location.href = `/create/${data.courseId}`
         }
       })
@@ -186,7 +178,6 @@ function saveDraft () {
       })
     }
   })
-  // if new course, create new course on database
 }
 
 function publishCourse () {
@@ -201,7 +192,6 @@ function publishCourse () {
       url: '/api/courses/',
       contentType: 'application/json',
       dataType: 'json',
-      // data: JSON.stringify({...draftData, courseId: draftId}),
       data: JSON.stringify({...draftData, courseId: savedData.courseId}),
       headers: {Authorization: `Bearer ${jwt.authToken}`},
       crossDomain: true,

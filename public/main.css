@@ -21,7 +21,6 @@ html {
 body {
   font-family: 'Avenir Next', sans-serif;
   color: var(--dark-grey);
-  /*background-color: #fbfbfb;*/
 }
 
 h2 {
@@ -126,7 +125,6 @@ a {
 }
 
 .nav-left:hover .logo-left-half {
-  /*background-color: var(--pink);*/
   background-image: linear-gradient(
     -45deg,
     var(--purple) 25%,
@@ -141,7 +139,6 @@ a {
 }
 
 .nav-left:hover .logo-right-half  {
-  /*background-color: var(--yellow);*/
   background-image: linear-gradient(
     -45deg,
     var(--yellow) 25%,
@@ -171,20 +168,14 @@ a {
 }
 
 .brand-name {
-  /*font-family: Consolas, sans-serif;*/
   font-weight: bold;
   font-size: 15px;
   line-height: 19px;
   height: 40px;
   width: 60px;
   margin-top: 5px;
-  /*margin-top: 5px;*/
   text-transform: uppercase;
   text-align: center;
-}
-
-.brand-name-second-word {
-  /*letter-spacing: 0.05em;*/
 }
 
 .nav-signup-button {
@@ -201,8 +192,6 @@ a {
 
 .nav-create {
   display: none;
-  /*font-family: Consolas, sans-serif;*/
-  /*padding-top: 5px;*/
 }
 
 .nav-logout {
@@ -432,10 +421,6 @@ a {
 .course-grid-students-count {
   font-size: 18px;
   font-weight: bold;
-}
-
-.course-grid-info-container {
-  /* might not need this */
 }
 
 .course-grid-enroll-container {
@@ -814,7 +799,6 @@ a {
   width: 280px;
   position: absolute;
   overflow: auto;
-  /* need to set this top property with jquery e.g. $(".flight_no, .price").css("height", $(".legs").height());*/
   top: 190px;
   bottom: 3px;
 }
@@ -855,7 +839,6 @@ a {
 
 .close-sidebar-button {
   position: fixed;
-  /*bottom: 75px;*/
   top: 115px;
 }
 
@@ -918,7 +901,6 @@ a {
 
 .save-draft-button {
   position: absolute;
-  /* need to set this top property with jquery e.g. $(".flight_no, .price").css("height", $(".legs").height());*/
   bottom: 5px;
   right: 5px;
   border: 3px solid var(--dark-grey);
@@ -1105,10 +1087,6 @@ a {
 
 .dropdown a:hover {
   background-color: var(--very-light-grey);
-}
-
-.create-dropdown-new-course {
-  /*border-bottom: 1px solid var(--dark-grey);*/
 }
 
 .preview-button,

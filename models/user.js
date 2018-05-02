@@ -4,21 +4,16 @@ const bcrypt = require('bcryptjs')
 const { courseSchema } = require('./course')
 
 const userSchema = new Schema({
-  userId: String,
   userName: String,
-  // TODO make required
   userEmail: String,
   password: String,
   gravatarHash: String,
-  tags: [String],
   enrolledIn: [
     {
       currentLesson: Number,
       currentPart: Number,
       completed: [[Number]],
       courseId: String
-      // TODO should courseData be linked from courses database?
-      // courseData: courseSchema
     }
   ],
   drafts: [courseSchema]
@@ -29,7 +24,6 @@ userSchema.methods.serialize = function() {
     userName: this.userName || '',
     userEmail: this.userEmail || '',
     id: this._id,
-    userName: this.userName
   }
 }
 
