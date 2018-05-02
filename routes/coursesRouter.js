@@ -102,6 +102,5 @@ router.put('/:courseId', jwtAuth, async(req, res) => {
 })
 
 module.exports = {
-  router,
-  publishCourse
+  router
 }

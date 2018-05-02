@@ -71,14 +71,11 @@ describe('login, signup, and check authentication', () => {
       })
   })
 
-  it('should create new draft', async () => {
+  it('it shouldn\'t allow someone to access a protected endpoint', () => {
     return chai.request(app)
-      .post('/api/drafts/')
-      .set('authorization', `Bearer ${token}`)
-      .send(mockCourseData)
-      .then(response => {
-        response.should.have.status(200)
-        // response.body.should.have.property('authToken')
+      .get('/api/users')
+      .catch(err => {
+        err.should.be.an.instanceOf(Error)
       })
   })
 
@@ -163,8 +160,8 @@ describe('login, signup, and check authentication', () => {
       })
   })
 
-  it('should mark part of course complete', () => {
-    return chai.request(app)
+  it('should mark part of course complete', (done) => {
+    chai.request(app)
       .put(`/api/courses/${draftId}`)
       .set('authorization', `Bearer ${token}`)
       .send({
@@ -179,6 +176,7 @@ describe('login, signup, and check authentication', () => {
         // completed parts are tracked in multidimensional arrays
         // so completing part one of lessone results in completed being [[0]]
         response.body.enrolledIn[0].completed[0][0].should.equal(0)
+        done()
       })
   })
 })

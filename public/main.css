@@ -959,6 +959,7 @@ a {
   border: 3px solid var(--dark-grey);
   border-radius: 8px;
   display: none;
+  background-color: white;
 }
 
 .add-lesson,
