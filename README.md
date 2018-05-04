@@ -20,7 +20,7 @@ They can also track the courses they're enrolled in and their progress:
 
 ## API
 
-Course Blocks uses a CRUD API with the following end points:
+Course Blocks uses the following end points:
 
 **Users (/api/users)**
 - POST '/' - create new user
