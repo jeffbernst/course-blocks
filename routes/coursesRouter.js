@@ -47,7 +47,7 @@ router.get('/:courseId', async (req, res) => {
 })
 
 router.get('/search/:query', async (req, res) => {
-  const courses = await Course.find({courseTitle: { "$regex": req.params.query, "$options": "i" }}).limit(9)
+  const courses = await Course.find({courseTitle: {'$regex': req.params.query, '$options': 'i'}}).limit(9)
 
   res.send(courses)
 })
@@ -80,7 +80,7 @@ router.post('/:courseId', jwtAuth, async (req, res) => {
   }
 })
 
-async function markPartCompleted(userId, userData) {
+async function markPartCompleted (userId, userData) {
   const user = await User.findByIdAndUpdate(
     userId,
     userData,
@@ -90,7 +90,7 @@ async function markPartCompleted(userId, userData) {
   return user
 }
 
-router.put('/:courseId', jwtAuth, async(req, res) => {
+router.put('/:courseId', jwtAuth, async (req, res) => {
   try {
     const updatedUser = await markPartCompleted(req.user.id, req.body)
     res.send({
@@ -102,6 +102,5 @@ router.put('/:courseId', jwtAuth, async(req, res) => {
 })
 
 module.exports = {
-  router,
-  publishCourse
+  router
 }

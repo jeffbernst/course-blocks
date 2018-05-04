@@ -4,13 +4,8 @@ const Schema = mongoose.Schema
 const courseSchema = new Schema({
   courseId: String,
   courseTitle: String,
-  // published: { type: Boolean, default: false },
-  // authorId: String,
-  // author: { type: Schema.Types.ObjectId, ref: 'User' },
   courseAuthor: String,
   themeColor: String,
-  // tags: [String],
-  // courseSummary: String,
   lessons: [
     {
       lessonTitle: String,
@@ -26,4 +21,4 @@ const courseSchema = new Schema({
 
 const Course = mongoose.model('course', courseSchema)
 
-module.exports = { courseSchema, Course }
+module.exports = {courseSchema, Course}

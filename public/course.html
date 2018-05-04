@@ -1,176 +1,178 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-				content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>My Course</title>
-	<link rel="stylesheet" href="/main.css">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Course</title>
+  <link rel="stylesheet" href="/main.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 
 <body>
 
-	<nav class="nav-container">
-		<div class="nav-left">
-			<a href="/"><div class="logo">
-				<div class="logo-left-half"></div>
-				<div class="logo-right-half">
-					<div class="logo-top-right"></div>
-				</div>
-			</div></a>
-			<a href="/"><div class="brand-name">Course Blocks</div></a>
-			<!--<a href="/"><button class="nav-button nav-home">Home</button></a>-->
-			<!--<button class="nav-button nav-create">Create</button>-->
-		</div>
-		<div class="nav-right">
-			<div class="sign-in-log-in">
-				<button class="nav-button nav-login-button">Log In</button>
-				<button class="nav-button nav-signup-button">Sign Up</button>
-			</div>
-			<div class="nav-user-profile"></div>
-		</div>
-	</nav>
+<nav class="nav-container">
+  <div class="nav-left">
+    <a href="/">
+      <div class="logo">
+        <div class="logo-left-half"></div>
+        <div class="logo-right-half">
+          <div class="logo-top-right"></div>
+        </div>
+      </div>
+    </a>
+    <a href="/">
+      <div class="brand-name">Course Blocks</div>
+    </a>
+  </div>
+  <div class="nav-right">
+    <div class="sign-in-log-in">
+      <button class="nav-button nav-login-button">Log In</button>
+      <button class="nav-button nav-signup-button">Sign Up</button>
+    </div>
+    <div class="nav-user-profile"></div>
+  </div>
+</nav>
 
-	<main class="main-container">
+<main class="main-container">
 
-		<div class="previous-next">
-			<div class="previous-container">
-				<div class="previous-button">&#8249;</div>
-				Previous
-			</div>
-			<div class="next-container">
-				Next
-				<div class="next-button">&#8250;</div>
-			</div>
-		</div>
+  <div class="previous-next">
+    <div class="previous-container">
+      <div class="previous-button">&#8249;</div>
+      Previous
+    </div>
+    <div class="next-container">
+      Next
+      <div class="next-button">&#8250;</div>
+    </div>
+  </div>
 
-		<!-- ~~~~~ SIDEBAR ~~~~~ -->
+  <!-- ~~~~~ SIDEBAR ~~~~~ -->
 
-		<div class="sidebar-container">
-			<div class="sidebar-wrapper">
-				<div class="sidebar">
-					<div class="sidebar-course-info">
-						<div class="sidebar-course-title"></div>
-						<div class="sidebar-course-author"></div>
-						<div class="course-progress-bar course-progress-bar-sidebar">
-							<div class="course-progress-bar-shader">
-								<span class="percent-complete"></span>
-							</div>
-						</div>
-						<div class="sidebar-button-container-wrapper">
-							<div class="sidebar-button-container">
-								<button class="course-grid-enroll-button sidebar-enroll-button"><span>Enroll &#x1F680;</span></button>
-								<!--<button class="share-button"><span>Share &#x1F4E3;</span></button>-->
-							</div>
-						</div>
-					</div>
-					<div class="sidebar-table-of-contents"></div>
-				</div>
+  <div class="sidebar-container">
+    <div class="sidebar-wrapper">
+      <div class="sidebar">
+        <div class="sidebar-course-info">
+          <div class="sidebar-course-title"></div>
+          <div class="sidebar-course-author"></div>
+          <div class="course-progress-bar course-progress-bar-sidebar">
+            <div class="course-progress-bar-shader">
+              <span class="percent-complete"></span>
+            </div>
+          </div>
+          <div class="sidebar-button-container-wrapper">
+            <div class="sidebar-button-container">
+              <button class="course-grid-enroll-button sidebar-enroll-button"><span>Enroll &#x1F680;</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-table-of-contents"></div>
+      </div>
 
-				<div class="close-sidebar-button-container">
-					<div class="close-sidebar-button close-button">&times;</div>
-				</div>
+      <div class="close-sidebar-button-container">
+        <div class="close-sidebar-button close-button">&times;</div>
+      </div>
 
-				<div class="expand-sidebar-desktop-wrapper">
-					<div class="expand-sidebar-desktop">&#8250;</div>
-				</div>
+      <div class="expand-sidebar-desktop-wrapper">
+        <div class="expand-sidebar-desktop">&#8250;</div>
+      </div>
 
-				<div class="expand-sidebar-mobile-wrapper">
-					<div class="expand-sidebar-mobile">Lessons</div>
-				</div>
-			</div>
-		</div>
+      <div class="expand-sidebar-mobile-wrapper">
+        <div class="expand-sidebar-mobile">Lessons</div>
+      </div>
+    </div>
+  </div>
 
-		<!-- ~~~~~ END OF SIDEBAR ~~~~~ -->
+  <!-- ~~~~~ END OF SIDEBAR ~~~~~ -->
 
-		<div class="current-lesson"></div>
-		<div class="part-title"></div>
+  <div class="current-lesson"></div>
+  <div class="part-title"></div>
 
-		<hr>
+  <hr>
 
-		<div class="part-content"></div>
+  <div class="part-content"></div>
 
-		<div class="mark-as-completed-container">
-			<button class="mark-as-completed-button tall-button crosshatch-on-hover">Mark as Completed &#10004;</button>
-		</div>
+  <div class="mark-as-completed-container">
+    <button class="mark-as-completed-button tall-button crosshatch-on-hover">Mark as Completed &#10004;</button>
+  </div>
 
-		<div class="previous-next">
-			<div class="previous-container">
-				<div class="previous-button">&#8249;</div>
-				Previous
-			</div>
-			<div class="next-container">
-				Next
-				<div class="next-button">&#8250;</div>
-			</div>
-		</div>
+  <div class="previous-next">
+    <div class="previous-container">
+      <div class="previous-button">&#8249;</div>
+      Previous
+    </div>
+    <div class="next-container">
+      Next
+      <div class="next-button">&#8250;</div>
+    </div>
+  </div>
 
-		<!-- modals -->
+  <!-- modals -->
 
-		<div class="modal"></div>
+  <div class="modal"></div>
 
-		<!-- sign up modal -->
+  <!-- sign up modal -->
 
-		<div class="signup-modal-content modal-content">
-			<div class="modal-title-and-close-button">
-				<h2>Sign Up &#x1F4DD;</h2>
-				<div class="close-modal close-button">&times;</div>
-			</div>
-			<div class="top-message">
-				If you sign up you’ll be able to track your progress in the courses you’re enrolled in. You can also create and publish courses of your own.
-			</div>
-			<form class="signup-form modal-form">
-				<div class="modal-form-field">
-					<label for="signup-name">Name: </label>
-					<input type="text" class="signup-email input-box modal-input-box" id="signup-name" required>
-				</div>
-				<div class="modal-form-field">
-					<label for="signup-email">Email: </label>
-					<input type="text" class="signup-email input-box modal-input-box" id="signup-email" required>
-				</div>
-				<div class="modal-form-field">
-					<label for="signup-password">Password: </label>
-					<input type="password" class="signup-email input-box modal-input-box" id="signup-password" required>
-				</div>
-				<div class="modal-form-field">
-					<label for="signup-confirm-password">Confirm: </label>
-					<input type="password" class="signup-email input-box modal-input-box" id="signup-confirm-password" required>
-				</div>
-				<div class="modal-submit-button-container">
-					<button type="submit" class='signup-submit-button slim-button modal-submit-button'>Sign Up</button>
-				</div>
-			</form>
-		</div>
+  <div class="signup-modal-content modal-content">
+    <div class="modal-title-and-close-button">
+      <h2>Sign Up &#x1F4DD;</h2>
+      <div class="close-modal close-button">&times;</div>
+    </div>
+    <div class="top-message">
+      If you sign up you’ll be able to track your progress in the courses you’re enrolled in. You can also create and
+      publish courses of your own.
+    </div>
+    <form class="signup-form modal-form">
+      <div class="modal-form-field">
+        <label for="signup-name">Name: </label>
+        <input type="text" class="signup-email input-box modal-input-box" id="signup-name" required>
+      </div>
+      <div class="modal-form-field">
+        <label for="signup-email">Email: </label>
+        <input type="text" class="signup-email input-box modal-input-box" id="signup-email" required>
+      </div>
+      <div class="modal-form-field">
+        <label for="signup-password">Password: </label>
+        <input type="password" class="signup-email input-box modal-input-box" id="signup-password" required>
+      </div>
+      <div class="modal-form-field">
+        <label for="signup-confirm-password">Confirm: </label>
+        <input type="password" class="signup-email input-box modal-input-box" id="signup-confirm-password" required>
+      </div>
+      <div class="modal-submit-button-container">
+        <button type="submit" class='signup-submit-button slim-button modal-submit-button'>Sign Up</button>
+      </div>
+    </form>
+  </div>
 
-		<!-- log in modal -->
+  <!-- log in modal -->
 
-		<div class="login-modal-content modal-content">
-			<div class="modal-title-and-close-button login-modal-title-and-close">
-				<h2>Log In &#x1F44D;</h2>
-				<div class="close-modal close-button">&times;</div>
-			</div>
-			<form class="login-form modal-form">
-				<div class="modal-form-field">
-					<label for="email">Email: </label>
-					<input type="text" class="login-email input-box modal-input-box" id="email" required>
-				</div>
-				<div class="modal-form-field">
-					<label for="password">Password: </label>
-					<input type="password" class="login-email input-box modal-input-box" id="password" required>
-				</div>
-				<div class="modal-submit-button-container">
-					<button type="submit" class='login-submit-button slim-button modal-submit-button'>Sign Up</button>
-				</div>
-			</form>
-		</div>
+  <div class="login-modal-content modal-content">
+    <div class="modal-title-and-close-button login-modal-title-and-close">
+      <h2>Log In &#x1F44D;</h2>
+      <div class="close-modal close-button">&times;</div>
+    </div>
+    <form class="login-form modal-form">
+      <div class="modal-form-field">
+        <label for="email">Email: </label>
+        <input type="text" class="login-email input-box modal-input-box" id="email" required>
+      </div>
+      <div class="modal-form-field">
+        <label for="password">Password: </label>
+        <input type="password" class="login-email input-box modal-input-box" id="password" required>
+      </div>
+      <div class="modal-submit-button-container">
+        <button type="submit" class='login-submit-button slim-button modal-submit-button'>Sign Up</button>
+      </div>
+    </form>
+  </div>
 
-	</main>
+</main>
 
-	<script src="/node_modules/jquery/dist/jquery.min.js"></script>
-	<script src="/node_modules/marked/lib/marked.js"></script>
-	<script src="/main.js"></script>
-	<script src="/course.js"></script>
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/node_modules/marked/lib/marked.js"></script>
+<script src="/main.js"></script>
+<script src="/course.js"></script>
 </body>
 </html>

@@ -3,21 +3,17 @@ if (require.main === module) {
 }
 
 const express = require('express')
-// const flash = require('connect-flash');
 const router = express.Router()
 const mongoose = require('mongoose')
 const passport = require('passport')
-// const LocalStrategy = require('passport-local').Strategy
 const config = require('../config')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 const md5 = require('md5')
-// const urlEncoded = bodyParser.jsonUrlEncoded()
 
-const { User } = require('../models/user')
-const { jwtStrategy, localStrategy } = require('../strategies')
-// const app = express()
+const {User} = require('../models/user')
+const {jwtStrategy, localStrategy} = require('../strategies')
 
 mongoose.Promise = global.Promise
 
@@ -27,16 +23,16 @@ router.use(jsonParser)
 passport.use(localStrategy)
 passport.use(jwtStrategy)
 
-const createAuthToken = function(user) {
-  return jwt.sign({ user }, config.JWT_SECRET, {
+const createAuthToken = function (user) {
+  return jwt.sign({user}, config.JWT_SECRET, {
     subject: user.userEmail,
     expiresIn: config.JWT_EXPIRY,
     algorithm: 'HS256'
   })
 }
 
-const jwtAuth = passport.authenticate('jwt', { session: false })
-const localAuth = passport.authenticate('local', { session: false })
+const jwtAuth = passport.authenticate('jwt', {session: false})
+const localAuth = passport.authenticate('local', {session: false})
 
 // create new user and return auth token
 router.post('/', async (req, res) => {
@@ -109,10 +105,10 @@ router.post('/', async (req, res) => {
       })
     }
 
-    let { name = '', email, password } = req.body
+    let {name = '', email, password} = req.body
     name = name.trim()
 
-    return User.find({ email })
+    return User.find({email})
       .count()
       .then(count => {
         if (count > 0) {
@@ -142,7 +138,7 @@ router.post('/', async (req, res) => {
         if (err.reason === 'ValidationError') {
           return res.status(err.code).json(err)
         }
-        res.status(500).json({ code: 500, message: 'Internal server error' })
+        res.status(500).json({code: 500, message: 'Internal server error'})
       })
 
   } catch (err) {
@@ -157,7 +153,7 @@ router.post('/login', localAuth, (req, res) => {
   })
 })
 
-async function getUser(userId) {
+async function getUser (userId) {
   return await User.findById(userId)
 }
 
@@ -176,7 +172,5 @@ router.get('/', jwtAuth, async (req, res) => {
 })
 
 module.exports = {
-  router,
-  // createNewUser,
-  getUser
+  router
 }

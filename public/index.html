@@ -2,141 +2,145 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Course Blocks</title>
-	<link rel="stylesheet" href="main.css">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Course Blocks</title>
+  <link rel="stylesheet" href="main.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 
 <body>
-	<nav class="nav-container">
-		<div class="nav-left">
-			<a href="/"><div class="logo">
-				<div class="logo-left-half"></div>
-				<div class="logo-right-half">
-					<div class="logo-top-right"></div>
-				</div>
-			</div></a>
-			<a href="/"><div class="brand-name">Course Blocks</div></a>
-		</div>
-		<div class="nav-right">
-			<div class="sign-in-log-in">
-				<button class="nav-button nav-login-button">Log In</button>
-				<button class="nav-button nav-signup-button">Sign Up</button>
-			</div>
-			<div class="nav-user-profile"></div>
-		</div>
-	</nav>
+<nav class="nav-container">
+  <div class="nav-left">
+    <a href="/">
+      <div class="logo">
+        <div class="logo-left-half"></div>
+        <div class="logo-right-half">
+          <div class="logo-top-right"></div>
+        </div>
+      </div>
+    </a>
+    <a href="/">
+      <div class="brand-name">Course Blocks</div>
+    </a>
+  </div>
+  <div class="nav-right">
+    <div class="sign-in-log-in">
+      <button class="nav-button nav-login-button">Log In</button>
+      <button class="nav-button nav-signup-button">Sign Up</button>
+    </div>
+    <div class="nav-user-profile"></div>
+  </div>
+</nav>
 
-	<main class="main-container">
+<main class="main-container">
 
-		<!-- welcome message -->
+  <!-- welcome message -->
 
-		<div class="welcome-message">
-			<h1>Welcome! &#x1F44B;</h1>
-			<div class="top-message">This site lets you create and enroll in courses for free. To get started just pick a class below. Sign up above to save your progress.</div>
-			<br>
-		</div>
+  <div class="welcome-message">
+    <h1>Welcome! &#x1F44B;</h1>
+    <div class="top-message">This site lets you create and enroll in courses for free. To get started just pick a class
+      below. Sign up above to save your progress.
+    </div>
+    <br>
+  </div>
 
-		<!-- member screen -->
+  <!-- member screen -->
 
-		<div class="my-courses">
-			<div class="my-courses-title">My Courses</div>&nbsp;&nbsp;<span class="smiley">ヾ(＠⌒ー⌒＠)ノ</span>
-			<div class="my-course-list"></div>
-		</div>
+  <div class="my-courses">
+    <div class="my-courses-title">My Courses</div>&nbsp;&nbsp;<span class="smiley">ヾ(＠⌒ー⌒＠)ノ</span>
+    <div class="my-course-list"></div>
+  </div>
 
-		<!-- explore menu -->
+  <!-- explore menu -->
 
-		<div class="explore-menu">
-			<div class="explore-title-and-filters">
-				<div class="explore-title">Explore</div>
-				<!--<div class="explore-filters">-->
-					<!--<span class="explore-filter">Language</span>&nbsp;<span class="explore-filter">Programming</span>&nbsp;<span class="explore-filter">Crypto</span>-->
-				<!--</div>-->
-			</div>
-			<div class="explore-search">
-				<form action="#" class="search-form">
-					<input type="search" class="search-input input-box">
-					<button type="submit" class='search-button slim-button crosshatch-on-hover'>Search</button>
-				</form>
-			</div>
-		</div>
+  <div class="explore-menu">
+    <div class="explore-title-and-filters">
+      <div class="explore-title">Explore</div>
+    </div>
+    <div class="explore-search">
+      <form action="#" class="search-form">
+        <input type="search" class="search-input input-box">
+        <button type="submit" class='search-button slim-button crosshatch-on-hover'>Search</button>
+      </form>
+    </div>
+  </div>
 
-		<div class="clear-search-results-container">
-			<div class="clear-search-results close-button">&times;</div>
-		</div>
-		<div class="course-grid"></div>
+  <div class="clear-search-results-container">
+    <div class="clear-search-results close-button">&times;</div>
+  </div>
+  <div class="course-grid"></div>
 
-		<!-- modals -->
+  <!-- modals -->
 
-		<div class="modal"></div>
+  <div class="modal"></div>
 
-		<!-- sign up modal -->
+  <!-- sign up modal -->
 
-		<div class="signup-modal-content modal-content">
-			<div class="modal-title-and-close-button">
-				<h2>Sign Up &#x1F4DD;</h2>
-				<div class="close-modal close-button">&times;</div>
-			</div>
-			<div class="top-message">
-				If you sign up you’ll be able to track your progress in the courses you’re enrolled in. You can also create and publish courses of your own.
-			</div>
-			<form class="signup-form modal-form">
-				<div class="signup-message"></div>
-				<div class="modal-form-field">
-					<label for="signup-name">Name: </label>
-					<input type="text" class="signup-email input-box modal-input-box" id="signup-name" required>
-				</div>
-				<div class="modal-form-field">
-					<label for="signup-email">Email: </label>
-					<input type="text" class="signup-email input-box modal-input-box" id="signup-email" required>
-				</div>
-				<div class="modal-form-field">
-					<label for="signup-password">Password: </label>
-					<input type="password" class="signup-email input-box modal-input-box" id="signup-password" required>
-				</div>
-				<div class="modal-form-field">
-					<label for="signup-confirm-password">Confirm: </label>
-					<input type="password" class="signup-email input-box modal-input-box" id="signup-confirm-password" required>
-				</div>
-				<div class="modal-submit-button-container">
-					<button type="submit" class='signup-submit-button slim-button modal-submit-button'>Sign Up</button>
-				</div>
-			</form>
-		</div>
+  <div class="signup-modal-content modal-content">
+    <div class="modal-title-and-close-button">
+      <h2>Sign Up &#x1F4DD;</h2>
+      <div class="close-modal close-button">&times;</div>
+    </div>
+    <div class="top-message">
+      If you sign up you’ll be able to track your progress in the courses you’re enrolled in. You can also create and
+      publish courses of your own.
+    </div>
+    <form class="signup-form modal-form">
+      <div class="signup-message"></div>
+      <div class="modal-form-field">
+        <label for="signup-name">Name: </label>
+        <input type="text" class="signup-email input-box modal-input-box" id="signup-name" required>
+      </div>
+      <div class="modal-form-field">
+        <label for="signup-email">Email: </label>
+        <input type="text" class="signup-email input-box modal-input-box" id="signup-email" required>
+      </div>
+      <div class="modal-form-field">
+        <label for="signup-password">Password: </label>
+        <input type="password" class="signup-email input-box modal-input-box" id="signup-password" required>
+      </div>
+      <div class="modal-form-field">
+        <label for="signup-confirm-password">Confirm: </label>
+        <input type="password" class="signup-email input-box modal-input-box" id="signup-confirm-password" required>
+      </div>
+      <div class="modal-submit-button-container">
+        <button type="submit" class='signup-submit-button slim-button modal-submit-button'>Sign Up</button>
+      </div>
+    </form>
+  </div>
 
-		<!-- log in modal -->
+  <!-- log in modal -->
 
-		<div class="login-modal-content modal-content">
-			<div class="modal-title-and-close-button login-modal-title-and-close">
-				<h2>Log In &#x1F44D;</h2>
-				<div class="close-modal close-button">&times;</div>
-			</div>
-			<form class="login-form modal-form">
-				<div class="login-message"></div>
-				<div class="modal-form-field">
-					<label for="login-email">Email: </label>
-					<input type="text" class="login-email input-box modal-input-box" id="login-email" required>
-				</div>
-				<div class="modal-form-field">
-					<label for="login-password">Password: </label>
-					<input type="password" class="login-email input-box modal-input-box" id="login-password" required>
-				</div>
-				<div class="modal-submit-button-container">
-					<button type="submit" class='login-submit-button slim-button modal-submit-button'>Log In</button>
-				</div>
-			</form>
-		</div>
+  <div class="login-modal-content modal-content">
+    <div class="modal-title-and-close-button login-modal-title-and-close">
+      <h2>Log In &#x1F44D;</h2>
+      <div class="close-modal close-button">&times;</div>
+    </div>
+    <form class="login-form modal-form">
+      <div class="login-message"></div>
+      <div class="modal-form-field">
+        <label for="login-email">Email: </label>
+        <input type="text" class="login-email input-box modal-input-box" id="login-email" required>
+      </div>
+      <div class="modal-form-field">
+        <label for="login-password">Password: </label>
+        <input type="password" class="login-email input-box modal-input-box" id="login-password" required>
+      </div>
+      <div class="modal-submit-button-container">
+        <button type="submit" class='login-submit-button slim-button modal-submit-button'>Log In</button>
+      </div>
+    </form>
+  </div>
 
-	</main>
+</main>
 
-	<script src="/node_modules/jquery/dist/jquery.min.js"></script>
-	<script src="/node_modules/marked/lib/marked.js"></script>
-	<script src="main.js"></script>
-	<script src="index.js"></script>
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/node_modules/marked/lib/marked.js"></script>
+<script src="main.js"></script>
+<script src="index.js"></script>
 </body>
 
 </html>
