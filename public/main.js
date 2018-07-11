@@ -40,7 +40,7 @@ function getUserData () {
   })
 }
 
-function refreshJwt() {
+function refreshJwt () {
   return new Promise((resolve, reject) => {
     const jwt = JSON.parse(localStorage.getItem('JWT'))
 
@@ -288,7 +288,7 @@ function createDropdown () {
 function logoutListener () {
   $('.nav-logout').click(() => {
     localStorage.removeItem('JWT')
-    window.location.href = "/"
+    window.location.href = '/'
   })
 }
 

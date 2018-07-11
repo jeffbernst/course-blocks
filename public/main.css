@@ -243,6 +243,11 @@ a {
   font-size: 26px;
 }
 
+.try-demo {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .explore-menu {
   display: flex;
   flex-direction: column;
@@ -487,16 +492,17 @@ a {
 
 .modal-content {
   display: none;
-  width: 385px;
+  width: 100%;
   border-radius: 8px;
   background-color: white;
   padding: 30px;
-  margin: 80px auto;
+  margin: 80px 0;
   position: fixed;
   z-index: 2;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
+  box-sizing: border-box;
 }
 
 .signup-form {
@@ -531,6 +537,13 @@ a {
 
 .login-modal-title-and-close {
   margin-bottom: -15px;
+}
+
+@media (min-width: 450px) {
+  .modal-content {
+    width: 430px;
+    margin: 80px auto;
+  }
 }
 
 /* ~~~~~ my courses ~~~~~~ */

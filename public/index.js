@@ -196,6 +196,38 @@ function indexPageEnrollButtonListener () {
   })
 }
 
+function tryDemoListener () {
+  $('.try-demo').click(() => {
+    // there are 10 demo accounts
+    // we pick a random one and then log the user in to try it out
+    const randomDemoAccountNumber = Math.floor(Math.random() * 10)
+    const demoAccountName = 'demo' + randomDemoAccountNumber
+    console.log(`logging into ${demoAccountName}`)
+
+    const userData = {
+      userEmail: demoAccountName,
+      password: 'trydemoaccount'
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: 'api/users/login',
+      contentType: 'application/json',
+      dataType: 'json',
+      crossDomain: true,
+      data: JSON.stringify(userData),
+      error: function (error) {
+        console.log(error)
+      },
+      success: function (data) {
+        console.log('succeeded')
+        localStorage.setItem('JWT', JSON.stringify(data))
+        location.reload()
+      }
+    })
+  })
+}
+
 function startApp () {
   checkForJsonWebToken()
   watchSearch()
@@ -206,6 +238,7 @@ function startApp () {
   closeModal()
   watchFilters()
   indexPageEnrollButtonListener()
+  tryDemoListener()
 }
 
 $(startApp)
