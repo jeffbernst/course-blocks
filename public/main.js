@@ -31,6 +31,10 @@ function getUserData () {
       crossDomain: true,
       error: function (error) {
         console.log('there was an error getting user: ', error)
+        if (error.status === 401) {
+          localStorage.removeItem('JWT')
+          window.location.href = '/'
+        }
       },
       success: function (data) {
         console.log('got user')
