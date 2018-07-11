@@ -2,7 +2,6 @@ const jwt = JSON.parse(localStorage.getItem('JWT'))
 
 async function checkForJsonWebToken () {
   if (localStorage.getItem('JWT') !== null) {
-    await refreshJwt()
     const userData = await getUserData()
     showMemberScreen(userData)
     showMemberNav()
@@ -201,7 +200,7 @@ function tryDemoListener () {
     // there are 10 demo accounts
     // we pick a random one and then log the user in to try it out
     const randomDemoAccountNumber = Math.floor(Math.random() * 10)
-    const demoAccountName = 'demo' + randomDemoAccountNumber
+    const demoAccountName = 'demo' + randomDemoAccountNumber + '@demo.com'
     console.log(`logging into ${demoAccountName}`)
 
     const userData = {

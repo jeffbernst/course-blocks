@@ -40,29 +40,6 @@ function getUserData () {
   })
 }
 
-function refreshJwt () {
-  return new Promise((resolve, reject) => {
-    const jwt = JSON.parse(localStorage.getItem('JWT'))
-
-    $.ajax({
-      type: 'post',
-      url: `/api/users/refresh/`,
-      contentType: 'application/json',
-      dataType: 'json',
-      headers: {'Authorization': `Bearer ${jwt.authToken}`},
-      crossDomain: true,
-      error: function (error) {
-        console.log('there was an error refreshing the token: ', error)
-      },
-      success: function (data) {
-        console.log('refreshed JWT')
-        localStorage.setItem('JWT', JSON.stringify(data))
-        resolve(data)
-      }
-    })
-  })
-}
-
 function watchSignUpButton () {
   $('.nav-signup-button').click(event => {
     $('.modal').show()
