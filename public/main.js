@@ -57,6 +57,7 @@ function refreshJwt() {
       success: function (data) {
         console.log('refreshed JWT')
         localStorage.setItem('JWT', JSON.stringify(data))
+        resolve(data)
       }
     })
   })
