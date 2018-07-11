@@ -288,7 +288,7 @@ function createDropdown () {
 function logoutListener () {
   $('.nav-logout').click(() => {
     localStorage.removeItem('JWT')
-    location.reload()
+    window.location.href = "/"
   })
 }
 
