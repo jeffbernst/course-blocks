@@ -31,32 +31,13 @@ function getUserData () {
       crossDomain: true,
       error: function (error) {
         console.log('there was an error getting user: ', error)
+        if (error.status === 401) {
+          localStorage.removeItem('JWT')
+          window.location.href = '/'
+        }
       },
       success: function (data) {
         console.log('got user')
-        resolve(data)
-      }
-    })
-  })
-}
-
-function refreshJwt() {
-  return new Promise((resolve, reject) => {
-    const jwt = JSON.parse(localStorage.getItem('JWT'))
-
-    $.ajax({
-      type: 'post',
-      url: `/api/users/refresh/`,
-      contentType: 'application/json',
-      dataType: 'json',
-      headers: {'Authorization': `Bearer ${jwt.authToken}`},
-      crossDomain: true,
-      error: function (error) {
-        console.log('there was an error refreshing the token: ', error)
-      },
-      success: function (data) {
-        console.log('refreshed JWT')
-        localStorage.setItem('JWT', JSON.stringify(data))
         resolve(data)
       }
     })
@@ -288,7 +269,7 @@ function createDropdown () {
 function logoutListener () {
   $('.nav-logout').click(() => {
     localStorage.removeItem('JWT')
-    location.reload()
+    window.location.href = '/'
   })
 }
 
