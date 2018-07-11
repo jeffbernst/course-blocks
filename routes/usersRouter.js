@@ -153,6 +153,11 @@ router.post('/login', localAuth, (req, res) => {
   })
 })
 
+router.post('/refresh', jwtAuth, (req, res) => {
+  const authToken = createAuthToken(req.user)
+  res.json({authToken})
+})
+
 async function getUser (userId) {
   return await User.findById(userId)
 }
