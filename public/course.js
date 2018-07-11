@@ -6,6 +6,7 @@ const jwt = JSON.parse(localStorage.getItem('JWT'))
 
 async function checkForJsonWebTokenOnCourse () {
   if (jwt !== null) {
+    await refreshJwt()
     const retrievedUserData = await getUserData()
 
     userData.userId = retrievedUserData.userId

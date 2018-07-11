@@ -2,8 +2,9 @@ const url = window.location.href
 const test = url.match(/(create)\/(.*)\/?$/)
 const draftId = test === null ? 'create' : test[2]
 
-function checkForJsonWebToken () {
+async function checkForJsonWebToken () {
   if (localStorage.getItem('JWT') !== null) {
+    await refreshJwt()
     showMemberNav()
     return true
   }
