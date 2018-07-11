@@ -45,7 +45,7 @@ function refreshJwt() {
     const jwt = JSON.parse(localStorage.getItem('JWT'))
 
     $.ajax({
-      type: 'GET',
+      type: 'post',
       url: `/api/users/refresh/`,
       contentType: 'application/json',
       dataType: 'json',
