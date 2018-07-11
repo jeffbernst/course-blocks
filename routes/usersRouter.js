@@ -148,9 +148,12 @@ router.post('/', async (req, res) => {
 
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize())
-  res.json({
-    authToken
-  })
+  res.json({authToken})
+})
+
+router.post('/refresh', jwtAuth, (req, res) => {
+  const authToken = createAuthToken(req.user)
+  res.json({authToken})
 })
 
 async function getUser (userId) {

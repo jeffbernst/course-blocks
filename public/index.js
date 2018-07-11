@@ -2,6 +2,7 @@ const jwt = JSON.parse(localStorage.getItem('JWT'))
 
 async function checkForJsonWebToken () {
   if (localStorage.getItem('JWT') !== null) {
+    await refreshJwt()
     const userData = await getUserData()
     showMemberScreen(userData)
     showMemberNav()
